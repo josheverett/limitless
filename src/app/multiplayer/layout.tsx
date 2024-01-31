@@ -22,6 +22,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
   // and fill the viewport while also scaling to a size that
   // looks proportional. math tho. plus eyeballed magic numbers.
   const [resizeCounter, setResizeCounter] = useState(0);
+  const [lastViewportSize, setLastViewportSize] = useState([0, 0]);
 
   const tabs = [
     { title: 'Play', href: '/multiplayer/play' },
@@ -29,6 +30,10 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
     { title: 'Community', href: '/multiplayer/community' },
     { title: 'Shop', href: '/multiplayer/shop' },
   ];
+
+  useEffect(() => {
+    setLastViewportSize([window.innerWidth, window.innerHeight]);
+  }, []);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -60,11 +65,14 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
+      const viewportSize = [window.innerWidth, window.innerHeight];
+      if (JSON.stringify(lastViewportSize) === JSON.stringify(viewportSize)) return;
       setResizeCounter(resizeCounter + 1);
+      setLastViewportSize(viewportSize);
     });
     resizeObserver.observe(document.body);
     return () => resizeObserver.unobserve(document.body);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [resizeCounter, lastViewportSize]);
 
   // If screen is larger than 4k, default to scaled mode.
   useEffect(() => {
