@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 // import { Inter } from 'next/font/google';
-import { Context } from '@/app/context';
+import { AppContextProvider } from '@/app/context';
 import './globals.css';
 
 // const inter = Inter({ subsets: ['latin'] });
@@ -16,12 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Context>
-      <html lang="en" className="w-full h-full overflow-hidden">
-        <body className="flex items-center justify-center w-full h-full overflow-hidden">
-          {children}
-        </body>
-      </html>
-    </Context>
+    <html lang="en" className="w-full h-full overflow-hidden">
+      <body className="flex items-center justify-center w-full h-full overflow-hidden">
+        <AppContextProvider>{children}</AppContextProvider>
+      </body>
+    </html>
   );
 }

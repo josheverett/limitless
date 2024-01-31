@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
-import { useAppContext } from '@/hooks/use-app-context';
+import { AppContext } from '@/app/context';
 import { Tabs } from '@/components/tabs';
+import { Footer } from '@/components/footer';
 
 const FOURK_WIDTH = 3840;
 const FOURK_HEIGHT = 2160;
@@ -14,7 +15,7 @@ type MultiplayerLayoutProps = {
 };
 
 export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) {
-  const { AppContext, force4k, setForce4k } = useAppContext();
+  const { force4k, setForce4k } = useContext(AppContext);
 
   const ref = useRef<HTMLElement>(null);
   // TOOFUTURE: It could be interesting to get _really_ fancy
@@ -63,7 +64,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
     });
     resizeObserver.observe(document.body);
     return () => resizeObserver.unobserve(document.body);
-  }, [resizeCounter]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // If screen is larger than 4k, default to scaled mode.
   useEffect(() => {
@@ -85,12 +86,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
         <div>tab content start</div>
         {children}
         <div>tab content end</div>
-        <div className="flex h-[7.26%] bg-black bg-opacity-40">
-          <div onClick={() => setForce4k(!force4k)}>
-            click to toggle forced 4k
-          </div>
-          footer
-        </div>
+        <Footer />
       </motion.div>
     </main>
   );
