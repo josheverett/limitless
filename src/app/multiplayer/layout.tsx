@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useAppContext } from '@/hooks/use-app-context';
 import { Tabs } from '@/components/tabs';
 
 const FOURK_WIDTH = 3840;
@@ -13,11 +14,12 @@ type MultiplayerLayoutProps = {
 };
 
 export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) {
+  const { AppContext, force4k, setForce4k } = useAppContext();
+
   const ref = useRef<HTMLElement>(null);
   // TOOFUTURE: It could be interesting to get _really_ fancy
   // and fill the viewport while also scaling to a size that
   // looks proportional. math tho. plus eyeballed magic numbers.
-  const [force4k, setForce4k] = useState(false);
   const [resizeCounter, setResizeCounter] = useState(0);
 
   const tabs = [
@@ -68,7 +70,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
     if (window.innerWidth > FOURK_WIDTH && window.innerHeight > FOURK_HEIGHT) {
       setForce4k(true);
     }
-  }, []);
+  }, [setForce4k]);
 
   // I'd prefer to handle the 4k toggle in the app layout, but that file needs
   // to be a server component. Luckily it's a non-issue for the start screen.
