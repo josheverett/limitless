@@ -6,10 +6,6 @@
   --foreground-rgb: 242, 242, 242;
 }
 
-html {
-  font-size: 3vh; /* needs different 4k mode default? */
-}
-
 body {
   color: rgb(var(--foreground-rgb));
   background: url('/background.jpg') center / cover no-repeat;
@@ -30,6 +26,105 @@ main {
   }
 }
 
+/**
+ * Box Model Dimensions
+ *
+ * sigh
+ *
+ * So fun fact, when using `transform:scale(n)` vw/vh units don't scale as one
+ * might expect. E.g. if you have two divs. An outer div with its width and
+ * height both set to 100% of the viewport (via html/body set to 100% height
+ * as well). An inner div with height set to 50%. When resizing the viewport,
+ * the height of the inner div will always be 50% of that of its container,
+ * as one would expect. If, on the other hand, the height of the outer and
+ * inner divs are set to 100vh and 50vh, the height of the inner div will *not*
+ * be 50% of its container, even with `transform:scale(1)`.
+ *
+ * I've given up on trying to understand why this is. Because the forced 4k mode
+ * gets dynamically scale()'ed in order to fit within the browser's viewport,
+ * layouts completely break. Yet using vw/vh units to define proportions in the
+ * default responsive mode has been magical, and I don't want to abandon that.
+ *
+ * Thus here we are, where the default proportions are for the default
+ * responsive mode, and the force4k class (applied to the body element when the
+ * app is in 4k mode) is used to override the styles with discrete pixels (which
+ * works in 4k mode because the "canvas" is a fixed size of 3840 x 2160).
+ *
+ * - Responsive mode units are primarily in vw/vh, with % where appropriate.
+ *   - This includes font sizes.
+ *   - In the case of borders and lines, min-width:1px (sometimes 2px) is used.
+ *   - In no other cases are pixel units used.
+ *   - When vh units are used for width, it is probably not a mistake.
+ *   - It is absolutely stupid how well this all works.
+ * - 4k mode units are primarily in pixels, but some % units used by the
+ *   responsive mode are applicable to 4k mode as well, and thus not overridden.
+ * - For a lot of the classes here, there's often box model stuff in the JSX as
+ *   well, not sure if I really care or not.
+ */
+
+body {
+  font-size: 2vh;
+}
+
+body.force4k {
+  font-size: 40px;
+}
+
+ /* TODO: Does this need 4k sizing or does it happen to work? */
 .text-shadow {
-  text-shadow: 0.1vh 0.1vh 0.25vh hsla(0, 0%, 0%, 0.1);
+  text-shadow: 0.1vh 0.1vh 0.25vh hsla(0, 0%, 0%, 0.2);
+}
+
+.footer {
+  gap: 0.781%;
+  height: 7.5vh;
+  padding: 0 3.5%;
+}
+
+.force4k .footer {
+  gap: 30px;
+  height: 157px;
+  padding: 0 95px;
+}
+
+.footer-buttons {
+  gap: 0.781vw;
+}
+
+.force4k .footer-buttons {
+  gap: 30px;
+}
+
+.footer-nameplate {
+  gap: 2vh;
+  height: 4.5vh;
+  padding-left: 0.8vh;
+  padding-right: 1.55vh;
+  font-size: 2vh;
+}
+
+.force4k .footer-nameplate {
+  gap: 32px;
+  height: 100px;
+  padding-left: 16px;
+  padding-right: 30px;
+  font-size: 40px;
+}
+
+.footer-avatar {
+  width: 3vh;
+  height: 3vh;
+}
+
+.force4k .footer-avatar {
+  width: 66px;
+  height: 60px;
+}
+
+.copy-me {
+  width: 10000px;
+}
+
+.force4k .copy-me {
+  width: 10000px;
 }

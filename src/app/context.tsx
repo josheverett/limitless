@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, createContext } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 
 export type AppContextProps = {
   force4k: boolean;
@@ -19,6 +19,10 @@ type AppContextProviderProps = {
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [force4k, setForce4k] = useState(false);
   const value: AppContextProps = { force4k, setForce4k };
+
+  useEffect(() => {
+    document.body.classList.toggle('force4k', force4k);
+  }, [force4k]);
 
   return (
     <AppContext.Provider value={value}>
