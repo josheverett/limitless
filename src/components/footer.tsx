@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import cx from 'classnames';
 import { AppContext } from '@/app/context';
 import { Image } from '@/components/image';
+import { MetaButtons } from '@/components/meta-buttons';
+import { InputButton } from '@/components/input-button';
 
 type SeparatorProps = { type?: 'middle' | 'end'; };
 
@@ -56,22 +58,7 @@ export const Footer = () => {
       flex items-center justify-center
     bg-black bg-opacity-40
     `}>
-      <div
-        className="fourk-toggle flex items-center justify-center h-full"
-        onClick={() => setForce4k(!force4k)}
-      >
-        <span className="material-icons">4k</span>
-        <span>Force 4K:</span>
-        <span>{force4k ? 'On' : 'Off'}</span>
-      </div>
-      <div
-        className="fourk-toggle flex items-center justify-center h-full"
-        onClick={() => setFullscreen(!fullscreen)}
-      >
-        <span className="material-icons">fullscreen</span>
-        <span>Fullscreen:</span>
-        <span>{fullscreen ? 'On' : 'Off'}</span>
-      </div>
+      <MetaButtons />
       <div className="grow" />
       <div className={`
         footer-buttons
@@ -81,7 +68,10 @@ export const Footer = () => {
         <Separator type="end" />
         <FooterNamelate />
         <Separator />
-        <div className="">foo</div>
+        <div className="flex flex-col items-center justify-center">
+          <span className="material-icons">comment</span>
+          {/* <InputButton /> */}
+        </div>
         <Separator />
         <div className="">foo</div>
         <Separator />

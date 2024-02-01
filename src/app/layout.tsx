@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Titillium_Web } from 'next/font/google';
 import cx from 'classnames';
-import { AppContextProvider } from '@/app/context';
 import '@material-design-icons/font/filled.css';
+import { AppContextProvider } from '@/app/context';
+import { Gamepad } from '@/components/gamepad';
 import './globals.css';
 
 const TitilliumWebFont = Titillium_Web({
@@ -30,6 +31,8 @@ export default function RootLayout({
         )
       }>
         <AppContextProvider>{children}</AppContextProvider>
+        {/* WIP: don't think I need this */}
+        <Gamepad />
       </body>
     </html>
   );

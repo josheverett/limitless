@@ -35,7 +35,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     document.body.classList.toggle('force4k', force4k);
   }, [force4k]);
 
-
   useEffect(() => {
     if (fullscreen) {
       document.body.requestFullscreen();
@@ -45,6 +44,17 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       document.exitFullscreen();
     }
   }, [fullscreen]);
+
+  // This is here to handle the user manually exiting fullscreen.
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) setFullscreen(false);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
 
   return (
     <AppContext.Provider value={value}>

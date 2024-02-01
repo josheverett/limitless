@@ -1194,6 +1194,11 @@ functions-have-names@^1.2.3:
   resolved "https://registry.yarnpkg.com/functions-have-names/-/functions-have-names-1.2.3.tgz#0404fe4ee2ba2f607f0e0ec3c80bae994133b834"
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
 
+gamecontroller.js@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/gamecontroller.js/-/gamecontroller.js-1.5.0.tgz#e657cf78a4d29175d84501df4aa73456772f9520"
+  integrity sha512-P+7UBubMI5VBoWYDEXWCzZI+C7D15YX/VpUuaTzLoW7SXEKlYN5520KpzH06buD85nR1mR1z1NAF65Mc9sqS/Q==
+
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.1, get-intrinsic@^1.1.3, get-intrinsic@^1.2.0, get-intrinsic@^1.2.1, get-intrinsic@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/get-intrinsic/-/get-intrinsic-1.2.2.tgz#281b7622971123e1ef4b3c90fd7539306da93f3b"
