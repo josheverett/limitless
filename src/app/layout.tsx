@@ -1,9 +1,14 @@
 import type { Metadata } from 'next';
-// import { Inter } from 'next/font/google';
+import { Titillium_Web } from 'next/font/google';
+import cx from 'classnames';
 import { AppContextProvider } from '@/app/context';
 import './globals.css';
 
-// const inter = Inter({ subsets: ['latin'] });
+const TitilliumWebFont = Titillium_Web({
+  subsets: ['latin'],
+  weight: ['300'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Halo Infinite',
@@ -17,7 +22,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="w-full h-full overflow-hidden">
-      <body className="flex items-center justify-center w-full h-full overflow-hidden">
+      <body className={
+        cx(
+          'flex items-center justify-center w-full h-full overflow-hidden',
+          TitilliumWebFont.className
+        )
+      }>
         <AppContextProvider>{children}</AppContextProvider>
       </body>
     </html>

@@ -6,18 +6,30 @@
   --foreground-rgb: 242, 242, 242;
 }
 
+html {
+  font-size: 3vh; /* needs different 4k mode default? */
+}
+
 body {
   color: rgb(var(--foreground-rgb));
-  background: hsl(0, 0, 95%) url('/background.jpg') center / cover no-repeat;
+  background: url('/background.jpg') center / cover no-repeat;
+  background-color: hsl(0, 0%, 0%);
 }
 
 main {
   /* debug */
-  background: url('/halo-infinite-wallpaper.jpg') center / cover no-repeat;
+  /* background: url('/halo-infinite-wallpaper.jpg') center / cover no-repeat; */
+  background: url('/debug-play-tab-bg.jpg') center bottom / cover no-repeat;
+  background-size: 150%;
+  box-shadow: 0 0 120px 30px hsla(0, 0%, 0%, 0.8);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.text-shadow {
+  text-shadow: 0.1vh 0.1vh 0.25vh hsla(0, 0%, 0%, 0.1);
 }
