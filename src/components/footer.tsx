@@ -42,7 +42,12 @@ const FooterNamelate = () => {
 };
 
 export const Footer = () => {
-  const { force4k, setForce4k } = useContext(AppContext);
+  const {
+    force4k,
+    setForce4k,
+    fullscreen,
+    setFullscreen
+  } = useContext(AppContext);
 
   return (
     <div className={`
@@ -56,8 +61,16 @@ export const Footer = () => {
         onClick={() => setForce4k(!force4k)}
       >
         <span className="material-icons">4k</span>
-        <span>4K Mode:</span>
+        <span>Force 4K:</span>
         <span>{force4k ? 'On' : 'Off'}</span>
+      </div>
+      <div
+        className="fourk-toggle flex items-center justify-center h-full"
+        onClick={() => setFullscreen(!fullscreen)}
+      >
+        <span className="material-icons">fullscreen</span>
+        <span>Fullscreen:</span>
+        <span>{fullscreen ? 'On' : 'Off'}</span>
       </div>
       <div className="grow" />
       <div className={`
