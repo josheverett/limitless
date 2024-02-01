@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Titillium_Web } from 'next/font/google';
 import cx from 'classnames';
 import { AppContextProvider } from '@/app/context';
+import '@material-design-icons/font/filled.css';
 import './globals.css';
 
 const TitilliumWebFont = Titillium_Web({

@@ -26,6 +26,10 @@ main {
   }
 }
 
+.material-icons {
+  font-size: 1.5em;
+}
+
 /**
  * Box Model Dimensions
  *
@@ -87,6 +91,14 @@ body.force4k {
   padding: 0 95px;
 }
 
+.fourk-toggle {
+  gap: 1vh;
+}
+
+.force4k .fourk-toggle {
+  gap: 20px;
+}
+
 .footer-buttons {
   gap: 0.781vw;
 }
@@ -96,7 +108,7 @@ body.force4k {
 }
 
 .footer-nameplate {
-  gap: 2vh;
+  gap: 1.5vh;
   height: 4.5vh;
   padding-left: 0.8vh;
   padding-right: 1.55vh;

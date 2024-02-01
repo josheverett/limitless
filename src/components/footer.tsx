@@ -52,10 +52,12 @@ export const Footer = () => {
     bg-black bg-opacity-40
     `}>
       <div
-        className="flex items-center justify-center h-full"
+        className="fourk-toggle flex items-center justify-center h-full"
         onClick={() => setForce4k(!force4k)}
       >
-        Forced 4K: {force4k ? 'On' : 'Off'}
+        <span className="material-icons">4k</span>
+        <span>4K Mode:</span>
+        <span>{force4k ? 'On' : 'Off'}</span>
       </div>
       <div className="grow" />
       <div className={`
