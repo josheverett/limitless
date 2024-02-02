@@ -28,7 +28,7 @@ export type GAMEPAD_INPUT_KEYS =
   'RIGHT_STICK_UP' |
   'RIGHT_STICK_DOWN' |
   'RIGHT_STICK_RIGHT' |
-  'RIGHT_STICK_LEFT' ;
+  'RIGHT_STICK_LEFT';
 
 export const GAMEPAD_INPUTS: {
   [key in GAMEPAD_INPUT_KEYS]: GcjsGamepadEvent
