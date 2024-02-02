@@ -2,7 +2,37 @@
 // convenience so that I don't have to remember what A vs X vs Start is.
 // If I end up adding keyboard input icons they'll just alias to these.
 // Format is: my name --> gamecontroller.js name (based on spec)
-export const GAMEPAD_INPUTS: { [key: string]: GcjsGamepadEvent } = {
+
+type GAMEPAD_INPUT_KEYS =
+  'A' |
+  'B' |
+  'X' |
+  'Y' |
+  'LB' |
+  'RB' |
+  'LT' |
+  'RT' |
+  'SELECT' |
+  'START' |
+  'L3' |
+  'R3' |
+  'DPAD_UP' |
+  'DPAD_DOWN' |
+  'DPAD_LEFT' |
+  'DPAD_RIGHT' |
+  'GUIDE' |
+  'LEFT_STICK_UP' |
+  'LEFT_STICK_DOWN' |
+  'LEFT_STICK_RIGHT' |
+  'LEFT_STICK_LEFT' |
+  'RIGHT_STICK_UP' |
+  'RIGHT_STICK_DOWN' |
+  'RIGHT_STICK_RIGHT' |
+  'RIGHT_STICK_LEFT' ;
+
+export const GAMEPAD_INPUTS: {
+  [key in GAMEPAD_INPUT_KEYS]: GcjsGamepadEvent
+} = {
   A: 'button0',
   B: 'button1',
   X: 'button2',

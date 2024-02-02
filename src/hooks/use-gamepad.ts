@@ -55,3 +55,28 @@ export const useGamepad = () => {
     set,
   };
 };
+
+type gcjsStateMethod = 'before' | 'on' | 'after';
+type UseInputState = 'press' | 'hold' | 'release';
+
+const STATE_MAP: { [key in UseInputState]: gcjsStateMethod } = {
+  press: 'before',
+  hold: 'on',
+  release: 'after',
+};
+
+export const useInput = (
+  input: GcjsGamepadEvent,
+  state: UseInputState,
+  callback: () => any
+) => {
+  const gamepad = useGamepad();
+  const method = STATE_MAP[state];
+
+  useEffect(() => {
+    gamepad[method](input, callback);
+    return () => {
+      gamepad.off(input);
+    }
+  }, [input, gamepad, method, callback]);
+};

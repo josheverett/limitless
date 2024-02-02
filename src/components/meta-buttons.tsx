@@ -1,9 +1,9 @@
 'use client';
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { GAMEPAD_INPUTS } from '@/types/input';
 import { AppContext } from '@/app/context';
-import { useGamepad } from '@/hooks/use-gamepad';
+import { useGamepad, useInput } from '@/hooks/use-gamepad';
 
 type MetaButtonsProps = {
 
@@ -16,6 +16,8 @@ export const MetaButtons = () => {
     fullscreen,
     setFullscreen
   } = useContext(AppContext);
+
+  useInput(GAMEPAD_INPUTS.GUIDE, 'press', () => setFullscreen(!fullscreen));
 
   return (
     <>
