@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { AppContext } from '@/app/context';
 import { Tabs } from '@/components/tabs';
-import { Footer } from '@/components/footer';
+import { Footer } from '@/components/footer/footer';
 
 const FOURK_WIDTH = 3840;
 const FOURK_HEIGHT = 2160;
@@ -84,6 +84,8 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
   // I'd prefer to handle the 4k toggle in the app layout, but that file needs
   // to be a server component. Luckily it's a non-issue for the start screen.
   return (
+    // Notice how the FM div doesn't wrap main. That's intentional. This was
+    // also just me making sure the thing works, it's just a POC. Temporary.
     <main ref={ref} className="grow-0 shrink-0 w-full h-full transition-transform">
       <motion.div
         className="w-full h-full"

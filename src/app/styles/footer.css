@@ -60,32 +60,32 @@
   gap: 24px;
 }
 
-.footer-button-label,
-.footer-friend-count-container,
-.footer-friend-count {
+.footer-label-icon,
+.footer-label-container,
+.footer-label {
   height: 1.65vh;
   font-size: 1.65vh;
 }
 
-.force4k .footer-button-label,
-.force4k .footer-friend-count-container,
-.force4k .footer-friend-count {
+.force4k .footer-label-icon,
+.force4k .footer-label-container,
+.force4k .footer-label {
   height: 36px;
   font-size: 36px;
 }
 
-.footer-friend-count-container {
+.footer-label-container {
   gap: 0.5vh;
 }
 
-.force4k .footer-friend-count-container {
+.force4k .footer-label-container {
   gap: 14px;
 }
 
-.footer-friend-count {
+.footer-label {
   font-size: 1.55vh;
 }
 
-.force4k .footer-friend-count {
+.force4k .footer-label {
   font-size: 30px;
 }

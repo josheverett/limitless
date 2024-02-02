@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@material-design-icons/font": "^0.14.13",
+    "@material-design-icons/svg": "^0.14.13",
     "classnames": "^2.5.1",
     "framer-motion": "^11.0.3",
     "gamecontroller.js": "^1.5.0",
