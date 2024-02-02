@@ -3,7 +3,7 @@ import { Titillium_Web } from 'next/font/google';
 import cx from 'classnames';
 import '@material-design-icons/font/filled.css';
 import { AppContextProvider } from '@/app/context';
-import './globals.css';
+import '@/app/styles/globals.css';
 
 const TitilliumWebFont = Titillium_Web({
   subsets: ['latin'],

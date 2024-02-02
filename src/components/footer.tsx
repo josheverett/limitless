@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import cx from 'classnames';
 import { Image } from '@/components/image';
 import { MetaButtons } from '@/components/meta-buttons';
 import { InputButton } from '@/components/input-button';
-import { time } from 'console';
+import '@/app/styles/footer.css';
 
 type SeparatorProps = { type?: 'middle' | 'end'; };
 

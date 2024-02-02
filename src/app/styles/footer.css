@@ -1,0 +1,91 @@
+.footer {
+  gap: 0.781%;
+  height: 7.5vh;
+  padding: 0 3.5%;
+}
+
+.force4k .footer {
+  gap: 30px;
+  height: 157px;
+  padding: 0 95px;
+}
+
+.fourk-toggle {
+  gap: 1vh;
+}
+
+.force4k .fourk-toggle {
+  gap: 20px;
+}
+
+.footer-buttons {
+  gap: 0.781vw;
+}
+
+.force4k .footer-buttons {
+  gap: 30px;
+}
+
+.footer-nameplate {
+  gap: 1.5vh;
+  height: 4.5vh;
+  padding-left: 0.8vh;
+  padding-right: 1.55vh;
+  font-size: 2vh;
+}
+
+.force4k .footer-nameplate {
+  gap: 32px;
+  height: 100px;
+  padding-left: 16px;
+  padding-right: 30px;
+  font-size: 40px;
+}
+
+.footer-avatar {
+  width: 3vh;
+  height: 3vh;
+}
+
+.force4k .footer-avatar {
+  width: 66px;
+  height: 60px;
+}
+
+.footer-button {
+  gap: 1vh;
+}
+
+.force4k .footer-button {
+  gap: 24px;
+}
+
+.footer-button-label,
+.footer-friend-count-container,
+.footer-friend-count {
+  height: 1.65vh;
+  font-size: 1.65vh;
+}
+
+.force4k .footer-button-label,
+.force4k .footer-friend-count-container,
+.force4k .footer-friend-count {
+  height: 36px;
+  font-size: 36px;
+}
+
+.footer-friend-count-container {
+  gap: 0.5vh;
+}
+
+.force4k .footer-friend-count-container {
+  gap: 14px;
+}
+
+.footer-friend-count {
+  font-size: 1.55vh;
+}
+
+.force4k .footer-friend-count {
+  font-size: 30px;
+}
