@@ -15,8 +15,7 @@ body {
 main {
   /* debug */
   /* background: url('/halo-infinite-wallpaper.jpg') center / cover no-repeat; */
-  background: url('/debug-play-tab-bg.jpg') center bottom / cover no-repeat;
-  background-size: 150%;
+  background: url('/debug-bg-02.jpg') center / cover no-repeat;
   box-shadow: 0 0 120px 30px hsla(0, 0%, 0%, 0.8);
 }
 
