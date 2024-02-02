@@ -133,10 +133,40 @@ body.force4k {
   height: 60px;
 }
 
-.copy-me {
-  width: 10000px;
+.footer-button {
+  gap: 1vh;
 }
 
-.force4k .copy-me {
-  width: 10000px;
+.force4k .footer-button {
+  gap: 24px;
+}
+
+.footer-button-label,
+.footer-friend-count-container,
+.footer-friend-count {
+  height: 1.65vh;
+  font-size: 1.65vh;
+}
+
+.force4k .footer-button-label,
+.force4k .footer-friend-count-container,
+.force4k .footer-friend-count {
+  height: 36px;
+  font-size: 36px;
+}
+
+.footer-friend-count-container {
+  gap: 0.5vh;
+}
+
+.force4k .footer-friend-count-container {
+  gap: 14px;
+}
+
+.footer-friend-count {
+  font-size: 1.55vh;
+}
+
+.force4k .footer-friend-count {
+  font-size: 30px;
 }

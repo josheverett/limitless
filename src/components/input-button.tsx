@@ -46,7 +46,7 @@ const ICON_MAP: { [key in GAMEPAD_INPUT_KEYS]: string } = {
   RB: '',
   LT: '',
   RT: '',
-  SELECT: '',
+  SELECT: 'grid_view',
   START: 'menu',
   L3: '',
   R3: '',

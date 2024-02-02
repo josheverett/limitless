@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import cx from 'classnames';
-import { GAMEPAD_INPUTS } from '@/types/input';
 import { Image } from '@/components/image';
 import { MetaButtons } from '@/components/meta-buttons';
 import { InputButton } from '@/components/input-button';
+import { time } from 'console';
 
 type SeparatorProps = { type?: 'middle' | 'end'; };
 
@@ -60,20 +61,64 @@ export const Footer = () => {
         <Separator type="end" />
         <FooterNamelate />
         <Separator />
-        <div className="flex flex-col items-center justify-center">
-          <span className="material-icons">comment</span>
+        <div className="footer-button flex flex-col items-center justify-center h-full">
+          {/* The scale() is to reverse the icon, because we want the
+              arrow on the opposite side. ;) */}
+          <span className={`
+            footer-button-label material-icons
+            text-[hsl(0,0%,90%)] scale-x-[-1]
+          `}>
+            comment
+          </span>
           <InputButton
             height={2.176}
             input="START"
+            state="hold"
             callback={() => {
-              console.log('DERP MENU INPUT BUTTON');
+              console.log('DERP START INPUT BUTTON HELD');
             }}
           />
         </div>
         <Separator />
-        <div className="">foo</div>
+        <div className="footer-button flex flex-col items-center justify-center h-full">
+          <div className="footer-friend-count-container flex items-center">
+            <span className={`
+              footer-button-label material-icons
+              text-[hsl(0,0%,90%)]
+            `}>
+              group
+            </span>
+            <span className="footer-friend-count flex items-center justify-center">16</span>
+          </div>
+          <InputButton
+            height={2.176}
+            input="SELECT"
+            callback={() => {
+              console.log('DERP SELECT INPUT BUTTON');
+            }}
+          />
+        </div>
         <Separator />
-        <div className="">foo</div>
+        <div className="footer-button flex flex-col items-center justify-center h-full">
+          <span className={`
+            footer-button-label material-icons
+            text-[hsl(0,0%,90%)]
+          `}>
+            settings
+          </span>
+          <InputButton
+            height={2.176}
+            input="START"
+            state="release"
+            callback={() => {
+              // TODO: Need an app context prop to keep track if chat window
+              // is open. If so, this callback is a no-op. That will gracefully
+              // handle the case where we want holding the button for N ms to
+              // open the chat window but not also open the settings screen.
+              console.log('DERP START INPUT BUTTON RELEASED');
+            }}
+          />
+        </div>
         <Separator type="end" />
       </div>
     </div>
