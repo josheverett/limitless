@@ -8,22 +8,13 @@ import { useGamepad } from '@/hooks/use-gamepad';
 // whatever component has buttons and stuff.
 
 export const Gamepad = () => {
-  const { getGameControl } = useGamepad();
+  const gamepad = useGamepad();
 
   useEffect(() => {
-    const derp = async () => {
-      const gameControl = await getGameControl();
-      console.log('gameControl', gameControl);
-      gameControl.on('connect', () => {
-        const gamepad = gameControl.getGamepad(0);
-        gamepad.before(GAMEPAD_INPUTS.A, () => {
-          console.log('A BUTTON LIKE WHAT');
-        });
-      });
-    };
-
-    derp();
-  }, [getGameControl]);
+    gamepad.before(GAMEPAD_INPUTS.A, () => {
+      console.log('DERP A');
+    });
+  }, [gamepad]);
 
   return <div />;
 };

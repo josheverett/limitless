@@ -68,4 +68,5 @@ type GcjsGameControl = {
 
 interface Window {
   gameControl: GcjsGameControl;
+  __ON_GAMEPAD_READY?: Promise<void>;
 }
