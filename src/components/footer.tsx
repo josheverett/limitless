@@ -1,6 +1,5 @@
-import { useContext } from 'react';
 import cx from 'classnames';
-import { AppContext } from '@/app/context';
+import { GAMEPAD_INPUTS } from '@/types/input';
 import { Image } from '@/components/image';
 import { MetaButtons } from '@/components/meta-buttons';
 import { InputButton } from '@/components/input-button';
@@ -44,13 +43,6 @@ const FooterNamelate = () => {
 };
 
 export const Footer = () => {
-  const {
-    force4k,
-    setForce4k,
-    fullscreen,
-    setFullscreen
-  } = useContext(AppContext);
-
   return (
     <div className={`
       footer
@@ -70,7 +62,13 @@ export const Footer = () => {
         <Separator />
         <div className="flex flex-col items-center justify-center">
           <span className="material-icons">comment</span>
-          {/* <InputButton /> */}
+          <InputButton
+            height={2.176}
+            input="START"
+            callback={() => {
+              console.log('DERP MENU INPUT BUTTON');
+            }}
+          />
         </div>
         <Separator />
         <div className="">foo</div>

@@ -3,7 +3,7 @@
 // If I end up adding keyboard input icons they'll just alias to these.
 // Format is: my name --> gamecontroller.js name (based on spec)
 
-type GAMEPAD_INPUT_KEYS =
+export type GAMEPAD_INPUT_KEYS =
   'A' |
   'B' |
   'X' |

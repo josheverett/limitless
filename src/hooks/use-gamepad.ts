@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { GAMEPAD_INPUT_KEYS, GAMEPAD_INPUTS } from '@/types/input';
 
 export const useGamepad = () => {
   const getGameControl = async () => {
@@ -57,7 +58,7 @@ export const useGamepad = () => {
 };
 
 type gcjsStateMethod = 'before' | 'on' | 'after';
-type UseInputState = 'press' | 'hold' | 'release';
+export type UseInputState = 'press' | 'hold' | 'release';
 
 const STATE_MAP: { [key in UseInputState]: gcjsStateMethod } = {
   press: 'before',
@@ -66,17 +67,18 @@ const STATE_MAP: { [key in UseInputState]: gcjsStateMethod } = {
 };
 
 export const useInput = (
-  input: GcjsGamepadEvent,
+  input: GAMEPAD_INPUT_KEYS,
   state: UseInputState,
   callback: () => any
 ) => {
   const gamepad = useGamepad();
   const method = STATE_MAP[state];
+  const eventType = GAMEPAD_INPUTS[input];
 
   useEffect(() => {
-    gamepad[method](input, callback);
+    gamepad[method](eventType, callback);
     return () => {
-      gamepad.off(input);
+      gamepad.off(eventType);
     }
-  }, [input, gamepad, method, callback]);
+  }, [input, gamepad, method, eventType, callback]);
 };
