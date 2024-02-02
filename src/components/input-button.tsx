@@ -37,13 +37,17 @@ export const InputButton = ({
   const width_ = width || height;
   const fourkWidth = Math.round((width_ / 100) * FOURK_WIDTH);
   const fourkHeight = Math.round((height / 100) * FOURK_HEIGHT);
-
-  const dimensions: cx.Mapping = {};
-  dimensions[`w-[${width_}vh] h-[${height}vh]`] = !force4k;
-  dimensions[`w-[${fourkWidth}px] h-[${fourkHeight}px]`] = force4k;
+  const units = force4k ? 'px' : 'vh';
 
   return (
-    <div className={cx('relative drop-shadow-sm', className, dimensions)}>
+    <div
+      className={cx('relative drop-shadow-sm', className)}
+      style={{
+        width: `${force4k ? fourkWidth : width_}${units}`,
+        height: `${force4k ? fourkHeight : height}${units}`,
+      }}
+      onClick={callback}
+    >
       <Image
         className="w-full h-full"
         fill

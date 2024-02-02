@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import { GAMEPAD_INPUTS } from '@/types/input';
 import { AppContext } from '@/app/context';
 import { useInput } from '@/hooks/use-gamepad';
 

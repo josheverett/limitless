@@ -14,6 +14,7 @@ export const useGamepad = () => {
     window.__ON_GAMEPAD_READY = new Promise(async (resolve) => {
       const gameControl = await getGameControl();
       gameControl.on('connect', resolve);
+      gameControl.on('disconnect', () => window.__ON_GAMEPAD_READY = undefined);
     });
   }, []);
 
