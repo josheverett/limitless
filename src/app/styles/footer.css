@@ -10,12 +10,22 @@
   padding: 0 95px;
 }
 
-.fourk-toggle {
+.meta-button {
   gap: 1vh;
 }
 
-.force4k .fourk-toggle {
+.force4k .meta-button {
   gap: 20px;
+}
+
+.meta-button-icon {
+  width: 2.5vh;
+  height: 2.5vh;
+}
+
+.force4k .meta-button-icon {
+  width: 40px;
+  height: 40px;
 }
 
 .footer-buttons {

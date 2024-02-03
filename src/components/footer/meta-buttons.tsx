@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { AppContext } from '@/app/context';
 import { useInput } from '@/hooks/use-gamepad';
+import { MaterialIcon } from '@/components/icon';
 
 export const MetaButtons = () => {
   const {
@@ -15,21 +16,21 @@ export const MetaButtons = () => {
   return (
     <>
       <div
-        className="fourk-toggle flex items-center justify-center h-full"
+        className="meta-button flex items-center justify-center h-full"
         onClick={() => setForce4k(!force4k)}
       >
-        <span className="material-icons">4k</span>
-        <span>Force 4K:</span>
+        <MaterialIcon className="meta-button-icon" icon="4k" />
+        <div>Force 4K:</div>
         {/* TODO: Add "auto". */}
-        <span>{force4k ? 'On' : 'Off'}</span>
+        <div>{force4k ? 'On' : 'Off'}</div>
       </div>
       <div
-        className="fourk-toggle flex items-center justify-center h-full"
+        className="meta-button flex items-center justify-center h-full"
         onClick={() => setFullscreen(!fullscreen)}
       >
-        <span className="material-icons">fullscreen</span>
-        <span>Fullscreen:</span>
-        <span>{fullscreen ? 'On' : 'Off'}</span>
+        <MaterialIcon className="meta-button-icon" icon="fullscreen" />
+        <div>Fullscreen:</div>
+        <div>{fullscreen ? 'On' : 'Off'}</div>
       </div>
     </>
   );
