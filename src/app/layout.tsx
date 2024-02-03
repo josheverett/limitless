@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Titillium_Web } from 'next/font/google';
 import cx from 'classnames';
-import '@material-design-icons/font/filled.css';
 import { AppContextProvider } from '@/app/context';
 import '@/app/styles/globals.css';
 

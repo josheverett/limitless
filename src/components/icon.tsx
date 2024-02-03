@@ -1,15 +1,27 @@
 import cx from 'classnames';
-import Fourk from '@material-design-icons/svg/filled/4k.svg';
-import Fullscreen from '@material-design-icons/svg/filled/fullscreen.svg';
+import _4k from '@material-design-icons/svg/filled/4k.svg';
+import comment from '@material-design-icons/svg/filled/comment.svg';
+import fullscreen from '@material-design-icons/svg/filled/fullscreen.svg';
+import grid_view from '@material-design-icons/svg/filled/grid_view.svg';
+import group from '@material-design-icons/svg/filled/group.svg';
+import menu from '@material-design-icons/svg/filled/menu.svg';
+import settings from '@material-design-icons/svg/filled/settings.svg';
 
 const ICONS = {
-  '4k': Fourk,
-  fullscreen: Fullscreen,
+  '4k': _4k,
+  comment,
+  fullscreen,
+  grid_view,
+  group,
+  menu,
+  settings,
 };
 
+export type MaterialIconSvg = keyof typeof ICONS;
+
 type MaterialIconProps = {
-  className: string;
-  icon: keyof typeof ICONS;
+  className?: string;
+  icon: MaterialIconSvg;
 };
 
 export const MaterialIcon = ({
