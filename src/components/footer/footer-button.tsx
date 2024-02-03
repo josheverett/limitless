@@ -36,14 +36,14 @@ export const FooterButton = ({
         <MaterialIcon
           icon={icon}
           className={cx(
-            'h-full text-[hsl(0,0%,90%)]',
-            { 'scale-x-[-1]': flip }
+            'scale-[1.2] h-full text-[hsl(0,0%,90%)]',
+            { 'scale-x-[-1.2]': flip }
           )}
         />
         {!!label && (
           <span
             className="flex items-center justify-center h-full"
-            style={_4k({ fontSize: '1.389vh' })}
+            style={_4k({ fontSize: '1.6vh' })}
           >
             {label}
           </span>
