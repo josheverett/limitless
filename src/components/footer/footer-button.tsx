@@ -1,9 +1,9 @@
 import cx from 'classnames';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
+import { use4k } from '@/hooks/use-4k';
 import { UseInputState } from '@/hooks/use-gamepad';
 import { MaterialIcon, MaterialIconSvg } from '@/components/icon';
 import { InputButton } from '@/components/input-button';
-import '@/app/styles/footer.css';
 
 type FooterButtonProps = {
   icon: MaterialIconSvg;
@@ -22,26 +22,38 @@ export const FooterButton = ({
   state,
   callback,
 }: FooterButtonProps) => {
+  const _4k = use4k();
+
   return (
-    <div className="footer-button flex flex-col items-center justify-center h-full">
-      {/* This div is only necessary for the friends icon because it has text. */}
-      <div className="footer-label-container flex items-center">
+    <div
+      className="flex flex-col items-center justify-center h-full"
+      style={_4k({ gap: '1.065vh' })}
+    >
+      <div
+        className="flex items-center"
+        style={_4k({ height: '1.528vh', gap: '1.111vh' })}
+      >
         <MaterialIcon
+          icon={icon}
           className={cx(
-            'footer-label-icon text-[hsl(0,0%,90%)]',
+            'h-full text-[hsl(0,0%,90%)]',
             { 'scale-x-[-1]': flip }
           )}
-          icon={icon}
         />
         {!!label && (
-          <span className="footer-label flex items-center justify-center">{label}</span>
+          <span
+            className="flex items-center justify-center h-full"
+            style={_4k({ fontSize: '1.389vh' })}
+          >
+            {label}
+          </span>
         )}
       </div>
       <InputButton
-        className="footer-input-button"
         input={input}
         state={state}
         callback={callback}
+        style={_4k({ width: '2.037vh', height: '2.037vh' })}
       />
     </div>
   );

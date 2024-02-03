@@ -1,39 +1,54 @@
 import { useContext } from 'react';
-import cx from 'classnames';
 import { AppContext } from '@/app/context';
 import { use4k } from '@/hooks/use-4k';
 import { useInput } from '@/hooks/use-gamepad';
 import { Image } from '@/components/image';
 import { MetaButton } from '@/components/footer/meta-button';
 import { FooterButton } from '@/components/footer/footer-button';
-import '@/app/styles/footer.css';
 
 type SeparatorProps = { type?: 'middle' | 'end'; };
 
 const Separator = ({ type = 'middle' }: SeparatorProps) => {
-  const isMiddle = type == 'middle';
+  const _4k = use4k();
+
+  if (type == 'middle') {
+    return (
+      <div
+        className="grow-0 shrink-0 min-w-px bg-[hsla(216,7%,71%,70%)]"
+        style={_4k({ width: '0.093vh', height: '5.556vh' })}
+      />
+    );
+  }
+
   return (
-    <div className={cx('grow-0 shrink-0', {
-      'min-w-px': isMiddle,
-      'w-[0.052%]': isMiddle,
-      'h-[76.433%]': isMiddle,
-      'bg-[hsla(216,7%,71%,70%)]': isMiddle,
-      'min-w-[2px]': !isMiddle,
-      'w-[0.104%]': !isMiddle,
-      'h-full': !isMiddle,
-      'bg-[hsla(0,0%,100%,15%)]': !isMiddle,
-    })} />
+    <div
+      className="grow-0 shrink-0 min-w-[2px] h-full bg-[hsla(0,0%,100%,15%)]"
+      style={_4k({ width: '0.185vh' })}
+    />
   );
 };
 
 const FooterNamelate = () => {
+  const _4k = use4k();
+
   return (
-    <div className={`
-      footer-nameplate
-      flex shrink-0 items-center justify-center
-      italic bg-black bg-opacity-25
-    `}>
-      <div className="footer-avatar relative">
+    <div
+      className={`
+        flex shrink-0 items-center justify-center
+        italic bg-black bg-opacity-25
+      `}
+      style={_4k({
+        gap: '1.481vh',
+        height: '4.63vh',
+        paddingLeft: '0.741vh',
+        paddingRight: '1.389vh',
+        fontSize: '1.9vh',
+      })}
+    >
+      <div
+        className="relative"
+        style={_4k({ width: '3.056vh', height: '2.778vh' })}
+      >
         <Image
           className="w-full h-full"
           fill
@@ -85,11 +100,13 @@ export const Footer = () => {
         onClick={() => setFullscreen(!fullscreen)}
       />
       <div className="grow" />
-      <div className={`
-        footer-buttons
-        flex shrink-0 items-center justify-center
-        h-full bg-white bg-opacity-[0.02]
-      `}>
+      <div
+        className={`
+          flex shrink-0 items-center justify-center
+          h-full bg-white bg-opacity-[0.02]
+        `}
+        style={_4k({ gap: '1.389vh' })}
+      >
         <Separator type="end" />
         <FooterNamelate />
         <Separator />

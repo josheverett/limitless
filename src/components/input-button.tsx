@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import cx from 'classnames';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
 import { useInput, UseInputState } from '@/hooks/use-gamepad';
@@ -69,6 +70,7 @@ type InputButtonProps = {
   input: GAMEPAD_INPUT_KEYS;
   state?: UseInputState;
   callback: () => void;
+  style?: CSSProperties;
 };
 
 // TODO: Animated circle ring for chat view button where you
@@ -79,6 +81,7 @@ export const InputButton = ({
   input,
   state = 'press',
   callback,
+  style,
 }: InputButtonProps) => {
   useInput(input, state, callback);
 
@@ -98,6 +101,7 @@ export const InputButton = ({
         className
       )}
       onClick={callback}
+      style={style}
     >
       <Image
         className="w-full h-full"
