@@ -19,7 +19,7 @@ export const MetaButton = ({
   return (
     <div
       className="flex items-center justify-center h-full"
-      style={_4k({ gap: '1vh' })}
+      style={_4k({ gap: '1vh', fontSize: '2vh' })}
       onClick={onClick}
     >
       <MaterialIcon icon={icon} style={_4k({ width: '2.5vh', height: '2.5vh' })} />

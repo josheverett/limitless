@@ -32,10 +32,6 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   };
 
   useEffect(() => {
-    document.body.classList.toggle('force4k', force4k);
-  }, [force4k]);
-
-  useEffect(() => {
     if (fullscreen) {
       document.body.requestFullscreen();
     }

@@ -7,6 +7,7 @@
 }
 
 body {
+  font-size: 2vh; /* debug default */
   color: rgb(var(--foreground-rgb));
   background: url('/background.jpg') center / cover no-repeat;
   background-color: hsl(0, 0%, 0%);
@@ -69,16 +70,6 @@ main {
  * UPDATE: New shit has come to light. See the use4k() hook
  * to deal with this madness.
  */
-
-/* I'm 87% sure these body font sizes no longer serve a purpose. */
-
-body {
-  font-size: 2vh;
-}
-
-body.force4k {
-  font-size: 40px;
-}
 
  /* TODO: Does this need 4k sizing or does it happen to work? */
 .text-shadow {
