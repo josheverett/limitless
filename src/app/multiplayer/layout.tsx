@@ -18,9 +18,6 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
   const { force4k, setForce4k } = useContext(AppContext);
 
   const ref = useRef<HTMLElement>(null);
-  // TOOFUTURE: It could be interesting to get _really_ fancy
-  // and fill the viewport while also scaling to a size that
-  // looks proportional. math tho. plus eyeballed magic numbers.
   const [resizeCounter, setResizeCounter] = useState(0);
   const [lastViewportSize, setLastViewportSize] = useState([0, 0]);
 
@@ -81,8 +78,6 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
     }
   }, [setForce4k]);
 
-  // I'd prefer to handle the 4k toggle in the app layout, but that file needs
-  // to be a server component. Luckily it's a non-issue for the start screen.
   return (
     // Notice how the FM div doesn't wrap main. That's intentional. This was
     // also just me making sure the thing works, it's just a POC. Temporary.
@@ -92,7 +87,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <Tabs tabs={tabs}></Tabs>
+        <Tabs tabs={tabs} />
         <div>tab content start</div>
         {children}
         <div>tab content end</div>
