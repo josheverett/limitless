@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import cx from 'classnames';
 import _4k from '@material-design-icons/svg/filled/4k.svg';
 import comment from '@material-design-icons/svg/filled/comment.svg';
@@ -22,16 +23,21 @@ export type MaterialIconSvg = keyof typeof ICONS;
 type MaterialIconProps = {
   className?: string;
   icon: MaterialIconSvg;
+  style?: CSSProperties;
 };
 
 export const MaterialIcon = ({
   className,
   icon,
+  style
 }: MaterialIconProps) => {
   const IconComponent = ICONS[icon];
 
   return (
-    <div className={cx('flex items-center justify-center', className)}>
+    <div
+      className={cx('flex items-center justify-center', className)}
+      style={style}
+    >
       <IconComponent className="material-icon-svg" />
     </div>
   );

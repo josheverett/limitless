@@ -1,6 +1,10 @@
+import { useContext } from 'react';
 import cx from 'classnames';
+import { AppContext } from '@/app/context';
+import { use4k } from '@/hooks/use-4k';
+import { useInput } from '@/hooks/use-gamepad';
 import { Image } from '@/components/image';
-import { MetaButtons } from '@/components/footer/meta-buttons';
+import { MetaButton } from '@/components/footer/meta-button';
 import { FooterButton } from '@/components/footer/footer-button';
 import '@/app/styles/footer.css';
 
@@ -43,14 +47,43 @@ const FooterNamelate = () => {
 };
 
 export const Footer = () => {
+  const {
+    force4k,
+    setForce4k,
+    fullscreen,
+    setFullscreen
+  } = useContext(AppContext);
+
+  const _4k = use4k();
+
+  useInput('GUIDE', 'press', () => setFullscreen(!fullscreen));
+
   return (
-    <div className={`
-      footer
-      absolute bottom-0 left-0 right-0
-      flex items-center justify-center
-    bg-black bg-opacity-40
-    `}>
-      <MetaButtons />
+    <div
+      className={`
+        absolute bottom-0 left-0 right-0
+        flex items-center justify-center
+      bg-black bg-opacity-40
+      `}
+      style={_4k({
+        gap: '3vh', // This only affects the meta buttons.
+        height: '7.315vh',
+        paddingLeft: '4.398vh',
+        paddingRight: '4.398vh',
+      })}
+    >
+      <MetaButton
+        icon="4k"
+        label="Force 4k"
+        enabled={force4k}
+        onClick={() => setForce4k(!force4k)}
+      />
+      <MetaButton
+        icon="fullscreen"
+        label="Fullscreen"
+        enabled={fullscreen}
+        onClick={() => setFullscreen(!fullscreen)}
+      />
       <div className="grow" />
       <div className={`
         footer-buttons

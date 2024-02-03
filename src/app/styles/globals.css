@@ -65,7 +65,12 @@ main {
  *   responsive mode are applicable to 4k mode as well, and thus not overridden.
  * - For a lot of the classes here, there's often box model stuff in the JSX as
  *   well, not sure if I really care or not.
+ *
+ * UPDATE: New shit has come to light. See the use4k() hook
+ * to deal with this madness.
  */
+
+/* I'm 87% sure these body font sizes no longer serve a purpose. */
 
 body {
   font-size: 2vh;

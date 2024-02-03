@@ -57,7 +57,9 @@ export const __4k = (styles: CSSProperties) => {
   const fourkStyles: { [key: string]: string } = {};
 
   for (const [prop, value] of Object.entries(styles)) {
-    const value_ = FOURK_PROPS.includes(prop)
+    // valueHasV: ghetto af but handles % cases etc. well enough for this app
+    const valueHasV = String(value).includes('v');
+    const value_ = valueHasV && FOURK_PROPS.includes(prop)
       ? viewportCssTo4k(value)
       : value;
     fourkStyles[prop] = value_;
@@ -66,6 +68,8 @@ export const __4k = (styles: CSSProperties) => {
   return fourkStyles;
 };
 
+// This explicitly does not support shorthand properties when
+// using multiple values, e.g. `padding: 5px 10px`
 export const use4k = () => {
   const { force4k } = useContext(AppContext);
 
