@@ -20,6 +20,10 @@ main {
   box-shadow: 0 0 120px 30px hsla(0, 0%, 0%, 0.8);
 }
 
+a {
+  outline: none;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
