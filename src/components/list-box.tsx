@@ -42,12 +42,11 @@ const ListBoxItem = ({
       {/* Bottom "tray" border. */}
       <Link
         href={href}
+        onMouseEnter={(e) => e.currentTarget.focus()}
         className={cx(
           'relative flex items-center w-full border-solid',
           // Ah geez here I go again with the cutout borders...
-          // TODO: Remove hover, set focus on mouseover (no worries about mouseout).
           css`
-          &:hover,
           &:focus {
             .list-box-item-cutout-border {
               color: black;
