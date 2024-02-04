@@ -26,15 +26,13 @@ export const Tabs = ({ tabs }: TabsProps) => {
       gap: '1.759vh',
       height: '3.889vh',
     })}>
-      <div>
-        <InputButton
-          input="LB"
-          callback={() => {
-            console.log('DERP LB PRESSED!');
-          }}
-          style={_4k({ width: '3vh', height: '3vh' })}
-        />
-      </div>
+      <InputButton
+        input="LB"
+        callback={() => {
+          console.log('DERP LB PRESSED!');
+        }}
+        style={_4k({ width: '3.704vh', height: '1.944vh' })}
+      />
       <ul className="flex items-center h-full" style={_4k({ gap: '1.296vh' })}>
         {tabs.map((tab) => {
           const isSelected = tab.href === pathname;
@@ -65,15 +63,13 @@ export const Tabs = ({ tabs }: TabsProps) => {
           );
         })}
       </ul>
-      <div>
-        <InputButton
-          input="RB"
-          callback={() => {
-            console.log('DERP RB PRESSED!');
-          }}
-          style={_4k({ width: '3vh', height: '3vh' })}
-        />
-      </div>
+      <InputButton
+        input="RB"
+        callback={() => {
+          console.log('DERP RB PRESSED!');
+        }}
+        style={_4k({ width: '3.704vh', height: '1.944vh' })}
+      />
     </div>
   );
 };

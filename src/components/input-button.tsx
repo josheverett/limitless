@@ -1,17 +1,19 @@
 import { CSSProperties } from 'react';
 import cx from 'classnames';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
+import { use4k } from '@/hooks/use-4k';
 import { useInput, UseInputState } from '@/hooks/use-gamepad';
 import { Image } from '@/components/image';
 import { MaterialIcon, MaterialIconSvg } from '@/components/icon';
+import { TextOffset } from '@/components/text';
 
 const SHAPE_MAP: { [key in GAMEPAD_INPUT_KEYS]: string } = {
   A: 'circle',
   B: 'circle',
   X: 'circle',
   Y: 'circle',
-  LB: 'circle', // TEMP!
-  RB: 'circle', // TEMP!
+  LB: 'left-bumper',
+  RB: 'right-bumper',
   LT: '',
   RT: '',
   SELECT: 'circle',
@@ -34,13 +36,14 @@ const SHAPE_MAP: { [key in GAMEPAD_INPUT_KEYS]: string } = {
 };
 
 // Partial<> is needed unless/until all keys satisfied.
+// Update: Which won't happen because of the "uses text" buttons.
 const ICON_MAP: Partial<{ [key in GAMEPAD_INPUT_KEYS]: MaterialIconSvg }> = {
-  // A: '',
-  // B: '',
-  // X: '',
-  // Y: '',
-  // LB: '',
-  // RB: '',
+  // A: '', // Uses text.
+  // B: '', // Uses text.
+  // X: '', // Uses text.
+  // Y: '', // Uses text.
+  // LB: '', // Uses text.
+  // RB: '', // Uses text.
   // LT: '',
   // RT: '',
   SELECT: 'grid_view',
@@ -80,6 +83,8 @@ export const InputButton = ({
   callback,
   style,
 }: InputButtonProps) => {
+  const _4k = use4k();
+
   useInput(input, state, callback);
 
   const icon = ICON_MAP[input];
@@ -107,7 +112,9 @@ export const InputButton = ({
           // `relative` for stacking context, no explicit z-index needed.
           <MaterialIcon className="relative w-[60%] h-[60%]" icon={icon} />
         ) : (
-          <div className="relative">{input}</div>
+          <span style={_4k({ fontSize: '1.5vh' })}>
+            <TextOffset top="0.15vh">{input}</TextOffset>
+          </span>
         )}
     </div>
   );
