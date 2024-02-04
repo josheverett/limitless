@@ -39,13 +39,15 @@ export const ListBox = ({
     useDefaultFocus(!!defaultFocusPathname, defaultFocusPathname);
 
   const { teleport } = useInputPortal(
-    !!inputPortalName && !!inputPortals.length,
+    !!inputPortalName,
     inputPortalName,
-    inputPortals,
     defaultFocusRef
   );
 
   // TODO: DO NOT KEEP TRUE, NEEDS COMPONENT FOCUS THING OMG
+  // TODO: Consider updating useDirectionalInputs to have convenience
+  // shit for portals. yeeee
+  // TODO: See about a switch statement here. Separate functions was even worse.
   useDirectionalInputs(true, ['U', 'D', 'L', 'R'], (direction) => {
     if (!containerRef.current) return;
 
@@ -69,11 +71,11 @@ export const ListBox = ({
     const focusedLink = links[focusedLinkIndex];
     if (!focusedLink) return;
 
-    let linkIndexToFocus;
+    let linkIndexToFocus = -1;
     if (direction === 'D') {
       linkIndexToFocus = focusedLinkIndex >= links.length - 1 ?
         0 : focusedLinkIndex + 1;
-    } else {
+    } else if (direction === 'U') {
       linkIndexToFocus = focusedLinkIndex <= 0 ?
         links.length - 1 : focusedLinkIndex - 1;
     }

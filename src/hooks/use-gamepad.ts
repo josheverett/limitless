@@ -133,30 +133,23 @@ export type InputPortal = {
   direction: InputDirection, // "target is R of name" etc.
 };
 
-// TODO: I think I can replace this with a useEffect on ref.current,
-// where if defined it sets data attrs. hmm. See how it goes.
-
-// 'name:target:direction' --> ref
-const PORTAL_REGISTRY: { [key: string]: React.RefObject<HTMLAnchorElement> } = {};
-
 export const useInputPortal = (
   enabled: boolean,
   name = '', // "from" portal
-  portals: InputPortal[],
   defaultFocusRef: React.RefObject<HTMLAnchorElement>,
 ) => {
-  for (const portal of portals) {
-    // ok to clobber here, don't care what was there before.
-    if (enabled && !!name) PORTAL_REGISTRY[name] = defaultFocusRef;
-    else if (!!name) delete PORTAL_REGISTRY[name];
-  }
+  useEffect(() => {
+    if (!defaultFocusRef.current) return;
+    defaultFocusRef.current.dataset.portalTarget = name;
+  }, [defaultFocusRef.current]);
 
   return {
     teleport: (portal: InputPortal) => {
       if (!enabled) return;
-      const ref = PORTAL_REGISTRY[portal.target];
-      if (!ref?.current) return;
-      ref.current.focus();
+      const selector = `[data-portal-target="${portal.target}"]`;
+      const el = document.querySelector<HTMLAnchorElement>(selector);
+      if (!el) return;
+      el.focus();
     },
   };
 };
