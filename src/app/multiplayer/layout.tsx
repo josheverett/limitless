@@ -83,7 +83,11 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
   return (
     // Notice how the FM div doesn't wrap main. That's intentional. This was
     // also just me making sure the thing works, it's just a POC. Temporary.
-    <main ref={ref} className="grow-0 shrink-0 w-full h-full transition-transform">
+    <main
+      ref={ref}
+      // TODO: How to use nextjs optimization on this bg image?
+      className="grow-0 shrink-0 w-full h-full transition-transform bg-[url('/multiplayer/play/play-bg.jpg')]"
+    >
       <motion.div
         className="w-full h-full"
         initial={{ opacity: 0 }}

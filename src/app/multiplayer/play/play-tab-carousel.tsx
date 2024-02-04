@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, CSSProperties } from 'react';
 import { use4k } from '@/hooks/use-4k';
-import { BrightBox } from '@/layouts/box';
+import { BrightBox } from '@/layouts/bright-box';
 import { Image } from '@/components/image';
 import { MaterialIcon } from '@/components/icon';
 import { Teko_2_3_Medium } from '@/app/styles/fonts';
@@ -48,7 +48,13 @@ const PlayTabCarouselItem = ({
   );
 };
 
-export const PlayTabCarousel = () => {
+type PlayTabCarouselProps = {
+  style?: CSSProperties;
+};
+
+export const PlayTabCarousel = ({
+  style,
+}: PlayTabCarouselProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const _4k = use4k();
 
@@ -70,7 +76,7 @@ export const PlayTabCarousel = () => {
   }
 
   return (
-    <>
+    <div style={style}>
       <BrightBox>
         <ul className="relative" style={_4k({ height: '26.852vh' })}>
           {items.map((item, i) => {
@@ -120,6 +126,6 @@ export const PlayTabCarousel = () => {
           <MaterialIcon className="w-full h-full" icon="arrow_right" />
         </div>
       </div>
-    </>
+    </div>
   );
 };

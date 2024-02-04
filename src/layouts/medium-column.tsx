@@ -3,13 +3,13 @@ import { use4k } from '@/hooks/use-4k';
 
 type MediumColumnProps = {
   className?: string;
-  styles?: CSSProperties;
+  style?: CSSProperties;
   children: React.ReactNode;
 };
 
 export const MediumColumn = ({
   className,
-  styles,
+  style,
   children,
 }: MediumColumnProps) => {
   const _4k = use4k();
@@ -18,7 +18,7 @@ export const MediumColumn = ({
     <div
       className={className}
       // vw is correct
-      style={{ ..._4k({ width: '27.292vw' }), ...styles}}
+      style={{ ..._4k({ width: '27.292vw' }), ...style}}
     >
       {children}
     </div>
