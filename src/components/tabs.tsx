@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link';
 import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';
@@ -17,20 +17,32 @@ type TabsProps = {
 };
 
 export const Tabs = ({ tabs }: TabsProps) => {
+  const router = useRouter();
   const pathname = usePathname();
   const _4k = use4k();
 
+  const nextTab = () => {
+    const currentIndex = tabs.findIndex((tab) => tab.href === pathname);
+    const newIndex = currentIndex >= tabs.length - 1 ? 0 : currentIndex + 1;
+    const { href } = tabs[newIndex];
+    router.push(href);
+  }
+
+  const previousTab = () => {
+    const currentIndex = tabs.findIndex((tab) => tab.href === pathname);
+    const newIndex = currentIndex <= 0 ? tabs.length - 1 : currentIndex - 1;
+    const { href } = tabs[newIndex];
+    router.push(href);
+  }
+
   return (
-    // TODO: positioning stuff is temporary while building this
-    <div className="m-10 flex items-center" style={_4k({
+    <div className="flex items-center" style={_4k({
       gap: '1.759vh',
       height: '3.889vh',
     })}>
       <InputButton
         input="LB"
-        callback={() => {
-          console.log('DERP LB PRESSED!');
-        }}
+        callback={previousTab}
         style={_4k({ width: '3.704vh', height: '1.944vh' })}
       />
       <ul className="flex items-center h-full" style={_4k({ gap: '1.296vh' })}>
@@ -65,9 +77,7 @@ export const Tabs = ({ tabs }: TabsProps) => {
       </ul>
       <InputButton
         input="RB"
-        callback={() => {
-          console.log('DERP RB PRESSED!');
-        }}
+        callback={nextTab}
         style={_4k({ width: '3.704vh', height: '1.944vh' })}
       />
     </div>
