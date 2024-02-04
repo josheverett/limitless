@@ -3,6 +3,7 @@ import { GAMEPAD_INPUT_KEYS } from '@/types/input';
 import { use4k } from '@/hooks/use-4k';
 import { UseInputState } from '@/hooks/use-gamepad';
 import { MaterialIcon, MaterialIconSvg } from '@/components/icon';
+import { TextOffset } from '@/components/text';
 import { InputButton } from '@/components/input-button';
 
 type FooterButtonProps = {
@@ -41,13 +42,12 @@ export const FooterButton = ({
           )}
         />
         {!!label && (
-          <span
+          <div
             className="relative flex items-center justify-center h-full"
-            // This font is a bit off so have to nudge it with `top`.
-            style={_4k({ fontSize: '1.8vh', top: '0.15vh' })}
+            style={_4k({ fontSize: '1.8vh' })}
           >
-            {label}
-          </span>
+            <TextOffset top="0.15vh">{label}</TextOffset>
+          </div>
         )}
       </div>
       <InputButton

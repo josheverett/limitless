@@ -2,7 +2,9 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link';
+import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';
+import { TextOffset } from '@/components/text';
 import { InputButton } from '@/components/input-button';
 
 type Tab = {
@@ -19,7 +21,8 @@ export const Tabs = ({ tabs }: TabsProps) => {
   const _4k = use4k();
 
   return (
-    <div className="flex items-center" style={_4k({
+    // TODO: positioning stuff is temporary while building this
+    <div className="m-10 flex items-center" style={_4k({
       gap: '1.759vh',
       height: '3.889vh',
     })}>
@@ -36,20 +39,27 @@ export const Tabs = ({ tabs }: TabsProps) => {
         {tabs.map((tab) => {
           const isSelected = tab.href === pathname;
           return (
-            <li
-              key={tab.title}
-              className="flex items-center h-full outline outline-halo-white"
-              style={_4k({
-                minWidth: '19.444vh',
-                paddingLeft: '1.944vh',
-                paddingRight: '1.944vh',
-                outlineWidth: isSelected ? '0.37vh' : '0.185vh',
-              })}
-            >
-              <Link href={tab.href}>
-                {tab.title.toUpperCase()}
-                {/* TODO: determine selected index by route. */}
-                {/* {i === selectedIndex && '(selected)'} */}
+            <li className="h-full" key={tab.title}>
+              <Link
+                href={tab.href}
+                className={
+                  cx('flex items-center h-full font-medium outline', {
+                    'text-halo-white': isSelected,
+                    'text-halo-offwhite': !isSelected,
+                    'outline-halo-white': isSelected,
+                    'outline-halo-offwhite': !isSelected,
+                  })
+                }
+                style={_4k({
+                  minWidth: '19.444vh',
+                  paddingLeft: '1.944vh',
+                  paddingRight: '1.944vh',
+                  fontSize: '2.3vh',
+                  letterSpacing: '0.5vh',
+                  outlineWidth: isSelected ? '0.37vh' : '0.185vh',
+                })}
+              >
+                <TextOffset top="0.1vh">{tab.title.toUpperCase()}</TextOffset>
               </Link>
             </li>
           );

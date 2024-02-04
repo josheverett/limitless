@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         'halo-white': '#f4f4f4',
+        'halo-offwhite': '#dedede',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

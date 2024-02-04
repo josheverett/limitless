@@ -25,6 +25,7 @@ const FOURK_PROPS = [
   'gap',
   'height',
   'left',
+  'letterSpacing',
   'margin',
   'marginBottom',
   'marginLeft',
