@@ -122,6 +122,8 @@ export const useDirectionalInputs = (
 // sibling component.
 // Any components anywhere can be linked via input portals.
 
+// TRY TO NOT NEED THIS. Keep thing stateless if you can.
+// Consider using data attrs for this. :D
 const PORTAL_REGISTRY = {};
 
 export const useInputPortal = () => {

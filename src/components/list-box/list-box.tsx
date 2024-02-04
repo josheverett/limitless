@@ -3,29 +3,38 @@
 import { useRef, CSSProperties } from 'react';
 import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';
-import { useDirectionalInputs, InputDirection } from '@/hooks/use-gamepad';
+import { useDirectionalInputs } from '@/hooks/use-gamepad';
+import { useDefaultFocus } from '@/hooks/use-default-focus';
 import { ListBoxItem, ListBoxItemProps } from './list-box-item';
 import { ListBoxNotch } from './list-box-notch';
 
 type ListBoxProps = {
   className?: string;
   items: ListBoxItemProps[];
+  defaultFocusPathname?: string;
   style?: CSSProperties;
 };
 
 export const ListBox = ({
   className,
   items,
+  defaultFocusPathname,
   style,
 }: ListBoxProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const defaultFocusRef = useRef<HTMLAnchorElement>(null);
   const _4k = use4k();
 
   // TODO: NEED TO FOCUS FIRST ITEM BY DEFAULT OMG THIS IS IMPORTANT
 
+  // TODO: PORTAL TEST. Use identical list box in another column to test.
+
+  console.log('DERP CALLING useDefaultFocus', !!defaultFocusPathname, defaultFocusRef, defaultFocusPathname);
+  useDefaultFocus(!!defaultFocusPathname, defaultFocusRef, defaultFocusPathname);
+
   useDirectionalInputs(['U', 'D'], (direction) => {
-    if (!ref.current) return;
-    const links = Array.from(ref.current.querySelectorAll('a'));
+    if (!containerRef.current) return;
+    const links = Array.from(containerRef.current.querySelectorAll('a'));
     const focusedLinkIndex = links.findIndex((link) => {
       return link === document.activeElement;
     });
@@ -44,7 +53,7 @@ export const ListBox = ({
 
   return (
     <div
-      ref={ref}
+      ref={containerRef}
       className={cx(
         'flex flex-col relative h-full border-solid border-[hsl(0,0%,50%)]',
         className
@@ -86,10 +95,12 @@ export const ListBox = ({
             paddingRight: '2.176vh',
           })}
         >
-          {items.map((item) => {
+          {items.map((item, i) => {
             return (
               <ListBoxItem
                 key={item.href}
+                // This is how we make sure the first item is selected by default.
+                defaultFocusRef={i === 0 ? defaultFocusRef : undefined}
                 href={item.href}
                 text={item.text}
               />

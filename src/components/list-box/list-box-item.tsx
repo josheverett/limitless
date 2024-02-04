@@ -10,11 +10,13 @@ import { TextOffset } from '@/components/text';
 import { Teko_2_3_Wide } from '@/app/styles/fonts';
 
 export type ListBoxItemProps = {
+  defaultFocusRef?: React.RefObject<HTMLAnchorElement>;
   href: string;
   text: string;
 };
 
 export const ListBoxItem = ({
+  defaultFocusRef,
   href,
   text,
 }: ListBoxItemProps) => {
@@ -34,6 +36,7 @@ export const ListBoxItem = ({
     <li>
       {/* Bottom "tray" border. */}
       <Link
+        ref={defaultFocusRef}
         href={href}
         onMouseEnter={(e) => e.currentTarget.focus()}
         className={cx(

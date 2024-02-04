@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';

@@ -23,7 +23,11 @@ export default function PlayTab() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <MediumColumn>
         <PlayTabCarousel style={_4k({ marginTop: '4.167vh' })} />
-        <ListBox items={listItems} style={_4k({ marginTop: '1.713vh' })} />
+        <ListBox
+          items={listItems}
+          defaultFocusPathname="/multiplayer/play"
+          style={_4k({ marginTop: '1.713vh' })}
+        />
         <div>text</div>
       </MediumColumn>
     </motion.div>
