@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { useContext } from 'react';
 import { AppContext } from '@/app/context';
 import { use4k } from '@/hooks/use-4k';
@@ -5,6 +6,7 @@ import { useInput } from '@/hooks/use-gamepad';
 import { Image } from '@/components/image';
 import { MetaButton } from '@/components/footer/meta-button';
 import { FooterButton } from '@/components/footer/footer-button';
+import { TitilliumFont } from '@/app/styles/fonts';
 
 type SeparatorProps = { type?: 'middle' | 'end'; };
 
@@ -33,10 +35,13 @@ const FooterNamelate = () => {
 
   return (
     <div
-      className={`
-        flex shrink-0 items-center justify-center
-        italic bg-black bg-opacity-25
-      `}
+      className={cx(
+        `
+          flex shrink-0 items-center justify-center
+          italic bg-black bg-opacity-25
+        `,
+        TitilliumFont
+      )}
       style={_4k({
         gap: '1.481vh',
         height: '4.63vh',
@@ -47,7 +52,7 @@ const FooterNamelate = () => {
     >
       <div
         className="relative"
-        style={_4k({ width: '3.056vh', height: '2.778vh' })}
+        style={_4k({ width: '3.1vh' })}
       >
         <Image
           className="w-full h-full"
@@ -78,7 +83,7 @@ export const Footer = () => {
       className={`
         absolute bottom-0 left-0 right-0
         flex items-center justify-center
-      bg-black bg-opacity-40
+        bg-black bg-opacity-40
       `}
       style={_4k({
         gap: '3vh', // This only affects the meta buttons.

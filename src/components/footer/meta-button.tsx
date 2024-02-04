@@ -1,5 +1,7 @@
+import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';
 import { MaterialIcon, MaterialIconSvg } from '@/components/icon';
+import { TitilliumFont } from '@/app/styles/fonts';
 
 type MetaButtonProps = {
   icon: MaterialIconSvg;
@@ -18,7 +20,7 @@ export const MetaButton = ({
 
   return (
     <div
-      className="flex items-center justify-center h-full"
+      className={cx('flex items-center justify-center h-full', TitilliumFont)}
       style={_4k({ gap: '1vh', fontSize: '2vh' })}
       onClick={onClick}
     >

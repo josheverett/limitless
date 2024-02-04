@@ -42,8 +42,9 @@ export const FooterButton = ({
         />
         {!!label && (
           <span
-            className="flex items-center justify-center h-full"
-            style={_4k({ fontSize: '1.6vh' })}
+            className="relative flex items-center justify-center h-full"
+            // This font is a bit off so have to nudge it with `top`.
+            style={_4k({ fontSize: '1.8vh', top: '0.15vh' })}
           >
             {label}
           </span>

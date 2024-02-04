@@ -1,14 +1,8 @@
 import type { Metadata } from 'next';
-import { Titillium_Web } from 'next/font/google';
 import cx from 'classnames';
 import { AppContextProvider } from '@/app/context';
+import { TekoFont } from '@/app/styles/fonts';
 import '@/app/styles/globals.css';
-
-const TitilliumWebFont = Titillium_Web({
-  subsets: ['latin'],
-  weight: ['300'],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Halo Infinite',
@@ -25,7 +19,7 @@ export default function RootLayout({
       <body className={
         cx(
           'flex items-center justify-center w-full h-full overflow-hidden',
-          TitilliumWebFont.className
+          TekoFont
         )
       }>
         <AppContextProvider>{children}</AppContextProvider>

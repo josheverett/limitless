@@ -10,8 +10,8 @@ const SHAPE_MAP: { [key in GAMEPAD_INPUT_KEYS]: string } = {
   B: 'circle',
   X: 'circle',
   Y: 'circle',
-  LB: '',
-  RB: '',
+  LB: 'circle', // TEMP!
+  RB: 'circle', // TEMP!
   LT: '',
   RT: '',
   SELECT: 'circle',
@@ -33,7 +33,6 @@ const SHAPE_MAP: { [key in GAMEPAD_INPUT_KEYS]: string } = {
   RIGHT_STICK_LEFT: '',
 };
 
-// TODO: Dunno how I'm gonna handle text labels yet.
 // Partial<> is needed unless/until all keys satisfied.
 const ICON_MAP: Partial<{ [key in GAMEPAD_INPUT_KEYS]: MaterialIconSvg }> = {
   // A: '',
@@ -63,10 +62,8 @@ const ICON_MAP: Partial<{ [key in GAMEPAD_INPUT_KEYS]: MaterialIconSvg }> = {
   // RIGHT_STICK_LEFT: '',
 };
 
-// TODO: text map where applicable
-
 type InputButtonProps = {
-  className?: string; // Might not actually need this.
+  className?: string;
   input: GAMEPAD_INPUT_KEYS;
   state?: UseInputState;
   callback: () => void;
@@ -88,8 +85,6 @@ export const InputButton = ({
   const icon = ICON_MAP[input];
   const iconBg = SHAPE_MAP[input];
 
-  if (!icon) throw new Error(`Unknown icon for input: ${input}`);
-
   return (
     <div
       className={cx(`
@@ -108,8 +103,12 @@ export const InputButton = ({
         fill
         src={`/input-shapes/${iconBg}.svg`}
         alt={input} />
-        {/* `relative` for stacking context, no explicit z-index needed. */}
-        <MaterialIcon className="relative w-[60%] h-[60%]" icon={icon} />
+        {!!icon ? (
+          // `relative` for stacking context, no explicit z-index needed.
+          <MaterialIcon className="relative w-[60%] h-[60%]" icon={icon} />
+        ) : (
+          <div className="relative">{input}</div>
+        )}
     </div>
   );
 };
