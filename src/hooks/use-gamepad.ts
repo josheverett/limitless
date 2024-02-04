@@ -70,7 +70,7 @@ const STATE_MAP: { [key in UseInputState]: gcjsStateMethod } = {
 export const useInput = (
   input: GAMEPAD_INPUT_KEYS,
   state: UseInputState,
-  callback: () => any
+  callback: (...args: any) => any
 ) => {
   const gamepad = useGamepad();
   const method = STATE_MAP[state];
@@ -82,4 +82,52 @@ export const useInput = (
       gamepad.off(eventType);
     }
   }, [input, gamepad, method, eventType, callback]);
+};
+
+// useDirectionalInputs is a convenience hook for up/down/left/right inputs
+// for both the left analog stick and the dpad.
+
+export type InputDirection = 'U' | 'D' | 'L' | 'R';
+
+const _useDirectionalInputsHelper = (
+  input: GAMEPAD_INPUT_KEYS,
+  direction: InputDirection,
+  directions: InputDirection[],
+  callback: (direction: InputDirection) => any
+) => {
+  return useInput(input, 'press', () => {
+    if (directions.includes(direction)) callback(direction);
+  });
+};
+
+export const useDirectionalInputs = (
+  directions: InputDirection[],
+  callback: (direction: InputDirection) => any
+) => {
+  // TODO: Consider wiring up keyboard arrow keys as well.
+  _useDirectionalInputsHelper('DPAD_UP', 'U', directions, callback);
+  _useDirectionalInputsHelper('DPAD_DOWN', 'D', directions, callback);
+  _useDirectionalInputsHelper('DPAD_LEFT', 'L', directions, callback);
+  _useDirectionalInputsHelper('DPAD_RIGHT', 'R', directions, callback);
+  _useDirectionalInputsHelper('LEFT_STICK_UP', 'U', directions, callback);
+  _useDirectionalInputsHelper('LEFT_STICK_DOWN', 'D', directions, callback);
+  _useDirectionalInputsHelper('LEFT_STICK_LEFT', 'L', directions, callback);
+  _useDirectionalInputsHelper('LEFT_STICK_RIGHT', 'R', directions, callback);
+};
+
+// Say you have 3 components side by side to each other.
+// You want to make sure that, when navigating with the controller,
+// navigating beyond the "edge" of the current component (left or right
+// in this example) causes the controller focus to "warp" to a
+// sibling component.
+// Any components anywhere can be linked via input portals.
+
+const PORTAL_REGISTRY = {};
+
+export const useInputPortal = () => {
+  return {
+    warpFocus: () => {
+      //
+    },
+  };
 };
