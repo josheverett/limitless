@@ -67,7 +67,10 @@ const STATE_MAP: { [key in UseInputState]: gcjsStateMethod } = {
   release: 'after',
 };
 
+// TODO: Need to add component focus concept.
+
 export const useInput = (
+  enabled: boolean,
   input: GAMEPAD_INPUT_KEYS,
   state: UseInputState,
   callback: (...args: any) => any
@@ -77,11 +80,12 @@ export const useInput = (
   const eventType = GAMEPAD_INPUTS[input];
 
   useEffect(() => {
+    if (!enabled) return;
     gamepad[method](eventType, callback);
     return () => {
       gamepad.off(eventType);
     }
-  }, [input, gamepad, method, eventType, callback]);
+  }, [enabled, input, gamepad, method, eventType, callback]);
 };
 
 // useDirectionalInputs is a convenience hook for up/down/left/right inputs
@@ -90,29 +94,31 @@ export const useInput = (
 export type InputDirection = 'U' | 'D' | 'L' | 'R';
 
 const _useDirectionalInputsHelper = (
+  enabled: boolean,
   input: GAMEPAD_INPUT_KEYS,
   direction: InputDirection,
   directions: InputDirection[],
   callback: (direction: InputDirection) => any
 ) => {
-  return useInput(input, 'press', () => {
+  return useInput(enabled, input, 'press', () => {
     if (directions.includes(direction)) callback(direction);
   });
 };
 
 export const useDirectionalInputs = (
+  enabled: boolean,
   directions: InputDirection[],
   callback: (direction: InputDirection) => any
 ) => {
   // TODO: Consider wiring up keyboard arrow keys as well.
-  _useDirectionalInputsHelper('DPAD_UP', 'U', directions, callback);
-  _useDirectionalInputsHelper('DPAD_DOWN', 'D', directions, callback);
-  _useDirectionalInputsHelper('DPAD_LEFT', 'L', directions, callback);
-  _useDirectionalInputsHelper('DPAD_RIGHT', 'R', directions, callback);
-  _useDirectionalInputsHelper('LEFT_STICK_UP', 'U', directions, callback);
-  _useDirectionalInputsHelper('LEFT_STICK_DOWN', 'D', directions, callback);
-  _useDirectionalInputsHelper('LEFT_STICK_LEFT', 'L', directions, callback);
-  _useDirectionalInputsHelper('LEFT_STICK_RIGHT', 'R', directions, callback);
+  _useDirectionalInputsHelper(enabled, 'DPAD_UP', 'U', directions, callback);
+  _useDirectionalInputsHelper(enabled, 'DPAD_DOWN', 'D', directions, callback);
+  _useDirectionalInputsHelper(enabled, 'DPAD_LEFT', 'L', directions, callback);
+  _useDirectionalInputsHelper(enabled, 'DPAD_RIGHT', 'R', directions, callback);
+  _useDirectionalInputsHelper(enabled, 'LEFT_STICK_UP', 'U', directions, callback);
+  _useDirectionalInputsHelper(enabled, 'LEFT_STICK_DOWN', 'D', directions, callback);
+  _useDirectionalInputsHelper(enabled, 'LEFT_STICK_LEFT', 'L', directions, callback);
+  _useDirectionalInputsHelper(enabled, 'LEFT_STICK_RIGHT', 'R', directions, callback);
 };
 
 // Say you have 3 components side by side to each other.
@@ -122,14 +128,35 @@ export const useDirectionalInputs = (
 // sibling component.
 // Any components anywhere can be linked via input portals.
 
-// TRY TO NOT NEED THIS. Keep thing stateless if you can.
-// Consider using data attrs for this. :D
-const PORTAL_REGISTRY = {};
+export type InputPortal = {
+  target: string; // "to" portal
+  direction: InputDirection, // "target is R of name" etc.
+};
 
-export const useInputPortal = () => {
+// TODO: I think I can replace this with a useEffect on ref.current,
+// where if defined it sets data attrs. hmm. See how it goes.
+
+// 'name:target:direction' --> ref
+const PORTAL_REGISTRY: { [key: string]: React.RefObject<HTMLAnchorElement> } = {};
+
+export const useInputPortal = (
+  enabled: boolean,
+  name = '', // "from" portal
+  portals: InputPortal[],
+  defaultFocusRef: React.RefObject<HTMLAnchorElement>,
+) => {
+  for (const portal of portals) {
+    // ok to clobber here, don't care what was there before.
+    if (enabled && !!name) PORTAL_REGISTRY[name] = defaultFocusRef;
+    else if (!!name) delete PORTAL_REGISTRY[name];
+  }
+
   return {
-    warpFocus: () => {
-      //
+    teleport: (portal: InputPortal) => {
+      if (!enabled) return;
+      const ref = PORTAL_REGISTRY[portal.target];
+      if (!ref?.current) return;
+      ref.current.focus();
     },
   };
 };

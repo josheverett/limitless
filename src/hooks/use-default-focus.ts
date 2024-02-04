@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation'
 
 export const useDefaultFocus = (
   enabled: boolean,
-  ref: React.RefObject<HTMLAnchorElement>,
   pathname?: string, // Pathname of route el should be focused for.
 ) => {
+  const ref = useRef<HTMLAnchorElement>(null);
   const nextPathname = usePathname();
 
   useEffect(() => {
@@ -14,4 +14,6 @@ export const useDefaultFocus = (
     if (nextPathname !== pathname) return;
     ref.current.focus();
   }, [nextPathname, ref.current]);
+
+  return ref;
 };

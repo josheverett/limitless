@@ -3,7 +3,12 @@
 import { useRef, CSSProperties } from 'react';
 import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';
-import { useDirectionalInputs } from '@/hooks/use-gamepad';
+import {
+  useDirectionalInputs,
+  useInputPortal,
+  InputDirection,
+  InputPortal,
+} from '@/hooks/use-gamepad';
 import { useDefaultFocus } from '@/hooks/use-default-focus';
 import { ListBoxItem, ListBoxItemProps } from './list-box-item';
 import { ListBoxNotch } from './list-box-notch';
@@ -12,6 +17,8 @@ type ListBoxProps = {
   className?: string;
   items: ListBoxItemProps[];
   defaultFocusPathname?: string;
+  inputPortalName?: string;
+  inputPortals?: InputPortal[];
   style?: CSSProperties;
 };
 
@@ -19,27 +26,49 @@ export const ListBox = ({
   className,
   items,
   defaultFocusPathname,
+  inputPortalName,
+  inputPortals = [],
   style,
 }: ListBoxProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const defaultFocusRef = useRef<HTMLAnchorElement>(null);
   const _4k = use4k();
-
-  // TODO: NEED TO FOCUS FIRST ITEM BY DEFAULT OMG THIS IS IMPORTANT
 
   // TODO: PORTAL TEST. Use identical list box in another column to test.
 
-  console.log('DERP CALLING useDefaultFocus', !!defaultFocusPathname, defaultFocusRef, defaultFocusPathname);
-  useDefaultFocus(!!defaultFocusPathname, defaultFocusRef, defaultFocusPathname);
+  const defaultFocusRef =
+    useDefaultFocus(!!defaultFocusPathname, defaultFocusPathname);
 
-  useDirectionalInputs(['U', 'D'], (direction) => {
+  const { teleport } = useInputPortal(
+    !!inputPortalName && !!inputPortals.length,
+    inputPortalName,
+    inputPortals,
+    defaultFocusRef
+  );
+
+  // TODO: DO NOT KEEP TRUE, NEEDS COMPONENT FOCUS THING OMG
+  useDirectionalInputs(true, ['U', 'D', 'L', 'R'], (direction) => {
     if (!containerRef.current) return;
+
+    // Left / Right (always a teleport for ListBox)
+
+    const leftPortal = inputPortals.find((portal) => portal.direction === 'L');
+    if (!!leftPortal && direction === 'L') return teleport(leftPortal);
+
+    const rightPortal = inputPortals.find((portal) => portal.direction === 'R');
+    if (!!rightPortal && direction === 'R') return teleport(rightPortal);
+
+    // Up / Down (only a teleport if U/D portal AND top/bottom of list reached)
+
+    // TODO: NEED PORTAL INSTEAD OF WRAPAROUND WHEN MATCING UDLR!!!
+
     const links = Array.from(containerRef.current.querySelectorAll('a'));
     const focusedLinkIndex = links.findIndex((link) => {
       return link === document.activeElement;
     });
+
     const focusedLink = links[focusedLinkIndex];
     if (!focusedLink) return;
+
     let linkIndexToFocus;
     if (direction === 'D') {
       linkIndexToFocus = focusedLinkIndex >= links.length - 1 ?

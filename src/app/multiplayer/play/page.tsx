@@ -21,15 +21,33 @@ export default function PlayTab() {
   // one that adds the `exit` prop to the motion div.
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <MediumColumn>
-        <PlayTabCarousel style={_4k({ marginTop: '4.167vh' })} />
-        <ListBox
-          items={listItems}
-          defaultFocusPathname="/multiplayer/play"
-          style={_4k({ marginTop: '1.713vh' })}
-        />
-        <div>text</div>
-      </MediumColumn>
+      <div className="flex gap-[30px]">
+        <MediumColumn>
+          <PlayTabCarousel style={_4k({ marginTop: '4.167vh' })} />
+          <ListBox
+            items={listItems}
+            defaultFocusPathname="/multiplayer/play"
+            inputPortalName='PlayTabListBox'
+            inputPortals={[{ target: 'PlayTabPortalTest', direction: 'R' }]}
+            style={_4k({ marginTop: '1.713vh' })}
+          />
+          <div>text</div>
+        </MediumColumn>
+
+        {/* MediumColumn below is temp for testing input portals. */}
+        <MediumColumn>
+          <PlayTabCarousel style={_4k({ marginTop: '4.167vh' })} />
+          <ListBox
+            items={listItems}
+            defaultFocusPathname="/multiplayer/play"
+            inputPortalName='PlayTabPortalTest'
+            inputPortals={[{ target: 'PlayTabListBox', direction: 'L' }]}
+            style={_4k({ marginTop: '1.713vh' })}
+          />
+          <div>text</div>
+        </MediumColumn>
+
+      </div>
     </motion.div>
   );
 }

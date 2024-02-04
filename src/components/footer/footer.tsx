@@ -77,7 +77,8 @@ export const Footer = () => {
 
   const _4k = use4k();
 
-  useInput('GUIDE', 'press', () => setFullscreen(!fullscreen));
+  // TODO: DO NOT KEEP TRUE, NEEDS COMPONENT FOCUS THING
+  useInput(true, 'GUIDE', 'press', () => setFullscreen(!fullscreen));
 
   return (
     <div
