@@ -1,5 +1,6 @@
 import { Teko, Titillium_Web } from 'next/font/google';
 
+// Copy font.
 const TitilliumFont_ = Titillium_Web({
   subsets: ['latin'],
   weight: ['300'],
@@ -7,6 +8,7 @@ const TitilliumFont_ = Titillium_Web({
   display: 'swap',
 });
 
+// Display font.
 const TekoFont_ = Teko({
   subsets: ['latin'],
   weight: ['300', '400', '500'],
@@ -15,3 +17,28 @@ const TekoFont_ = Teko({
 
 export const TitilliumFont = TitilliumFont_.className;
 export const TekoFont = TekoFont_.className;
+
+export const Teko_2_3 = {
+  fontSize: '2.3vh',
+  letterSpacing: '0.3vh',
+};
+
+export const Teko_2_3_Light = {
+  ...Teko_2_3,
+  fontWeight: '300',
+};
+
+export const Teko_2_3_Normal = {
+  ...Teko_2_3,
+  fontWeight: '400',
+};
+
+export const Teko_2_3_Medium = {
+  ...Teko_2_3,
+  fontWeight: '500',
+};
+
+export const Teko_2_3_Wide = {
+  ...Teko_2_3_Medium,
+  letterSpacing: '0.5vh',
+};

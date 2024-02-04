@@ -5,20 +5,20 @@ import { use4k, vhCssTo4k } from '@/hooks/use-4k';
 
 type BrightBoxProps = {
   className?: string;
-  styles?: CSSProperties;
+  style?: CSSProperties;
   children: React.ReactNode;
 };
 
 export const BrightBox = ({
   className,
-  styles,
+  style,
   children,
 }: BrightBoxProps) => {
   const { force4k } = useContext(AppContext);
   const _4k = use4k();
 
-  const transparentStart = force4k ? '4vh' : vhCssTo4k('4vh');
-  const transparentEnd = force4k ? '5.5vh' : vhCssTo4k('5.5vh');
+  const transparentStart = force4k ? vhCssTo4k('1.343vh') : '1.343vh';
+  const transparentEnd = force4k ? vhCssTo4k('1.759vh') : '1.759vh';
 
   return (
     <div
@@ -27,6 +27,10 @@ export const BrightBox = ({
         ..._4k({
           width: '27.292vw', // vw is correct
           borderWidth: '0.231vh',
+          paddingTop: '0.37vh',
+          paddingBottom: '0.37vh',
+          paddingLeft: '0.37vh',
+          paddingRight: '0.37vh',
         }),
         // Forgive me lord for what I am about to do...
         // This is a suuuper special case, not worth updating use4k for.
@@ -47,7 +51,7 @@ export const BrightBox = ({
             ) 1 stretch
           `,
         },
-        ...styles,
+        ...style,
       }}
     >
       {children}

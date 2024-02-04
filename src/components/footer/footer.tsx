@@ -57,6 +57,7 @@ const FooterNamelate = () => {
         <Image
           className="w-full h-full"
           fill
+          unoptimized
           aspectRatio={1}
           src="/helmet-avatar.png"
           alt="Player Icon" />

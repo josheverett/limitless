@@ -30,9 +30,9 @@ const nextConfig = {
     return config
   },
 
-  images: {
-    unoptimized: true,
-  },
+  // images: {
+  //   unoptimized: true,
+  // },
 };
 
 export default nextConfig;

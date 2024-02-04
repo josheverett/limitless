@@ -106,6 +106,7 @@ export const InputButton = ({
       <Image
         className="w-full h-full"
         fill
+        unoptimized
         src={`/input-shapes/${iconBg}.svg`}
         alt={input} />
         {!!icon ? (
