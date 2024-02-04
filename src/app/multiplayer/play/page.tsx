@@ -44,7 +44,6 @@ export default function PlayTab() {
             inputPortals={[{ target: 'PlayTabListBox', direction: 'L' }]}
             style={_4k({ marginTop: '1.713vh' })}
           />
-          <div>text</div>
         </MediumColumn>
 
       </div>

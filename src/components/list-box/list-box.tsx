@@ -86,7 +86,7 @@ export const ListBox = ({
     <div
       ref={containerRef}
       className={cx(
-        'flex flex-col relative h-full border-solid border-[hsl(0,0%,50%)]',
+        'flex flex-col relative border-solid border-[hsl(0,0%,50%)]',
         className
       )}
       style={{

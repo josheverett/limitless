@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { GAMEPAD_INPUT_KEYS, GAMEPAD_INPUTS } from '@/types/input';
 
 export const useGamepad = () => {
@@ -68,6 +68,8 @@ const STATE_MAP: { [key in UseInputState]: gcjsStateMethod } = {
 };
 
 // TODO: Need to add component focus concept.
+// update: I bet I can just cache bust...
+
 
 export const useInput = (
   enabled: boolean,
@@ -75,6 +77,8 @@ export const useInput = (
   state: UseInputState,
   callback: (...args: any) => any
 ) => {
+  // const focusContainerRef = useRef<HTMLElement>(null);
+
   const gamepad = useGamepad();
   const method = STATE_MAP[state];
   const eventType = GAMEPAD_INPUTS[input];
@@ -86,6 +90,8 @@ export const useInput = (
       gamepad.off(eventType);
     }
   }, [enabled, input, gamepad, method, eventType, callback]);
+
+  // return focusContainerRef;
 };
 
 // useDirectionalInputs is a convenience hook for up/down/left/right inputs

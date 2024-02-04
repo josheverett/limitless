@@ -60,6 +60,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
     ref.current.style.transform = force4k ? `scale(${scale})` : '';
     ref.current.style.width = force4k ? `${FOURK_WIDTH}px` : '';
     ref.current.style.height = force4k ? `${FOURK_HEIGHT}px` : '';
+    ref.current.style.position = force4k ? `fixed` : '';
   }, [force4k, resizeCounter]);
 
   useEffect(() => {
@@ -94,6 +95,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
         animate={{ opacity: 1 }}
       >
         <div
+          className="h-full"
           style={_4k({
             paddingLeft: '5.208vw', // vw is correct
             paddingRight: '5.208vw', // vw is correct
