@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { AppContext } from '@/app/context';
+import { use4k } from '@/hooks/use-4k';
 import { Tabs } from '@/components/tabs';
 import { Footer } from '@/components/footer/footer';
 
@@ -16,6 +17,7 @@ type MultiplayerLayoutProps = {
 
 export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) {
   const { force4k, setForce4k } = useContext(AppContext);
+  const _4k = use4k();
 
   const ref = useRef<HTMLElement>(null);
   const [resizeCounter, setResizeCounter] = useState(0);
@@ -87,10 +89,16 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <Tabs tabs={tabs} />
-        <div>tab content start</div>
-        {children}
-        <div>tab content end</div>
+        <div
+          style={_4k({
+            paddingLeft: '5.208vw', // vw is correct
+            paddingRight: '5.208vw', // vw is correct
+            paddingTop: '6.019vh',
+          })}
+        >
+            <Tabs tabs={tabs} />
+            {children}
+        </div>
         <Footer />
       </motion.div>
     </main>

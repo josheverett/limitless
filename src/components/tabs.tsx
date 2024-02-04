@@ -13,10 +13,11 @@ type Tab = {
 };
 
 type TabsProps = {
+  className?: string;
   tabs: Tab[];
 };
 
-export const Tabs = ({ tabs }: TabsProps) => {
+export const Tabs = ({ className, tabs }: TabsProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const _4k = use4k();
@@ -36,14 +37,18 @@ export const Tabs = ({ tabs }: TabsProps) => {
   }
 
   return (
-    <div className="flex items-center" style={_4k({
+    <div className={cx('relative flex items-center', className)} style={_4k({
       gap: '1.759vh',
       height: '3.889vh',
+      marginLeft: '-5.463vh', // button width + gap
     })}>
       <InputButton
         input="LB"
         callback={previousTab}
-        style={_4k({ width: '3.704vh', height: '1.944vh' })}
+        style={_4k({
+          width: '3.704vh',
+          height: '1.944vh',
+        })}
       />
       <ul className="flex items-center h-full" style={_4k({ gap: '1.296vh' })}>
         {tabs.map((tab) => {
