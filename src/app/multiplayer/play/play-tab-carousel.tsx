@@ -126,18 +126,22 @@ export const PlayTabCarousel = ({
     callback: (direction) => {
       if (!focusContainerRef.current) return;
 
+      const isAtEnd = selectedIndex >= CAROUSEL_ITEMS.length - 1;
+
       switch (direction) {
         case 'U':
           // teleport('MultiplayerTabs'); // TODO
           return console.log('DERP I WANNA TELEPORT BUT CAAAAAAANNNT');
         case 'D':
           return teleport('PlayTabListBox');
-        // L/R cycle the carousel, but rather than wrapping on the right
-        // edge, we teleport to the operations box thingy.
+        // Left cycles focus, and wraps at the edge.
         case 'L':
+          return previousItem();
+        // Right cycles focus, and portals to operations box at the edge.
         case 'R':
           // TEMP HAX for testing. Needs to be operations box when ready.
-          return teleport('PlayTabPortalTest');
+          if (isAtEnd) return teleport('PlayTabPortalTest');
+          return nextItem();
       }
     },
   });

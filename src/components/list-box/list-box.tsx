@@ -46,10 +46,10 @@ export const ListBox = ({
 
       const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
       const focusedIndex = links.findIndex((l) => l === document.activeElement);
-      const isAtTop = focusedIndex <= 0;
-      const isAtBottom = focusedIndex >= links.length - 1;
+      const isAtStart = focusedIndex <= 0;
+      const isAtEnd = focusedIndex >= links.length - 1;
 
-      let linkIndexToFocus = focusedIndex;
+      let indexToFocus = focusedIndex;
 
       switch (direction) {
         // For any listbox, left and right can ONLY teleport (when available).
@@ -63,25 +63,19 @@ export const ListBox = ({
         // portal is available).
         case 'U': {
           portalTarget = getTargetForDirection(portalTargets, 'U');
-          if (!!portalTarget && isAtTop) return teleport(portalTarget.target);
-          linkIndexToFocus = isAtTop ? focusedIndex : focusedIndex - 1;
+          if (!!portalTarget && isAtStart) return teleport(portalTarget.target);
+          indexToFocus = isAtStart ? focusedIndex : focusedIndex - 1;
           break;
         }
         case 'D': {
           portalTarget = getTargetForDirection(portalTargets, 'D');
-          if (!!portalTarget && isAtBottom) return teleport(portalTarget.target);
-          linkIndexToFocus = isAtBottom ? focusedIndex : focusedIndex + 1;
+          if (!!portalTarget && isAtEnd) return teleport(portalTarget.target);
+          indexToFocus = isAtEnd ? focusedIndex : focusedIndex + 1;
           break;
         }
       }
 
-      links[linkIndexToFocus]?.focus();
-
-      // Up / Down (only a teleport if U/D portal AND top/bottom of list reached)
-
-      // TODO: NEED PORTAL INSTEAD OF WRAPAROUND WHEN MATCING UDLR!!!
-      // like if you have a U portal and scroll up past it you need to teleport
-      // and not cycle, but otherwise you can cycle.
+      links[indexToFocus]?.focus();
     },
   });
 
