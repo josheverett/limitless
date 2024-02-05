@@ -39,7 +39,6 @@ export default function PlayTab() {
           <PlayTabCarousel style={_4k({ marginTop: '4.167vh' })} />
           <ListBox
             items={listItems}
-            defaultFocusPathname="/multiplayer/play"
             portal='PlayTabPortalTest'
             targetPortals={[{ target: 'PlayTabListBox', direction: 'L' }]}
             style={_4k({ marginTop: '1.713vh' })}

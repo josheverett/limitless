@@ -29,19 +29,17 @@ export const ListBox = ({
   targetPortals = [],
   style,
 }: ListBoxProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
   const _4k = use4k();
 
-  // TODO: PORTAL TEST. Use identical list box in another column to test.
-
   const defaultFocusRef = useDefaultFocus(defaultFocusPathname, portal);
-  const { teleport } = useInputPortal({ name: portal, defaultFocusRef });
+  const { focusContainerRef, teleport } = useInputPortal({
+    name: portal, defaultFocusRef
+  });
 
-  // TODO: See about a switch statement here. Separate functions was even worse.
   useDirectionalInputs({
     portal,
     callback: (direction) => {
-      if (!containerRef.current) return;
+      if (!focusContainerRef.current) return;
 
       // Left / Right (always a teleport for ListBox)
 
@@ -60,7 +58,7 @@ export const ListBox = ({
       // OHHHHHH check the real thing, it might be the case that no lists with
       // portals can cycle at all!
 
-      const links = Array.from(containerRef.current.querySelectorAll('a'));
+      const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
       const focusedLinkIndex = links.findIndex((link) => {
         return link === document.activeElement;
       });
@@ -68,21 +66,17 @@ export const ListBox = ({
       const focusedLink = links[focusedLinkIndex];
       if (!focusedLink) return;
 
-      let linkIndexToFocus = -1;
-      if (direction === 'D') {
-        linkIndexToFocus = focusedLinkIndex >= links.length - 1 ?
-          0 : focusedLinkIndex + 1;
-      } else if (direction === 'U') {
-        linkIndexToFocus = focusedLinkIndex <= 0 ?
-          links.length - 1 : focusedLinkIndex - 1;
-      }
+      let linkIndexToFocus = direction === 'D' ? focusedLinkIndex + 1 : focusedLinkIndex - 1;
+      if (linkIndexToFocus <= 0) linkIndexToFocus = 0;
+      if (linkIndexToFocus >= links.length - 1) linkIndexToFocus = links.length - 1;
+
       links[linkIndexToFocus]?.focus();
     },
   });
 
   return (
     <div
-      ref={containerRef}
+      ref={focusContainerRef}
       className={cx(
         'flex flex-col relative border-solid border-[hsl(0,0%,50%)]',
         className

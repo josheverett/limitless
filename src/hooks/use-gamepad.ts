@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { GAMEPAD_INPUT_KEYS, GAMEPAD_INPUTS } from '@/types/input';
 
 // These two types map to each other.
@@ -112,7 +112,7 @@ export const useGamepad = () => {
       let stateHandlers: InputEventStateHandlers | undefined =
           inputHandlers[eventType];
 
-      // Found global handlers.
+      // Found global handlers!
       // Even if there's no handler for this state, we stop here. You're not
       // allowed to have different states for the same button handled globally
       // and via portals at the same time. That feels like the right thing
@@ -256,16 +256,35 @@ type UseInputPortalProps = {
   defaultFocusRef: React.RefObject<HTMLAnchorElement>,
 };
 
+// name = portal name
+// defaultFocusRef = element to focus on when portal receives focus
+//
+// focusContainerRef = stick this ref on a div to make sure the correct
+// active portal gets set whenever an element within a portal gets focus.
+// This is necessary to allow for simultaneous input control schemes. Like
+// you could use keyboard navigation, a mouse, and a controller all at
+// once lmao.
 export const useInputPortal = ({
   name = '',
   defaultFocusRef,
 }: UseInputPortalProps) => {
+  const focusContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!defaultFocusRef.current) return;
     defaultFocusRef.current.dataset.portalTarget = name;
   }, [defaultFocusRef.current]);
 
+  useEffect(() => {
+    const setActivePortal = () => document.body.dataset.activePortal = name;;
+    focusContainerRef.current?.addEventListener('focusin', setActivePortal);
+    return () => {
+      focusContainerRef.current?.removeEventListener('focusin', setActivePortal);
+    };
+  }, [focusContainerRef.current]);
+
   return {
+    focusContainerRef,
     teleport: (portal: InputPortal) => {
       const selector = `[data-portal-target="${portal.target}"]`;
       const el = document.querySelector<HTMLAnchorElement>(selector);
