@@ -29,7 +29,10 @@ export default function PlayTab() {
             items={listItems}
             navigationFocusPathname="/multiplayer/play"
             portal='PlayTabListBox'
-            targetPortals={[{ target: 'PlayTabPortalTest', direction: 'R' }]}
+            portalTargets={[
+              { target: 'PlayTabCarousel', direction: 'U' },
+              { target: 'PlayTabPortalTest', direction: 'R' }, // debug
+            ]}
             style={_4k({ marginTop: '1.713vh' })}
           />
           <div>text</div>
@@ -41,7 +44,7 @@ export default function PlayTab() {
           <ListBox
             items={listItems}
             portal='PlayTabPortalTest'
-            targetPortals={[{ target: 'PlayTabListBox', direction: 'L' }]}
+            portalTargets={[{ target: 'PlayTabListBox', direction: 'L' }]}
             style={_4k({ marginTop: '1.713vh' })}
           />
         </MediumColumn>

@@ -6,7 +6,7 @@ import { use4k } from '@/hooks/use-4k';
 import {
   useDirectionalInputs,
   useInputPortal,
-  InputPortal,
+  PortalTarget,
 } from '@/hooks/use-gamepad';
 import { useNavigationFocus } from '@/hooks/use-navigation-focus';
 import { ListBoxItem, ListBoxItemProps } from './list-box-item';
@@ -17,7 +17,7 @@ type ListBoxProps = {
   items: ListBoxItemProps[];
   navigationFocusPathname?: string;
   portal?: string;
-  targetPortals?: InputPortal[];
+  portalTargets?: PortalTarget[];
   style?: CSSProperties;
 };
 
@@ -26,7 +26,7 @@ export const ListBox = ({
   items,
   navigationFocusPathname,
   portal,
-  targetPortals = [],
+  portalTargets = [],
   style,
 }: ListBoxProps) => {
   const _4k = use4k();
@@ -41,36 +41,39 @@ export const ListBox = ({
     callback: (direction) => {
       if (!focusContainerRef.current) return;
 
-      // Left / Right (always a teleport for ListBox)
+      switch (direction) {
+        // Left and right can ONLY teleport (when available).
+        case 'L':
+        case 'R':
+          const portalTarget = portalTargets.find((portal) => {
+            return portal.direction === direction;
+          });
+          if (!!portalTarget) teleport(portalTarget.target);
+          return;
+        // Up and down teleport only when the edge is reached (and a
+        // portal is available).
+        case 'U':
+        case 'D':
+          const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
+          const focusedLinkIndex = links.findIndex((link) => {
+            return link === document.activeElement;
+          });
 
-      const leftPortal = targetPortals.find((portal) => portal.direction === 'L');
-      if (!!leftPortal && direction === 'L') return teleport(leftPortal);
+          const focusedLink = links[focusedLinkIndex];
+          if (!focusedLink) return;
 
-      const rightPortal = targetPortals.find((portal) => portal.direction === 'R');
-      if (!!rightPortal && direction === 'R') return teleport(rightPortal);
+          let linkIndexToFocus = direction === 'D' ? focusedLinkIndex + 1 : focusedLinkIndex - 1;
+          if (linkIndexToFocus <= 0) linkIndexToFocus = 0;
+          if (linkIndexToFocus >= links.length - 1) linkIndexToFocus = links.length - 1;
+
+          links[linkIndexToFocus]?.focus();
+      }
 
       // Up / Down (only a teleport if U/D portal AND top/bottom of list reached)
 
       // TODO: NEED PORTAL INSTEAD OF WRAPAROUND WHEN MATCING UDLR!!!
       // like if you have a U portal and scroll up past it you need to teleport
       // and not cycle, but otherwise you can cycle.
-
-      // OHHHHHH check the real thing, it might be the case that no lists with
-      // portals can cycle at all!
-
-      const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
-      const focusedLinkIndex = links.findIndex((link) => {
-        return link === document.activeElement;
-      });
-
-      const focusedLink = links[focusedLinkIndex];
-      if (!focusedLink) return;
-
-      let linkIndexToFocus = direction === 'D' ? focusedLinkIndex + 1 : focusedLinkIndex - 1;
-      if (linkIndexToFocus <= 0) linkIndexToFocus = 0;
-      if (linkIndexToFocus >= links.length - 1) linkIndexToFocus = links.length - 1;
-
-      links[linkIndexToFocus]?.focus();
     },
   });
 

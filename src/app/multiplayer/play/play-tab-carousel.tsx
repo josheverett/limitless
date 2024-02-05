@@ -3,6 +3,7 @@
 import { useState, CSSProperties } from 'react';
 import Link from 'next/link';
 import { use4k } from '@/hooks/use-4k';
+import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { BrightBox } from '@/layouts/bright-box';
 import { Image } from '@/components/image';
@@ -33,6 +34,7 @@ const CAROUSEL_ITEMS = [
 ];
 
 type PlayTabCarouselItemProps = {
+  defaultFocusRef?: React.RefObject<HTMLAnchorElement>;
   selected?: boolean;
   src: string;
   href: string;
@@ -40,12 +42,13 @@ type PlayTabCarouselItemProps = {
 };
 
 const PlayTabCarouselItem = ({
+  defaultFocusRef,
   selected,
   src,
   href,
   text,
 }: PlayTabCarouselItemProps) => {
-  const { ref, isFocused } = useLinkFocus();
+  const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
   const _4k = use4k();
 
   return (
@@ -104,6 +107,10 @@ export const PlayTabCarousel = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const _4k = use4k();
 
+  const { defaultFocusRef, focusContainerRef, teleport } = useInputPortal({
+    name: 'PlayTabCarousel'
+  });
+
   const nextItem = () => {
     const newIndex = selectedIndex >= CAROUSEL_ITEMS.length - 1 ? 0 : selectedIndex + 1;
     setSelectedIndex(newIndex);
@@ -114,13 +121,36 @@ export const PlayTabCarousel = ({
     setSelectedIndex(newIndex);
   }
 
+  useDirectionalInputs({
+    portal: 'PlayTabCarousel',
+    callback: (direction) => {
+      if (!focusContainerRef.current) return;
+
+      switch (direction) {
+        case 'U':
+          // teleport('MultiplayerTabs'); // TODO
+          return console.log('DERP I WANNA TELEPORT BUT CAAAAAAANNNT');
+        case 'D':
+          return teleport('PlayTabListBox');
+        // L/R cycle the carousel, but rather than wrapping on the right
+        // edge, we teleport to the operations box thingy.
+        case 'L':
+        case 'R':
+          // TEMP HAX for testing. Needs to be operations box when ready.
+          return teleport('PlayTabPortalTest');
+      }
+    },
+  });
+
   return (
-    <div style={style}>
+    <div ref={focusContainerRef} style={style}>
       <ul>
         {CAROUSEL_ITEMS.map((item, i) => {
           return (
             <PlayTabCarouselItem
               key={item.src}
+              // defaultFocusRef should always be the current active item
+              defaultFocusRef={i === selectedIndex ? defaultFocusRef : undefined}
               selected={i === selectedIndex}
               src={item.src}
               href={item.href}

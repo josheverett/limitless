@@ -14,22 +14,6 @@ const STATE_MAP: { [key in UseInputState]: GcjsStateMethod } = {
   release: 'after',
 };
 
-// What are input portals?
-//
-// Say you have 3 components side by side to each other.
-// You want to make sure that, when navigating with the controller,
-// navigating beyond the "edge" of the current component (left or right
-// in this example) causes the controller focus to "teleport" to a
-// sibling component.
-//
-// Any components anywhere can be linked via input portals.
-// They can even be nested or whatever the fuck.
-
-export type InputPortal = {
-  target: string; // "to" portal
-  direction: InputDirection, // "target is R of name" etc.
-};
-
 // {
 //   'before': () => { ... } // GcjsStateMethod --> callback
 // }
@@ -253,13 +237,32 @@ export const useDirectionalInputs = ({
   _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_RIGHT', direction: 'R', directions, callback });
 };
 
+// What are input portals?
+//
+// Say you have 3 components side by side to each other.
+// You want to make sure that, when navigating with the controller,
+// navigating beyond the "edge" of the current component (left or right
+// in this example) causes the controller focus to "teleport" to a
+// sibling component.
+//
+// Any components anywhere can be linked via input portals.
+// They can even be nested or whatever the fuck.
+
+// This type isn't used here, it's for components to standardize on how
+// to work with portals in input even handlers.
+export type PortalTarget = {
+  target: string; // "to" portal
+  direction: InputDirection, // "target is R of name" etc.
+};
+
 type UseInputPortalProps = {
   name?: string; // "from" portal
-  defaultFocusRef: React.RefObject<HTMLAnchorElement>,
+  defaultFocusRef?: React.RefObject<HTMLAnchorElement>,
 };
 
 // name = portal name
-// defaultFocusRef = element to focus on when portal receives focus
+// defaultFocusRef = element to focus on when portal receives focus.
+// this ref is created for you if not provided.
 //
 // focusContainerRef = stick this ref on the portal's containing div to
 // make sure the correct active portal gets set whenever an element within
@@ -272,10 +275,13 @@ export const useInputPortal = ({
 }: UseInputPortalProps) => {
   const focusContainerRef = useRef<HTMLDivElement>(null);
 
+  const defaultFocusRef_ = useRef<HTMLAnchorElement>(null);
+  const ref = defaultFocusRef || defaultFocusRef_;
+
   useEffect(() => {
-    if (!defaultFocusRef.current) return;
-    defaultFocusRef.current.dataset.portalTarget = name;
-  }, [defaultFocusRef.current]);
+    if (!ref.current) return;
+    ref.current.dataset.portalTarget = name;
+  }, [ref.current]);
 
   useEffect(() => {
     const setActivePortal = () => document.body.dataset.activePortal = name;
@@ -286,12 +292,13 @@ export const useInputPortal = ({
   }, [focusContainerRef.current]);
 
   return {
+    defaultFocusRef: ref,
     focusContainerRef,
-    teleport: (portal: InputPortal) => {
-      const selector = `[data-portal-target="${portal.target}"]`;
+    teleport: (portal: string) => {
+      const selector = `[data-portal-target="${portal}"]`;
       const el = document.querySelector<HTMLAnchorElement>(selector);
       if (!el) return;
-      document.body.dataset.activePortal = portal.target;
+      document.body.dataset.activePortal = portal;
       el.focus();
     },
   };
