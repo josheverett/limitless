@@ -40,7 +40,6 @@ export default function PlayTab() {
 
         {/* MediumColumn below is temp for testing input portals. */}
         <MediumColumn>
-          <PlayTabCarousel style={_4k({ marginTop: '4.167vh' })} />
           <ListBox
             items={listItems}
             portal='PlayTabPortalTest'
@@ -51,6 +50,7 @@ export default function PlayTab() {
 
         {/* MediumColumn below is temp for testing */}
         <MediumColumn>
+          <PlayTabCarousel style={_4k({ marginTop: '4.167vh' })} />
           <BrightBox>
             <p>what in the hell</p>
             <p>what in the hell</p>

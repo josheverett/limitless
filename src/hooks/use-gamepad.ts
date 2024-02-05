@@ -255,6 +255,13 @@ export type PortalTarget = {
   direction: InputDirection, // "target is R of name" etc.
 };
 
+export const getTargetForDirection = (
+  portalTargets: PortalTarget[],
+  direction: InputDirection,
+) => {
+  return portalTargets.find((portal) => portal.direction === direction);
+};
+
 type UseInputPortalProps = {
   name?: string; // "from" portal
   defaultFocusRef?: React.RefObject<HTMLAnchorElement>,

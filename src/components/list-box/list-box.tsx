@@ -4,6 +4,7 @@ import { CSSProperties } from 'react';
 import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';
 import {
+  getTargetForDirection,
   useDirectionalInputs,
   useInputPortal,
   PortalTarget,
@@ -41,33 +42,40 @@ export const ListBox = ({
     callback: (direction) => {
       if (!focusContainerRef.current) return;
 
+      let portalTarget: PortalTarget | undefined;
+
+      const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
+      const focusedIndex = links.findIndex((l) => l === document.activeElement);
+      const isAtTop = focusedIndex <= 0;
+      const isAtBottom = focusedIndex >= links.length - 1;
+
+      let linkIndexToFocus = focusedIndex;
+
       switch (direction) {
-        // Left and right can ONLY teleport (when available).
+        // For any listbox, left and right can ONLY teleport (when available).
         case 'L':
-        case 'R':
-          const portalTarget = portalTargets.find((portal) => {
-            return portal.direction === direction;
-          });
+        case 'R': {
+          portalTarget = getTargetForDirection(portalTargets, direction);
           if (!!portalTarget) teleport(portalTarget.target);
           return;
+        }
         // Up and down teleport only when the edge is reached (and a
         // portal is available).
-        case 'U':
-        case 'D':
-          const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
-          const focusedLinkIndex = links.findIndex((link) => {
-            return link === document.activeElement;
-          });
-
-          const focusedLink = links[focusedLinkIndex];
-          if (!focusedLink) return;
-
-          let linkIndexToFocus = direction === 'D' ? focusedLinkIndex + 1 : focusedLinkIndex - 1;
-          if (linkIndexToFocus <= 0) linkIndexToFocus = 0;
-          if (linkIndexToFocus >= links.length - 1) linkIndexToFocus = links.length - 1;
-
-          links[linkIndexToFocus]?.focus();
+        case 'U': {
+          portalTarget = getTargetForDirection(portalTargets, 'U');
+          if (!!portalTarget && isAtTop) return teleport(portalTarget.target);
+          linkIndexToFocus = isAtTop ? focusedIndex : focusedIndex - 1;
+          break;
+        }
+        case 'D': {
+          portalTarget = getTargetForDirection(portalTargets, 'D');
+          if (!!portalTarget && isAtBottom) return teleport(portalTarget.target);
+          linkIndexToFocus = isAtBottom ? focusedIndex : focusedIndex + 1;
+          break;
+        }
       }
+
+      links[linkIndexToFocus]?.focus();
 
       // Up / Down (only a teleport if U/D portal AND top/bottom of list reached)
 
