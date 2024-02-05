@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, CSSProperties } from 'react';
+import { useState, useEffect, CSSProperties } from 'react';
 import Link from 'next/link';
 import { use4k } from '@/hooks/use-4k';
 import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
@@ -120,6 +120,14 @@ export const PlayTabCarousel = ({
     const newIndex = selectedIndex <= 0 ? CAROUSEL_ITEMS.length - 1 : selectedIndex - 1;
     setSelectedIndex(newIndex);
   }
+
+  // This is how we keep the current carousel item in focus.
+  useEffect(() => {
+    if (!focusContainerRef.current) return;
+    const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
+    const selectedLink = links[selectedIndex];
+    selectedLink?.focus();
+  }, [selectedIndex]);
 
   useDirectionalInputs({
     portal: 'PlayTabCarousel',

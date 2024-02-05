@@ -45,7 +45,7 @@ export const ListBox = ({
       let portalTarget: PortalTarget | undefined;
 
       const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
-      const focusedIndex = links.findIndex((l) => l === document.activeElement);
+      const focusedIndex = links.findIndex((link) => link === document.activeElement);
       const isAtStart = focusedIndex <= 0;
       const isAtEnd = focusedIndex >= links.length - 1;
 
