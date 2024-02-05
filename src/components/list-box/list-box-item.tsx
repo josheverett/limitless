@@ -3,9 +3,9 @@
 import { useContext } from 'react';
 import Link from 'next/link';
 import cx from 'classnames';
-import { css } from '@emotion/css'
 import { AppContext } from '@/app/context';
 import { use4k, vhCssTo4k } from '@/hooks/use-4k';
+import { useLinkFocus } from '@/hooks/use-link-focus';
 import { TextOffset } from '@/components/text';
 import { Teko_2_3_Wide } from '@/app/styles/fonts';
 
@@ -21,6 +21,7 @@ export const ListBoxItem = ({
   text,
 }: ListBoxItemProps) => {
   const { force4k } = useContext(AppContext);
+  const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
   const _4k = use4k();
 
   const translateX = vhCssTo4k('-0.463vh');
@@ -36,37 +37,10 @@ export const ListBoxItem = ({
     <li>
       {/* Bottom "tray" border. */}
       <Link
-        ref={defaultFocusRef}
+        ref={ref}
         href={href}
-        onMouseEnter={(e) => e.currentTarget.focus()}
         className={cx(
           'relative flex items-center w-full border-solid',
-          // Ah geez here I go again with the cutout borders...
-          css`
-          &:focus {
-            .list-box-item-cutout-border {
-              color: black;
-              transform: translate(${translateX}, ${translateY});
-              border-image: linear-gradient(
-                to bottom,
-                #f4f4f4 0%,
-                #f4f4f4 ${focusTransparentStart},
-                transparent ${focusTransparentStart},
-                transparent ${focusTransparentEnd},
-                hsla(0,0%,100%,0.5) ${focusTransparentEnd},
-                hsla(0,0%,100%,0.5) calc(100% - ${focusTransparentEnd}),
-                transparent calc(100% - ${focusTransparentEnd}),
-                transparent calc(100% - ${focusTransparentStart}),
-                #f4f4f4 calc(100% - ${focusTransparentStart}),
-                #f4f4f4 100%
-              ) 1 stretch;
-            }
-
-            .list-box-item-focus-bg {
-              background: #f4f4f4;
-            }
-          }
-        `
         )}
         style={{
           ..._4k({ borderWidth: '0.093vh' }),
@@ -99,11 +73,33 @@ export const ListBoxItem = ({
               ...Teko_2_3_Wide,
               fontWeight: 400, // TODO: Consider weighted "Wide" fonts.
             }),
+            ...(isFocused ? {
+              color: 'black',
+              transform: `translate(${translateX}, ${translateY})`,
+              borderImage: `
+                linear-gradient(
+                  to bottom,
+                  #f4f4f4 0%,
+                  #f4f4f4 ${focusTransparentStart},
+                  transparent ${focusTransparentStart},
+                  transparent ${focusTransparentEnd},
+                  hsla(0,0%,100%,0.5) ${focusTransparentEnd},
+                  hsla(0,0%,100%,0.5) calc(100% - ${focusTransparentEnd}),
+                  transparent calc(100% - ${focusTransparentEnd}),
+                  transparent calc(100% - ${focusTransparentStart}),
+                  #f4f4f4 calc(100% - ${focusTransparentStart}),
+                  #f4f4f4 100%
+                ) 1 stretch
+            `,
+            }: {})
           }}
         >
           {/* Text padding. */}
           <div
-            className="list-box-item-focus-bg flex w-full h-full items-center"
+            className={cx(
+              'flex w-full h-full items-center',
+              { 'bg-halo-white': isFocused }
+            )}
             style={{..._4k({
               // paddingLeft: '2.037vh'
               paddingLeft: '1.806vh' // Has paddingLeft from parent subtracted.
