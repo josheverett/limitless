@@ -27,8 +27,8 @@ export default function PlayTab() {
           <ListBox
             items={listItems}
             defaultFocusPathname="/multiplayer/play"
-            inputPortalName='PlayTabListBox'
-            inputPortals={[{ target: 'PlayTabPortalTest', direction: 'R' }]}
+            portal='PlayTabListBox'
+            targetPortals={[{ target: 'PlayTabPortalTest', direction: 'R' }]}
             style={_4k({ marginTop: '1.713vh' })}
           />
           <div>text</div>
@@ -40,8 +40,8 @@ export default function PlayTab() {
           <ListBox
             items={listItems}
             defaultFocusPathname="/multiplayer/play"
-            inputPortalName='PlayTabPortalTest'
-            inputPortals={[{ target: 'PlayTabListBox', direction: 'L' }]}
+            portal='PlayTabPortalTest'
+            targetPortals={[{ target: 'PlayTabListBox', direction: 'L' }]}
             style={_4k({ marginTop: '1.713vh' })}
           />
         </MediumColumn>

@@ -6,7 +6,6 @@ import { use4k } from '@/hooks/use-4k';
 import {
   useDirectionalInputs,
   useInputPortal,
-  InputDirection,
   InputPortal,
 } from '@/hooks/use-gamepad';
 import { useDefaultFocus } from '@/hooks/use-default-focus';
@@ -17,8 +16,8 @@ type ListBoxProps = {
   className?: string;
   items: ListBoxItemProps[];
   defaultFocusPathname?: string;
-  inputPortalName?: string;
-  inputPortals?: InputPortal[];
+  portal?: string;
+  targetPortals?: InputPortal[];
   style?: CSSProperties;
 };
 
@@ -26,8 +25,8 @@ export const ListBox = ({
   className,
   items,
   defaultFocusPathname,
-  inputPortalName,
-  inputPortals = [],
+  portal,
+  targetPortals = [],
   style,
 }: ListBoxProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -35,35 +34,31 @@ export const ListBox = ({
 
   // TODO: PORTAL TEST. Use identical list box in another column to test.
 
-  const defaultFocusRef = useDefaultFocus(defaultFocusPathname, inputPortalName);
+  const defaultFocusRef = useDefaultFocus(defaultFocusPathname, portal);
+  const { teleport } = useInputPortal({ name: portal, defaultFocusRef });
 
-  const { teleport } = useInputPortal({
-    // TODO: This enabled thing shouldn't be needed once the delegation
-    // stuff is finished.
-    enabled: !!inputPortalName,
-    name: inputPortalName,
-    defaultFocusRef,
-  });
-
-  // TODO: Consider updating useDirectionalInputs to have convenience
-  // shit for portals. yeeee
   // TODO: See about a switch statement here. Separate functions was even worse.
   useDirectionalInputs({
-    enabled: true, // TODO: DO NOT KEEP TRUE, NEEDS COMPONENT FOCUS THING OMG
+    portal,
     callback: (direction) => {
       if (!containerRef.current) return;
 
       // Left / Right (always a teleport for ListBox)
 
-      const leftPortal = inputPortals.find((portal) => portal.direction === 'L');
+      const leftPortal = targetPortals.find((portal) => portal.direction === 'L');
       if (!!leftPortal && direction === 'L') return teleport(leftPortal);
 
-      const rightPortal = inputPortals.find((portal) => portal.direction === 'R');
+      const rightPortal = targetPortals.find((portal) => portal.direction === 'R');
       if (!!rightPortal && direction === 'R') return teleport(rightPortal);
 
       // Up / Down (only a teleport if U/D portal AND top/bottom of list reached)
 
       // TODO: NEED PORTAL INSTEAD OF WRAPAROUND WHEN MATCING UDLR!!!
+      // like if you have a U portal and scroll up past it you need to teleport
+      // and not cycle, but otherwise you can cycle.
+
+      // OHHHHHH check the real thing, it might be the case that no lists with
+      // portals can cycle at all!
 
       const links = Array.from(containerRef.current.querySelectorAll('a'));
       const focusedLinkIndex = links.findIndex((link) => {

@@ -23,21 +23,20 @@ const STATE_MAP: { [key in UseInputState]: GcjsStateMethod } = {
 // sibling component.
 // Any components anywhere can be linked via input portals.
 
-// I'm still unclear on how (after I do this portal delegation thing) to
-// handle inputs like those in the footer
-// that don't require portals, unless I just allow them to delegate
-// directly to `gamepad` (like how useInput does currently)?
-
 export type InputPortal = {
   target: string; // "to" portal
   direction: InputDirection, // "target is R of name" etc.
 };
 
-// 'before': () => { ... } // GcjsStateMethod --> callback
+// {
+//   'before': () => { ... } // GcjsStateMethod --> callback
+// }
 type InputEventStateHandlers = { [key in GcjsStateMethod]?: (...args: any) => any };
 
-// 'left0': { // GcjsGamepadEvent
-//   'before': () => { ... } // GcjsStateMethod --> callback
+// {
+//   'left0': { // GcjsGamepadEvent
+//     'before': () => { ... } // GcjsStateMethod --> callback
+//   }
 // }
 type InputEventHandlers = { [key in GcjsGamepadEvent]?: InputEventStateHandlers };
 
@@ -56,6 +55,12 @@ const PORTAL_HANDLER_REGISTRY: PortalHandlerRegistry = {};
 
 // GLOBAL_HANDLER_REGISTRY is where event handlers live for inputs
 // without portal associations.
+//
+// Global handlers take precedence!
+//
+// This is by design to allow things like modals to temporarily override
+// inputs on the screen behind them, shit like that. Those cases "just work"
+// with this scheme.
 const GLOBAL_HANDLER_REGISTRY: InputEventHandlers = {};
 
 export const useGamepad = () => {
@@ -104,27 +109,28 @@ export const useGamepad = () => {
       // Prefer global handlers.
       let inputHandlers: InputEventHandlers | undefined =
           GLOBAL_HANDLER_REGISTRY;
+      let stateHandlers: InputEventStateHandlers | undefined =
+          inputHandlers[eventType];
 
-      // If no global handlers, check currently active portal.
-      if (!!activePortal && !inputHandlers) {
-        inputHandlers = PORTAL_HANDLER_REGISTRY[activePortal];
-      }
-
-      const stateHandlers = inputHandlers[eventType];
-      if (!stateHandlers?.[stateMethod]) {
-        console.log(
-          `DERP delegateGamepadEvent NO "${stateMethod}" HANDLER FOR`,
-          eventType
-        );
+      // Found global handlers.
+      // Even if there's no handler for this state, we stop here. You're not
+      // allowed to have different states for the same button handled globally
+      // and via portals at the same time. That feels like the right thing
+      // to do so I'm enforcing it here.
+      if (stateHandlers) {
+        stateHandlers[stateMethod]?.();
         return;
       }
 
-      console.log(
-        `DERP delegateGamepadEvent FOUND !!! "${stateMethod}" HANDLER FOR`,
-        eventType
-      );
+      // If no global handlers, check currently active portal.
+      if (!!activePortal) {
+        inputHandlers = PORTAL_HANDLER_REGISTRY[activePortal];
+        stateHandlers = inputHandlers[eventType];
+        stateHandlers?.[stateMethod]?.();
+        return;
+      }
 
-      stateHandlers?.[stateMethod]?.();
+      // The end. Nothing handling this input event, carry on solider.
     };
   };
 
@@ -160,39 +166,7 @@ export const useGamepad = () => {
   };
 };
 
-// TODO: Need to add component focus concept.
-// update: I bet I can just cache bust...
-
-// Left off here. Dunno what focusContainerRef was about.
-// I mean it was about anti-input clobbering but yeah.
-// I think there's a way to keep this dumb, without needing a
-// singleton brain that delegates. Whenever a child of a focus
-// container receives focus(in), the idea is to then select the
-// default focus target for that container.
-// A focus container will often (usually? always?) be 1:1 with a portal.
-// Yeah I think these might be 1:1, in which case useInputPortal needs
-// to play a role.
-
-// The above doesn't handle rewiring controls..
-// I think I can just cache bust the useInput hooks, no?
-// OH WAIT THIS IS WHY I ADDED THE ENABLED PRPERTY!
-// That should cache bust because only one will have it.
-// But maybe race conditions? Like anyone calling off() would
-// clobber too. Hmm.
-
-// take 3: okay what if I use a registry of input portals. :o
-// on/off never happens, only delegates to registry.
-// hmmm.
-
-// How about...
-// 1. useInputPortal returns some reference.
-// 2. You (optonally) pass that to useInput.
-// 3. In useInput, the input gets added to the registery for that portal.
-// 4. In useGampad, on/off always checks the registry for the current portal.
-// 5. Registry entries can clobber each other, no worries there.
-
 type UseInputProps = {
-  // enabled: boolean;
   input: GAMEPAD_INPUT_KEYS;
   state: UseInputState;
   portal?: string; // name of input portal this input belongs to
@@ -200,7 +174,6 @@ type UseInputProps = {
 };
 
 export const useInput = ({
-  // enabled,
   input,
   state,
   portal,
@@ -226,35 +199,13 @@ export const useInput = ({
   stateHandlers[method] = callback;
 };
 
-// export const useInput = ({
-//   enabled,
-//   input,
-//   state,
-//   portal,
-//   callback,
-// }: UseInputProps) => {
-//   const gamepad = useGamepad();
-//   const method = STATE_MAP[state];
-//   const eventType = GAMEPAD_INPUTS[input];
-
-//   // If there's a portal, we want to stick the handler in the event
-
-//   useEffect(() => {
-//     if (!enabled) return;
-//     gamepad[method](eventType, callback);
-//     return () => {
-//       gamepad.off(eventType);
-//     };
-//   }, [enabled, input, gamepad, method, eventType, callback]);
-// };
-
 // useDirectionalInputs is a convenience hook for up/down/left/right inputs
 // for both the left analog stick and the dpad.
 
 export type InputDirection = 'U' | 'D' | 'L' | 'R';
 
 type UseDirectionalInputsHelperProps = {
-  enabled: boolean;
+  portal?: string;
   input: GAMEPAD_INPUT_KEYS;
   direction: InputDirection;
   directions: InputDirection[];
@@ -262,14 +213,14 @@ type UseDirectionalInputsHelperProps = {
 };
 
 const _useDirectionalInputsHelper = ({
-  enabled,
+  portal,
   input,
   direction,
   directions,
   callback,
 }: UseDirectionalInputsHelperProps) => {
   return useInput({
-    // enabled,
+    portal,
     input,
     state: 'press',
     callback: () => {
@@ -279,52 +230,33 @@ const _useDirectionalInputsHelper = ({
 };
 
 type UseDirectionalInputsProps = {
-  enabled: boolean;
+  portal?: string;
   directions?: InputDirection[];
   callback: (direction: InputDirection) => any;
 };
 
 export const useDirectionalInputs = ({
-  enabled,
+  portal,
   directions = ['U', 'D', 'L', 'R'],
   callback,
 }: UseDirectionalInputsProps) => {
   // TODO: Consider wiring up keyboard arrow keys as well.
-  _useDirectionalInputsHelper({
-    enabled, input: 'DPAD_UP', direction: 'U', directions, callback
-  });
-  _useDirectionalInputsHelper({
-    enabled, input: 'DPAD_DOWN', direction: 'D', directions, callback
-  });
-  _useDirectionalInputsHelper({
-    enabled, input: 'DPAD_LEFT', direction: 'L', directions, callback
-  });
-  _useDirectionalInputsHelper({
-    enabled, input: 'DPAD_RIGHT', direction: 'R', directions, callback
-  });
-  _useDirectionalInputsHelper({
-    enabled, input: 'LEFT_STICK_UP', direction: 'U', directions, callback
-  });
-  _useDirectionalInputsHelper({
-    enabled, input: 'LEFT_STICK_DOWN', direction: 'D', directions, callback
-  });
-  _useDirectionalInputsHelper({
-    enabled, input: 'LEFT_STICK_LEFT', direction: 'L', directions, callback
-  });
-  _useDirectionalInputsHelper({
-    enabled, input: 'LEFT_STICK_RIGHT', direction: 'R', directions, callback
-  });
+  _useDirectionalInputsHelper({ portal, input: 'DPAD_UP', direction: 'U', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'DPAD_DOWN', direction: 'D', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'DPAD_LEFT', direction: 'L', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'DPAD_RIGHT', direction: 'R', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_UP', direction: 'U', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_DOWN', direction: 'D', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_LEFT', direction: 'L', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_RIGHT', direction: 'R', directions, callback });
 };
 
 type UseInputPortalProps = {
-  enabled: boolean;
   name?: string; // "from" portal
   defaultFocusRef: React.RefObject<HTMLAnchorElement>,
 };
 
-// TODO: Is "enabled" needed
 export const useInputPortal = ({
-  enabled,
   name = '',
   defaultFocusRef,
 }: UseInputPortalProps) => {
@@ -335,7 +267,6 @@ export const useInputPortal = ({
 
   return {
     teleport: (portal: InputPortal) => {
-      if (!enabled) return;
       const selector = `[data-portal-target="${portal.target}"]`;
       const el = document.querySelector<HTMLAnchorElement>(selector);
       if (!el) return;

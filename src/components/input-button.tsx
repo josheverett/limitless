@@ -69,6 +69,7 @@ type InputButtonProps = {
   className?: string;
   input: GAMEPAD_INPUT_KEYS;
   state?: UseInputState;
+  portal?: string;
   callback: () => void;
   style?: CSSProperties;
 };
@@ -80,20 +81,21 @@ export const InputButton = ({
   className,
   input,
   state = 'press',
+  portal,
   callback,
   style,
 }: InputButtonProps) => {
   const _4k = use4k();
 
-  // TODO: DO NOT KEEP TRUE, NEEDS COMPONENT FOCUS THING
-  useInput({ input, state, callback });
+  useInput({ input, state, portal, callback });
 
   const icon = ICON_MAP[input];
   const iconBg = SHAPE_MAP[input];
 
   return (
     <div
-      className={cx(`
+      className={cx(
+        `
           relative
           flex items-center justify-center
           text-center drop-shadow-sm
