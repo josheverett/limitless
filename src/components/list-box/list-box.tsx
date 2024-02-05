@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, CSSProperties } from 'react';
+import { CSSProperties } from 'react';
 import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';
 import {

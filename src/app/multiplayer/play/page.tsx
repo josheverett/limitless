@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { MediumColumn } from '@/layouts/medium-column';
+import { BrightBox } from '@/layouts/bright-box';
 import { ListBox } from '@/components/list-box/list-box';
 import { PlayTabCarousel } from './play-tab-carousel';
 
@@ -43,6 +44,19 @@ export default function PlayTab() {
             targetPortals={[{ target: 'PlayTabListBox', direction: 'L' }]}
             style={_4k({ marginTop: '1.713vh' })}
           />
+        </MediumColumn>
+
+        {/* MediumColumn below is temp for testing */}
+        <MediumColumn>
+          <BrightBox>
+            <p>what in the hell</p>
+            <p>what in the hell</p>
+            <p>what in the hell</p>
+            <p>what in the hell</p>
+            <p>what in the hell</p>
+            <p>what in the hell</p>
+            <p>what in the hell</p>
+          </BrightBox>
         </MediumColumn>
 
       </div>

@@ -73,14 +73,14 @@ const NEGATIVE_MARGIN = `-${THIN_BORDER}`;
 type FancyBorderProps = {
   notched?: boolean;
   outer?: boolean;
-  focused?: boolean;
+  isFocused?: boolean;
   children: React.ReactNode;
 };
 
 const FancyBorder = ({
   notched = false,
   outer = false,
-  focused = false,
+  isFocused = false,
   children,
 }: FancyBorderProps) => {
   const { force4k } = useContext(AppContext);
@@ -99,9 +99,9 @@ const FancyBorder = ({
     ? hiddenBorder() :
     defaultBorder(transparentStart, transparentEnd);
 
-  if (focused) borderImage = focusBorderFull();
+  if (isFocused) borderImage = focusBorderFull();
 
-  if (focused && notched) {
+  if (isFocused && notched) {
     borderImage = outer
       ? focusBorderNotchedOuter(transparentStart, transparentEnd)
       : focusBorderNotchedInner(transparentStart, transparentEnd);
@@ -123,23 +123,25 @@ const FancyBorder = ({
 
 type BrightBoxProps = {
   className?: string;
-  notched?: boolean; // Refers to focused state. Default state always notched.
-  focused?: boolean;
+  notched?: boolean; // Refers to isFocused state. Default state always notched.
+  isFocused?: boolean;
   children: React.ReactNode;
 };
 
 export const BrightBox = ({
   className,
   notched = false,
-  focused = false,
+  isFocused = false,
   children,
 }: BrightBoxProps) => {
   const _4k = use4k();
 
   return (
+    // TODO: Might end up needing to remove this negative margin.
+    // No big deal, looks fine without it -- just not under a microscope.
     <div className={className} style={_4k({ margin: NEGATIVE_MARGIN })}>
-      <FancyBorder notched={notched} focused={focused} outer>
-        <FancyBorder notched={notched} focused={focused}>
+      <FancyBorder notched={notched} isFocused={isFocused} outer>
+        <FancyBorder notched={notched} isFocused={isFocused}>
           <div style={_4k({ padding: PADDING })}>
             {children}
           </div>

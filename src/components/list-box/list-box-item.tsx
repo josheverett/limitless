@@ -85,8 +85,8 @@ export const ListBoxItem = ({
           className={`
             list-box-item-cutout-border
             flex items-center w-full h-ful
-             border-solid border-transparent
-             transition-transform duration-[200ms]
+            border-solid border-transparent
+            transition-transform duration-[200ms]
           `}
           style={{
             ..._4k({
