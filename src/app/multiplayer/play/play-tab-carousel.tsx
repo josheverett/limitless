@@ -10,7 +10,7 @@ import { BrightBox } from '@/layouts/bright-box';
 import { Image } from '@/components/image';
 import { MaterialIcon } from '@/components/icon';
 import { TextOffset } from '@/components/text';
-import { Teko_2_3_Normal } from '@/app/styles/fonts';
+import { Teko_2_3_Wide_Light } from '@/app/styles/fonts';
 
 const CAROUSEL_ITEMS = [
   {
@@ -90,10 +90,12 @@ const PlayTabCarouselItem = ({
                 height: '4.537vh',
                 paddingLeft: '1.435vh',
                 paddingRight: '1.435vh',
-                ...Teko_2_3_Normal,
+                ...Teko_2_3_Wide_Light,
+                // Hopefully this isn't a trend...
+                letterSpacing: '0.4vh',
               })}
             >
-              <TextOffset top="0.25vh">{text}</TextOffset>
+              <TextOffset smush top="0.25vh">{text}</TextOffset>
             </div>
           </div>
         </BrightBox>
