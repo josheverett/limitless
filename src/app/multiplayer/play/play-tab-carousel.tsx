@@ -77,7 +77,7 @@ export const PlayTabCarousel = ({
 
   return (
     <div style={style}>
-      <BrightBox>
+      <BrightBox notched>
         <ul className="relative" style={_4k({ height: '26.852vh' })}>
           {items.map((item, i) => {
             return (
