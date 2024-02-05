@@ -31,7 +31,7 @@ const CAROUSEL_ITEMS = [
   {
     src: '/multiplayer/play/lone-wolves.jpg',
     href: '/multiplayer/shop',
-    text: 'HELL YEAH BROTHER - CHEERS FROM IRAQ',
+    text: 'HELL YEAH BROTHER, CHEERS FROM IRAQ!',
   },
 ];
 
@@ -95,7 +95,7 @@ const PlayTabCarouselItem = ({
                 letterSpacing: '0.4vh',
               })}
             >
-              <TextOffset smush top="0.25vh">{text}</TextOffset>
+              <TextOffset ellipsize smush top="0.25vh">{text}</TextOffset>
             </div>
           </div>
         </BrightBox>

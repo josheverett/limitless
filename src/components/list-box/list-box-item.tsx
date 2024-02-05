@@ -101,10 +101,11 @@ export const ListBoxItem = ({
             )}
             style={{..._4k({
               // paddingLeft: '2.037vh'
-              paddingLeft: '1.806vh' // Has paddingLeft from parent subtracted.
+              paddingLeft: '1.806vh', // Has paddingLeft from parent subtracted.
+              paddingRight: '1.806vh'
             })}}
           >
-            <TextOffset smush top="0.2vh">{text}</TextOffset>
+            <TextOffset ellipsize smush top="0.2vh">{text}</TextOffset>
           </div>
         </div>
       </Link>

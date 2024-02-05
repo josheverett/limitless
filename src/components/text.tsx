@@ -6,18 +6,29 @@ import { use4k } from '@/hooks/use-4k';
 
 type TextOffsetProps = {
   top: string; // vh units
+  ellipsize?: boolean;
   smush?: boolean; // experimental Teko smoooshing
   children: React.ReactNode;
 };
 
-export const TextOffset = ({ top, smush, children }: TextOffsetProps) => {
+export const TextOffset = ({
+  top,
+  ellipsize,
+  smush,
+  children
+}: TextOffsetProps) => {
   const _4k = use4k();
 
   return (
     <span
       className={cx(
         'relative',
-        { 'scale-y-[0.8]': smush, 'text-[1.2em]': smush }
+        {
+          'w-full': ellipsize,
+          'truncate': ellipsize,
+          'scale-y-[0.8]': smush,
+          'text-[1.2em]': smush,
+        }
       )}
       style={_4k({ top })}
     >
