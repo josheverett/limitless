@@ -7,7 +7,7 @@ import { AppContext } from '@/app/context';
 import { use4k, vhCssTo4k } from '@/hooks/use-4k';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { TextOffset } from '@/components/text';
-import { Teko_2_3_Wide } from '@/app/styles/fonts';
+import { Teko_2_3_Wide_Normal } from '@/app/styles/fonts';
 
 export type ListBoxItemProps = {
   defaultFocusRef?: React.RefObject<HTMLAnchorElement>;
@@ -70,8 +70,7 @@ export const ListBoxItem = ({
               paddingBottom: '0.231vh',
               paddingLeft: '0.231vh',
               paddingRight: '0.231vh',
-              ...Teko_2_3_Wide,
-              fontWeight: 400, // TODO: Consider weighted "Wide" fonts.
+              ...Teko_2_3_Wide_Normal,
             }),
             ...(isFocused ? {
               color: 'black',

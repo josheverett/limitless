@@ -6,7 +6,7 @@ import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';
 import { TextOffset } from '@/components/text';
 import { InputButton } from '@/components/input-button';
-import { Teko_2_3_Wide } from '@/app/styles/fonts';
+import { Teko_2_3_Wide_Light } from '@/app/styles/fonts';
 
 type Tab = {
   title: string;
@@ -71,10 +71,10 @@ export const Tabs = ({ className, tabs }: TabsProps) => {
                   paddingLeft: '1.944vh',
                   paddingRight: '1.944vh',
                   outlineWidth: isSelected ? '0.37vh' : '0.185vh',
-                  ...Teko_2_3_Wide,
+                  ...Teko_2_3_Wide_Light,
                 })}
               >
-                <TextOffset top="0.1vh">{tab.title.toUpperCase()}</TextOffset>
+                <TextOffset smush top="0.15vh">{tab.title.toUpperCase()}</TextOffset>
               </Link>
             </li>
           );

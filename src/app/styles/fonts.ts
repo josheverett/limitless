@@ -39,6 +39,21 @@ export const Teko_2_3_Medium = {
 };
 
 export const Teko_2_3_Wide = {
-  ...Teko_2_3_Medium,
+  ...Teko_2_3,
   letterSpacing: '0.5vh',
+};
+
+export const Teko_2_3_Wide_Light = {
+  ...Teko_2_3_Wide,
+  fontWeight: '300',
+};
+
+export const Teko_2_3_Wide_Normal = {
+  ...Teko_2_3_Wide,
+  fontWeight: '400',
+};
+
+export const Teko_2_3_Wide_Medium = {
+  ...Teko_2_3_Wide,
+  fontWeight: '500',
 };
