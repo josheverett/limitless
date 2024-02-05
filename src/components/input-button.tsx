@@ -86,7 +86,7 @@ export const InputButton = ({
   const _4k = use4k();
 
   // TODO: DO NOT KEEP TRUE, NEEDS COMPONENT FOCUS THING
-  useInput({ enabled: true, input, state, callback });
+  useInput({ input, state, callback });
 
   const icon = ICON_MAP[input];
   const iconBg = SHAPE_MAP[input];

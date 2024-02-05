@@ -35,10 +35,11 @@ export const ListBox = ({
 
   // TODO: PORTAL TEST. Use identical list box in another column to test.
 
-  const defaultFocusRef =
-    useDefaultFocus(!!defaultFocusPathname, defaultFocusPathname);
+  const defaultFocusRef = useDefaultFocus(defaultFocusPathname, inputPortalName);
 
   const { teleport } = useInputPortal({
+    // TODO: This enabled thing shouldn't be needed once the delegation
+    // stuff is finished.
     enabled: !!inputPortalName,
     name: inputPortalName,
     defaultFocusRef,

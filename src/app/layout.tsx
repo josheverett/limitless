@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import cx from 'classnames';
 import { AppContextProvider } from '@/app/context';
+import { Gamepad } from '@/components/gamepad';
 import { TekoFont } from '@/app/styles/fonts';
 import '@/app/styles/globals.css';
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         )
       }>
         <AppContextProvider>{children}</AppContextProvider>
+        <Gamepad />
       </body>
     </html>
   );

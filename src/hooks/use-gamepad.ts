@@ -1,22 +1,68 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { GAMEPAD_INPUT_KEYS, GAMEPAD_INPUTS } from '@/types/input';
+
+// These two types map to each other.
+// I just prefer the terms press/hold/release. :)
+type GcjsStateMethod = 'before' | 'on' | 'after';
+export type UseInputState = 'press' | 'hold' | 'release';
+
+const STATE_MAP: { [key in UseInputState]: GcjsStateMethod } = {
+  press: 'before',
+  hold: 'on',
+  release: 'after',
+};
+
+// What are input portals?
+//
+// Say you have 3 components side by side to each other.
+// You want to make sure that, when navigating with the controller,
+// navigating beyond the "edge" of the current component (left or right
+// in this example) causes the controller focus to "teleport" to a
+// sibling component.
+// Any components anywhere can be linked via input portals.
+
+// I'm still unclear on how (after I do this portal delegation thing) to
+// handle inputs like those in the footer
+// that don't require portals, unless I just allow them to delegate
+// directly to `gamepad` (like how useInput does currently)?
+
+export type InputPortal = {
+  target: string; // "to" portal
+  direction: InputDirection, // "target is R of name" etc.
+};
+
+// 'before': () => { ... } // GcjsStateMethod --> callback
+type InputEventStateHandlers = { [key in GcjsStateMethod]?: (...args: any) => any };
+
+// 'left0': { // GcjsGamepadEvent
+//   'before': () => { ... } // GcjsStateMethod --> callback
+// }
+type InputEventHandlers = { [key in GcjsGamepadEvent]?: InputEventStateHandlers };
+
+// {
+//   'MyPortal': { // portal name
+//     'left0': { // GcjsGamepadEvent
+//       'before': () => { ... } // GcjsStateMethod --> callback
+//     }
+//   }
+// }
+type PortalHandlerRegistry = { [key: string]: InputEventHandlers };
+
+// PORTAL_HANDLER_REGISTRY is where all the event handlers for
+// portal-based inputs live.
+const PORTAL_HANDLER_REGISTRY: PortalHandlerRegistry = {};
+
+// GLOBAL_HANDLER_REGISTRY is where event handlers live for inputs
+// without portal associations.
+const GLOBAL_HANDLER_REGISTRY: InputEventHandlers = {};
 
 export const useGamepad = () => {
   const getGameControl = async () => {
     if (!window.gameControl) await import('gamecontroller.js');
     return window.gameControl;
   };
-
-  useEffect(() => {
-    if (window.__ON_GAMEPAD_READY) return;
-    window.__ON_GAMEPAD_READY = new Promise(async (resolve) => {
-      const gameControl = await getGameControl();
-      gameControl.on('connect', resolve);
-      gameControl.on('disconnect', () => window.__ON_GAMEPAD_READY = undefined);
-    });
-  }, []);
 
   const on = async (eventName: GcjsGamepadEvent, callback: () => void) => {
     await window.__ON_GAMEPAD_READY;
@@ -48,6 +94,62 @@ export const useGamepad = () => {
     window.gameControl.getGamepad(0).set(property, value);
   };
 
+  const delegateGamepadEvent = (
+    stateMethod: GcjsStateMethod,
+    eventType: GcjsGamepadEvent
+  ) => {
+    return () => {
+      const { activePortal } = document.body.dataset;
+
+      // Prefer global handlers.
+      let inputHandlers: InputEventHandlers | undefined =
+          GLOBAL_HANDLER_REGISTRY;
+
+      // If no global handlers, check currently active portal.
+      if (!!activePortal && !inputHandlers) {
+        inputHandlers = PORTAL_HANDLER_REGISTRY[activePortal];
+      }
+
+      const stateHandlers = inputHandlers[eventType];
+      if (!stateHandlers?.[stateMethod]) {
+        console.log(
+          `DERP delegateGamepadEvent NO "${stateMethod}" HANDLER FOR`,
+          eventType
+        );
+        return;
+      }
+
+      console.log(
+        `DERP delegateGamepadEvent FOUND !!! "${stateMethod}" HANDLER FOR`,
+        eventType
+      );
+
+      stateHandlers?.[stateMethod]?.();
+    };
+  };
+
+  const init = async () => {
+    for (const eventType of Object.values(GAMEPAD_INPUTS)) {
+      before(eventType, delegateGamepadEvent('before', eventType));
+      on(eventType, delegateGamepadEvent('on', eventType));
+      after(eventType, delegateGamepadEvent('after', eventType));
+    }
+  };
+
+  useEffect(() => {
+    if (window.__ON_GAMEPAD_READY) return;
+
+    window.__ON_GAMEPAD_READY = new Promise(async (resolve) => {
+      const gameControl = await getGameControl();
+      gameControl.on('connect', resolve);
+      gameControl.on('disconnect', () => window.__ON_GAMEPAD_READY = undefined);
+    });
+
+    init();
+  }, []);
+
+  // Most of this API doesn't make sense post-portals but might
+  // as well keep it around whatevs.
   return {
     on,
     before,
@@ -56,15 +158,6 @@ export const useGamepad = () => {
     vibrate,
     set,
   };
-};
-
-type gcjsStateMethod = 'before' | 'on' | 'after';
-export type UseInputState = 'press' | 'hold' | 'release';
-
-const STATE_MAP: { [key in UseInputState]: gcjsStateMethod } = {
-  press: 'before',
-  hold: 'on',
-  release: 'after',
 };
 
 // TODO: Need to add component focus concept.
@@ -91,35 +184,69 @@ const STATE_MAP: { [key in UseInputState]: gcjsStateMethod } = {
 // on/off never happens, only delegates to registry.
 // hmmm.
 
+// How about...
+// 1. useInputPortal returns some reference.
+// 2. You (optonally) pass that to useInput.
+// 3. In useInput, the input gets added to the registery for that portal.
+// 4. In useGampad, on/off always checks the registry for the current portal.
+// 5. Registry entries can clobber each other, no worries there.
+
 type UseInputProps = {
-  enabled: boolean;
+  // enabled: boolean;
   input: GAMEPAD_INPUT_KEYS;
   state: UseInputState;
+  portal?: string; // name of input portal this input belongs to
   callback: (...args: any) => any;
 };
 
 export const useInput = ({
-  enabled,
+  // enabled,
   input,
   state,
+  portal,
   callback,
 }: UseInputProps) => {
-  // const focusContainerRef = useRef<HTMLElement>(null);
-
-  const gamepad = useGamepad();
-  const method = STATE_MAP[state];
   const eventType = GAMEPAD_INPUTS[input];
+  const method = STATE_MAP[state];
 
-  useEffect(() => {
-    if (!enabled) return;
-    gamepad[method](eventType, callback);
-    return () => {
-      gamepad.off(eventType);
-    };
-  }, [enabled, input, gamepad, method, eventType, callback]);
+  let inputHandlers: InputEventHandlers = GLOBAL_HANDLER_REGISTRY;
+  let stateHandlers: InputEventStateHandlers;
 
-  // return focusContainerRef;
+  if (portal) {
+    // Lazy init portal InputEventHandlers.
+    if (!PORTAL_HANDLER_REGISTRY[portal]) PORTAL_HANDLER_REGISTRY[portal] = {};
+    // Use portal registry instead of global registry.
+    inputHandlers = PORTAL_HANDLER_REGISTRY[portal];
+  }
+
+  // Lazy init InputEventStateHandlers.
+  if (!inputHandlers[eventType]) inputHandlers[eventType] = {};
+  stateHandlers = inputHandlers[eventType] as InputEventStateHandlers; // :\
+
+  stateHandlers[method] = callback;
 };
+
+// export const useInput = ({
+//   enabled,
+//   input,
+//   state,
+//   portal,
+//   callback,
+// }: UseInputProps) => {
+//   const gamepad = useGamepad();
+//   const method = STATE_MAP[state];
+//   const eventType = GAMEPAD_INPUTS[input];
+
+//   // If there's a portal, we want to stick the handler in the event
+
+//   useEffect(() => {
+//     if (!enabled) return;
+//     gamepad[method](eventType, callback);
+//     return () => {
+//       gamepad.off(eventType);
+//     };
+//   }, [enabled, input, gamepad, method, eventType, callback]);
+// };
 
 // useDirectionalInputs is a convenience hook for up/down/left/right inputs
 // for both the left analog stick and the dpad.
@@ -142,7 +269,7 @@ const _useDirectionalInputsHelper = ({
   callback,
 }: UseDirectionalInputsHelperProps) => {
   return useInput({
-    enabled,
+    // enabled,
     input,
     state: 'press',
     callback: () => {
@@ -189,24 +316,13 @@ export const useDirectionalInputs = ({
   });
 };
 
-// Say you have 3 components side by side to each other.
-// You want to make sure that, when navigating with the controller,
-// navigating beyond the "edge" of the current component (left or right
-// in this example) causes the controller focus to "warp" to a
-// sibling component.
-// Any components anywhere can be linked via input portals.
-
-export type InputPortal = {
-  target: string; // "to" portal
-  direction: InputDirection, // "target is R of name" etc.
-};
-
 type UseInputPortalProps = {
   enabled: boolean;
   name?: string; // "from" portal
   defaultFocusRef: React.RefObject<HTMLAnchorElement>,
 };
 
+// TODO: Is "enabled" needed
 export const useInputPortal = ({
   enabled,
   name = '',
@@ -223,6 +339,7 @@ export const useInputPortal = ({
       const selector = `[data-portal-target="${portal.target}"]`;
       const el = document.querySelector<HTMLAnchorElement>(selector);
       if (!el) return;
+      document.body.dataset.activePortal = portal.target;
       el.focus();
     },
   };
