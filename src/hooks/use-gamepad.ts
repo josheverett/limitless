@@ -70,13 +70,40 @@ const STATE_MAP: { [key in UseInputState]: gcjsStateMethod } = {
 // TODO: Need to add component focus concept.
 // update: I bet I can just cache bust...
 
+// Left off here. Dunno what focusContainerRef was about.
+// I mean it was about anti-input clobbering but yeah.
+// I think there's a way to keep this dumb, without needing a
+// singleton brain that delegates. Whenever a child of a focus
+// container receives focus(in), the idea is to then select the
+// default focus target for that container.
+// A focus container will often (usually? always?) be 1:1 with a portal.
+// Yeah I think these might be 1:1, in which case useInputPortal needs
+// to play a role.
 
-export const useInput = (
-  enabled: boolean,
-  input: GAMEPAD_INPUT_KEYS,
-  state: UseInputState,
-  callback: (...args: any) => any
-) => {
+// The above doesn't handle rewiring controls..
+// I think I can just cache bust the useInput hooks, no?
+// OH WAIT THIS IS WHY I ADDED THE ENABLED PRPERTY!
+// That should cache bust because only one will have it.
+// But maybe race conditions? Like anyone calling off() would
+// clobber too. Hmm.
+
+// take 3: okay what if I use a registry of input portals. :o
+// on/off never happens, only delegates to registry.
+// hmmm.
+
+type UseInputProps = {
+  enabled: boolean;
+  input: GAMEPAD_INPUT_KEYS;
+  state: UseInputState;
+  callback: (...args: any) => any;
+};
+
+export const useInput = ({
+  enabled,
+  input,
+  state,
+  callback,
+}: UseInputProps) => {
   // const focusContainerRef = useRef<HTMLElement>(null);
 
   const gamepad = useGamepad();
@@ -88,7 +115,7 @@ export const useInput = (
     gamepad[method](eventType, callback);
     return () => {
       gamepad.off(eventType);
-    }
+    };
   }, [enabled, input, gamepad, method, eventType, callback]);
 
   // return focusContainerRef;
@@ -99,32 +126,67 @@ export const useInput = (
 
 export type InputDirection = 'U' | 'D' | 'L' | 'R';
 
-const _useDirectionalInputsHelper = (
-  enabled: boolean,
-  input: GAMEPAD_INPUT_KEYS,
-  direction: InputDirection,
-  directions: InputDirection[],
-  callback: (direction: InputDirection) => any
-) => {
-  return useInput(enabled, input, 'press', () => {
-    if (directions.includes(direction)) callback(direction);
+type UseDirectionalInputsHelperProps = {
+  enabled: boolean;
+  input: GAMEPAD_INPUT_KEYS;
+  direction: InputDirection;
+  directions: InputDirection[];
+  callback: (direction: InputDirection) => any;
+};
+
+const _useDirectionalInputsHelper = ({
+  enabled,
+  input,
+  direction,
+  directions,
+  callback,
+}: UseDirectionalInputsHelperProps) => {
+  return useInput({
+    enabled,
+    input,
+    state: 'press',
+    callback: () => {
+      if (directions.includes(direction)) callback(direction);
+    }
   });
 };
 
-export const useDirectionalInputs = (
-  enabled: boolean,
-  directions: InputDirection[],
-  callback: (direction: InputDirection) => any
-) => {
+type UseDirectionalInputsProps = {
+  enabled: boolean;
+  directions?: InputDirection[];
+  callback: (direction: InputDirection) => any;
+};
+
+export const useDirectionalInputs = ({
+  enabled,
+  directions = ['U', 'D', 'L', 'R'],
+  callback,
+}: UseDirectionalInputsProps) => {
   // TODO: Consider wiring up keyboard arrow keys as well.
-  _useDirectionalInputsHelper(enabled, 'DPAD_UP', 'U', directions, callback);
-  _useDirectionalInputsHelper(enabled, 'DPAD_DOWN', 'D', directions, callback);
-  _useDirectionalInputsHelper(enabled, 'DPAD_LEFT', 'L', directions, callback);
-  _useDirectionalInputsHelper(enabled, 'DPAD_RIGHT', 'R', directions, callback);
-  _useDirectionalInputsHelper(enabled, 'LEFT_STICK_UP', 'U', directions, callback);
-  _useDirectionalInputsHelper(enabled, 'LEFT_STICK_DOWN', 'D', directions, callback);
-  _useDirectionalInputsHelper(enabled, 'LEFT_STICK_LEFT', 'L', directions, callback);
-  _useDirectionalInputsHelper(enabled, 'LEFT_STICK_RIGHT', 'R', directions, callback);
+  _useDirectionalInputsHelper({
+    enabled, input: 'DPAD_UP', direction: 'U', directions, callback
+  });
+  _useDirectionalInputsHelper({
+    enabled, input: 'DPAD_DOWN', direction: 'D', directions, callback
+  });
+  _useDirectionalInputsHelper({
+    enabled, input: 'DPAD_LEFT', direction: 'L', directions, callback
+  });
+  _useDirectionalInputsHelper({
+    enabled, input: 'DPAD_RIGHT', direction: 'R', directions, callback
+  });
+  _useDirectionalInputsHelper({
+    enabled, input: 'LEFT_STICK_UP', direction: 'U', directions, callback
+  });
+  _useDirectionalInputsHelper({
+    enabled, input: 'LEFT_STICK_DOWN', direction: 'D', directions, callback
+  });
+  _useDirectionalInputsHelper({
+    enabled, input: 'LEFT_STICK_LEFT', direction: 'L', directions, callback
+  });
+  _useDirectionalInputsHelper({
+    enabled, input: 'LEFT_STICK_RIGHT', direction: 'R', directions, callback
+  });
 };
 
 // Say you have 3 components side by side to each other.
@@ -139,11 +201,17 @@ export type InputPortal = {
   direction: InputDirection, // "target is R of name" etc.
 };
 
-export const useInputPortal = (
-  enabled: boolean,
-  name = '', // "from" portal
+type UseInputPortalProps = {
+  enabled: boolean;
+  name?: string; // "from" portal
   defaultFocusRef: React.RefObject<HTMLAnchorElement>,
-) => {
+};
+
+export const useInputPortal = ({
+  enabled,
+  name = '',
+  defaultFocusRef,
+}: UseInputPortalProps) => {
   useEffect(() => {
     if (!defaultFocusRef.current) return;
     defaultFocusRef.current.dataset.portalTarget = name;
