@@ -2,13 +2,15 @@
 
 import { useState, useEffect, CSSProperties } from 'react';
 import Link from 'next/link';
+import cx from 'classnames';
 import { use4k } from '@/hooks/use-4k';
 import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { BrightBox } from '@/layouts/bright-box';
 import { Image } from '@/components/image';
 import { MaterialIcon } from '@/components/icon';
-import { Teko_2_3_Medium } from '@/app/styles/fonts';
+import { TextOffset } from '@/components/text';
+import { Teko_2_3_Normal } from '@/app/styles/fonts';
 
 const CAROUSEL_ITEMS = [
   {
@@ -48,6 +50,9 @@ const PlayTabCarouselItem = ({
   href,
   text,
 }: PlayTabCarouselItemProps) => {
+  // TODO: Realizing now I don't need the ref return value lol, can jusst
+  // keep using the old reference. More readable. Find the spots where
+  // this is happening and kill them.
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
   const _4k = use4k();
 
@@ -77,18 +82,18 @@ const PlayTabCarouselItem = ({
               }}
             />
             <div
-              className="absolute bottom-0 left-0 right-0 flex items-center"
-              // TODO: white hover shit
+              className={cx(
+                'absolute bottom-0 left-0 right-0 flex items-center',
+                { 'text-black': isFocused, 'bg-halo-white': isFocused },
+              )}
               style={_4k({
-                // bottom: '0.45vh', // eyeballed for text alignment
-                // left: '1.4vh', // eyeballed for text alignment
                 height: '4.537vh',
                 paddingLeft: '1.435vh',
                 paddingRight: '1.435vh',
-                ...Teko_2_3_Medium,
+                ...Teko_2_3_Normal,
               })}
             >
-              {text}
+              <TextOffset top="0.25vh">{text}</TextOffset>
             </div>
           </div>
         </BrightBox>
@@ -114,12 +119,12 @@ export const PlayTabCarousel = ({
   const nextItem = () => {
     const newIndex = selectedIndex >= CAROUSEL_ITEMS.length - 1 ? 0 : selectedIndex + 1;
     setSelectedIndex(newIndex);
-  }
+  };
 
   const previousItem = () => {
     const newIndex = selectedIndex <= 0 ? CAROUSEL_ITEMS.length - 1 : selectedIndex - 1;
     setSelectedIndex(newIndex);
-  }
+  };
 
   // This is how we keep the current carousel item in focus.
   useEffect(() => {
