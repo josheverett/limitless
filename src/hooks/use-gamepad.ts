@@ -267,6 +267,9 @@ type UseInputPortalProps = {
   defaultFocusRef?: React.RefObject<HTMLAnchorElement>,
 };
 
+// portal name --> teleport target ("landing zone")
+const PORTAL_TARGET_REGISTRY: { [key: string]: HTMLAnchorElement } = {};
+
 // name = portal name
 // defaultFocusRef = element to focus on when portal receives focus.
 // this ref is created for you if not provided.
@@ -287,7 +290,7 @@ export const useInputPortal = ({
 
   useEffect(() => {
     if (!ref.current) return;
-    ref.current.dataset.portalTarget = name;
+    PORTAL_TARGET_REGISTRY[name] = ref.current;
   }, [ref.current]);
 
   useEffect(() => {
@@ -302,8 +305,7 @@ export const useInputPortal = ({
     defaultFocusRef: ref,
     focusContainerRef,
     teleport: (portal: string) => {
-      const selector = `[data-portal-target="${portal}"]`;
-      const el = document.querySelector<HTMLAnchorElement>(selector);
+      const el = PORTAL_TARGET_REGISTRY[portal];
       if (!el) return;
       document.body.dataset.activePortal = portal;
       el.focus();
