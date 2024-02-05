@@ -8,14 +8,14 @@ import {
   useInputPortal,
   InputPortal,
 } from '@/hooks/use-gamepad';
-import { useDefaultFocus } from '@/hooks/use-default-focus';
+import { useNavigationFocus } from '@/hooks/use-navigation-focus';
 import { ListBoxItem, ListBoxItemProps } from './list-box-item';
 import { ListBoxNotch } from './list-box-notch';
 
 type ListBoxProps = {
   className?: string;
   items: ListBoxItemProps[];
-  defaultFocusPathname?: string;
+  navigationFocusPathname?: string;
   portal?: string;
   targetPortals?: InputPortal[];
   style?: CSSProperties;
@@ -24,14 +24,14 @@ type ListBoxProps = {
 export const ListBox = ({
   className,
   items,
-  defaultFocusPathname,
+  navigationFocusPathname,
   portal,
   targetPortals = [],
   style,
 }: ListBoxProps) => {
   const _4k = use4k();
 
-  const defaultFocusRef = useDefaultFocus(defaultFocusPathname, portal);
+  const defaultFocusRef = useNavigationFocus(navigationFocusPathname, portal);
   const { focusContainerRef, teleport } = useInputPortal({
     name: portal, defaultFocusRef
   });

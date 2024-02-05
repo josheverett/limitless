@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation'
 
-export const useDefaultFocus = (
+// This hooks allows you to choose an element that should be focused by
+// default when navigating to a given route.
+
+export const useNavigationFocus = (
   pathname?: string, // Pathname of route el should be focused for.
   portal?: string, // Name of portal this input belongs to.
 ) => {

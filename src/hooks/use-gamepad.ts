@@ -21,7 +21,9 @@ const STATE_MAP: { [key in UseInputState]: GcjsStateMethod } = {
 // navigating beyond the "edge" of the current component (left or right
 // in this example) causes the controller focus to "teleport" to a
 // sibling component.
+//
 // Any components anywhere can be linked via input portals.
+// They can even be nested or whatever the fuck.
 
 export type InputPortal = {
   target: string; // "to" portal
@@ -259,11 +261,11 @@ type UseInputPortalProps = {
 // name = portal name
 // defaultFocusRef = element to focus on when portal receives focus
 //
-// focusContainerRef = stick this ref on a div to make sure the correct
-// active portal gets set whenever an element within a portal gets focus.
-// This is necessary to allow for simultaneous input control schemes. Like
-// you could use keyboard navigation, a mouse, and a controller all at
-// once lmao.
+// focusContainerRef = stick this ref on the portal's containing div to
+// make sure the correct active portal gets set whenever an element within
+// a portal gets focus. This is necessary to allow for simultaneous input
+// control schemes. Like you could use keyboard navigation, a mouse, and a
+// controller all at once lmao.
 export const useInputPortal = ({
   name = '',
   defaultFocusRef,
@@ -276,7 +278,7 @@ export const useInputPortal = ({
   }, [defaultFocusRef.current]);
 
   useEffect(() => {
-    const setActivePortal = () => document.body.dataset.activePortal = name;;
+    const setActivePortal = () => document.body.dataset.activePortal = name;
     focusContainerRef.current?.addEventListener('focusin', setActivePortal);
     return () => {
       focusContainerRef.current?.removeEventListener('focusin', setActivePortal);

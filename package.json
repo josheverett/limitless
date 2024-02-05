@@ -11,7 +11,6 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@emotion/css": "^11.11.2",
     "@material-design-icons/svg": "^0.14.13",
     "@svgr/webpack": "^8.1.0",
     "@types/jest": "^29.5.12",
