@@ -117,7 +117,7 @@ export const Footer = () => {
         enabled={fullscreen}
         onClick={() => setFullscreen(!fullscreen)}
       />
-      <div className="grow" />
+      <div className={css`flex-grow: 1`} />
       <div className={css`
         display: flex;
         flex-shrink: 0;

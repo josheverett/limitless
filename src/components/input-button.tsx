@@ -1,4 +1,3 @@
-import { CSSProperties } from 'react';
 import cx from 'classnames';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
 import { use4k_new } from '@/hooks/use-4k';
@@ -71,7 +70,6 @@ type InputButtonProps = {
   state?: UseInputState;
   portal?: string;
   callback: () => void;
-  style?: CSSProperties;
 };
 
 // TODO: Animated circle ring for chat view button where you
@@ -83,7 +81,6 @@ export const InputButton = ({
   state = 'press',
   portal,
   callback,
-  style,
 }: InputButtonProps) => {
   const css = use4k_new();
 
@@ -109,7 +106,6 @@ export const InputButton = ({
         className
       )}
       onClick={callback}
-      style={style}
     >
       <Image
         className={css`width: 100%; height: 100%;`}

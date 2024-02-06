@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, CSSProperties } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { cx } from '@emotion/css';
 import { use4k_new } from '@/hooks/use-4k';
@@ -108,12 +108,10 @@ const PlayTabCarouselItem = ({
 
 type PlayTabCarouselProps = {
   className?: string;
-  style?: CSSProperties;
 };
 
 export const PlayTabCarousel = ({
   className,
-  style,
 }: PlayTabCarouselProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const css = use4k_new();
@@ -166,7 +164,7 @@ export const PlayTabCarousel = ({
   });
 
   return (
-    <div ref={focusContainerRef} className={className} style={style}>
+    <div ref={focusContainerRef} className={className}>
       <ul>
         {CAROUSEL_ITEMS.map((item, i) => {
           return (
