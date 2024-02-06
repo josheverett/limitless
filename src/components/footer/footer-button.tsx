@@ -1,4 +1,4 @@
-import cx from 'classnames';
+import { cx } from '@emotion/css';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
 import { use4k_new } from '@/hooks/use-4k';
 import { UseInputState } from '@/hooks/use-gamepad';

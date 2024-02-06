@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import cx from 'classnames';
+import { cx } from '@emotion/css';
 import { AppContextProvider } from '@/app/context';
 import { Gamepad } from '@/components/gamepad';
 import { TekoFont } from '@/app/styles/fonts';

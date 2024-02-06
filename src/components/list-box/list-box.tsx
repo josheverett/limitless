@@ -1,6 +1,6 @@
 'use client';
 
-import cx from 'classnames';
+import { cx } from '@emotion/css';
 import { use4k_new } from '@/hooks/use-4k';
 import {
   getTargetForDirection,
