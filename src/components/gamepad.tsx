@@ -18,7 +18,6 @@ export const Gamepad = () => {
     input: 'A', state: 'press', callback: () => {
       const activeLink = document.activeElement as HTMLElement;
       activeLink?.click();
-      console.log('focused???');
     },
   });
 

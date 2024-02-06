@@ -162,6 +162,11 @@ export const Tabs = ({
         // TODO: In the end, I may be eyeballing this down 0.1-0.2vh.
         // We'll wait for the screenshot overlay tests at the very end
         // of the project, if I do those.
+        // Also there was a pass of correcting extremely subtle measurement
+        // mistakes in this component. Entirely possible this partocular
+        // value was messed up, given it's a composite of two numbers.
+        // TODO: But hey, if this emotion css (attempt 2!) refactor goes
+        // well, then I can use calc like normal! OH SNAP.
         marginLeft: '-5.695vh', // button width + gap
       })}
     >

@@ -1,4 +1,6 @@
 import { CSSProperties, useContext } from 'react';
+import { css } from '@emotion/css';
+import { fourk, stitchStrings } from '@/lib/fourk-css';
 import { AppContext } from '@/app/context';
 
 // This hook exists so that all dimensions can be defined in vw/vh units,
@@ -83,5 +85,15 @@ export const use4k = () => {
 
   return (styles: CSSProperties) => {
     return force4k ? __4k(styles) : styles;
+  };
+};
+
+export const use4k_TEST = () => {
+  const { force4k } = useContext(AppContext);
+
+  // This is a context-infused template tag function. :o
+  return function (strings: TemplateStringsArray, ...args: string[]) {
+    const output = stitchStrings(Array.from(strings), args);
+    return force4k ? fourk`${output}` : css`${output}`;
   };
 };
