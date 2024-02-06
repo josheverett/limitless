@@ -1,5 +1,4 @@
-import cx from 'classnames';
-import { use4k } from '@/hooks/use-4k';
+import { use4k_new } from '@/hooks/use-4k';
 
 // Often ALL CAPS titles need to be offset to fit perfectly in a tight
 // design. This component makes that less painful.
@@ -17,21 +16,21 @@ export const TextOffset = ({
   smush,
   children
 }: TextOffsetProps) => {
-  const _4k = use4k();
+  const css = use4k_new();
 
   return (
-    <span
-      className={cx(
-        'relative',
-        {
-          'w-full': ellipsize,
-          'truncate': ellipsize,
-          'scale-y-[0.75]': smush,
-          'text-[1.2em]': smush,
-        }
-      )}
-      style={_4k({ top })}
-    >
+    <span className={css`
+      position: relative;
+      top: ${!!top ? top : 'auto'};
+
+      width: ${ellipsize ? '100%' : 'auto'};
+      overflow: ${ellipsize ? 'hidden' : 'visible'};
+      text-overflow: ${ellipsize ? 'ellipsis' : 'clip'};
+      white-space: ${ellipsize ? 'nowrap' : 'normal'};
+
+      font-size: ${smush ? '1.2em' : 'inherit'};
+      transform: ${smush ? 'scaleY(0.75)' : 'none'};
+    `}>
       {children}
     </span>
   );

@@ -103,7 +103,9 @@ type TemplateTag = (strings: TemplateStringsArray, ...args: string[]) => string;
 
 // You must pass in the raw css (mine, not emotion's) template
 // tag function directly.
-// The return value is meant to be spread into cx().
+// The return value is meant to be spread into EMOTON's cx().
+// Do not use the vanilla 'classnames' cx, the styles will end
+// up out of order!
 export const getFontVariant = (
   css: TemplateTag,
   variantName: string,

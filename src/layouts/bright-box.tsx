@@ -1,7 +1,6 @@
-import { useContext, useState } from 'react';
-import cx from 'classnames';
+import { useContext, } from 'react';
 import { AppContext } from '@/app/context';
-import { use4k, vhCssTo4k } from '@/hooks/use-4k';
+import { use4k_new } from '@/hooks/use-4k';
 
 // Forgive me lord for what I am about to do...
 // This is a suuuper special case, not worth updating use4k for.
@@ -66,9 +65,6 @@ const hiddenBorder = () => {
 };
 
 const THIN_BORDER = '0.231vh';
-// const THICK_BORDER = '0.37vh';
-const PADDING = '0.37vh' // Only coincidentally same as thick border.
-const NEGATIVE_MARGIN = `-${THIN_BORDER}`;
 
 type FancyBorderProps = {
   notched?: boolean;
@@ -84,15 +80,15 @@ const FancyBorder = ({
   children,
 }: FancyBorderProps) => {
   const { force4k } = useContext(AppContext);
-  const _4k = use4k();
+  const css = use4k_new();
 
-  let transparentStart = force4k ? vhCssTo4k('1.343vh') : '1.343vh';
-  let transparentEnd = force4k ? vhCssTo4k('1.759vh') : '1.759vh';
+  let transparentStart = '1.343vh';
+  let transparentEnd = '1.759vh';
 
-  // These are eyeballed aren't aren't perfect under a microscope. :P
+  // These are eyeballed and aren't aren't perfect under a microscope. :P
   if (outer) {
-    transparentStart = force4k ? vhCssTo4k('1.53vh') : '1.53vh';
-    transparentEnd = force4k ? vhCssTo4k('1.995vh') : '1.995vh';
+    transparentStart = '1.53vh';
+    transparentEnd = '1.995vh';
   }
 
   let borderImage = outer
@@ -107,42 +103,40 @@ const FancyBorder = ({
       : focusBorderNotchedInner(transparentStart, transparentEnd);
   }
 
+  // Yup animating border-image actually works, what a time to be alive.
   return (
-      <div
-        // Yup animating border-image actually works, what a time to be alive.
-        className="w-full border-solid transition-[border-image]"
-        style={{
-          ..._4k({ borderWidth: THIN_BORDER }),
-          borderImage,
-        }}
-      >
+      <div className={css`
+        width: 100%;
+        border-style: solid;
+        border-width: ${THIN_BORDER};
+        transition-property: border-image;
+        border-image: ${borderImage};
+      `}>
         {children}
       </div>
   );
 };
 
 type BrightBoxProps = {
-  className?: string;
   notched?: boolean; // Refers to isFocused state. Default state always notched.
   isFocused?: boolean;
   children: React.ReactNode;
 };
 
 export const BrightBox = ({
-  className,
   notched = false,
   isFocused = false,
   children,
 }: BrightBoxProps) => {
-  const _4k = use4k();
+  const css = use4k_new();
 
   return (
     // TODO: Might end up needing to remove this negative margin.
     // No big deal, looks fine without it -- just not under a microscope.
-    <div className={className} style={_4k({ margin: NEGATIVE_MARGIN })}>
+    <div className={css`margin: -${THIN_BORDER};`}>
       <FancyBorder notched={notched} isFocused={isFocused} outer>
         <FancyBorder notched={notched} isFocused={isFocused}>
-          <div style={_4k({ padding: PADDING })}>
+          <div className={css`padding: 0.37vh;`}>
             {children}
           </div>
         </FancyBorder>

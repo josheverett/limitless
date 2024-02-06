@@ -1,8 +1,7 @@
 'use client';
 
-import { CSSProperties } from 'react';
 import cx from 'classnames';
-import { use4k } from '@/hooks/use-4k';
+import { use4k_new } from '@/hooks/use-4k';
 import {
   getTargetForDirection,
   useDirectionalInputs,
@@ -19,7 +18,6 @@ type ListBoxProps = {
   navigationFocusPathname?: string;
   portal?: string;
   portalTargets?: PortalTarget[];
-  style?: CSSProperties;
 };
 
 export const ListBox = ({
@@ -28,9 +26,8 @@ export const ListBox = ({
   navigationFocusPathname,
   portal,
   portalTargets = [],
-  style,
 }: ListBoxProps) => {
-  const _4k = use4k();
+  const css = use4k_new();
 
   const defaultFocusRef = useNavigationFocus(navigationFocusPathname, portal);
   const { focusContainerRef, teleport } = useInputPortal({
@@ -79,50 +76,51 @@ export const ListBox = ({
     },
   });
 
+  // Instances of hsl(0, 0%, 50%) below ought to be hsla(0, 0%, 0%, 50%),
+  // but this causes some jank so opaque colors it is.
   return (
     <div
       ref={focusContainerRef}
       className={cx(
-        'flex flex-col relative border-solid border-[hsl(0,0%,50%)]',
-        className
+        css`
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          border: 0.093vh solid hsl(0, 0%, 50%);
+          padding: 0.463vh;
+        `,
+        className,
       )}
-      style={{
-        ..._4k({
-          // Ideally these would be hsla but the "extra-wide piece" of the
-          // left border makes it a pain.
-          borderColor: 'hsl(0,0%,50%)',
-          borderWidth: '0.093vh',
-          paddingTop: '0.463vh',
-          paddingBottom: '0.463vh',
-          paddingLeft: '0.463vh',
-          paddingRight: '0.463vh',
-        }),
-        ...style,
-      }}
     >
-      {/* This is that little extra-wide piece of the left border. */}
-      <div
-        className="absolute bg-[hsl(0,0%,50%)]"
-        style={_4k({
-          top: '50%',
-          left: '-0.175vh', // eyeballed, dunno why eyeballing was needed (thin lines jank?)
-          width: '0.278vh',
-          height: '7.222vh',
-          marginTop: '-3.611vh',
-        })}
-      />
+      {/*
+        This is that little extra-wide piece of the left border.
+        The `left` below is eyeballed, but confused why it was needed.
+        Perhaps natural jank from the very (and variably) thin borders?
+      */}
+      <div className={css`
+        position: absolute;
+        top: 50%;
+        left: -0.175vh;
+        width: 0.278vh;
+        height: 7.222vh;
+        margin-top: -3.611vh;
+        background: hsl(0, 0%, 50%);
+      `}/>
       <ListBoxNotch type="top" />
-      <div className="grow bg-[hsla(0,0%,0%,0.5)]">
-        <ul
-          className="flex flex-col relative"
-          style={_4k({
-            gap: '0.972vh',
-            paddingTop: '1.435vh',
-            paddingBottom: '0.741vh',
-            paddingLeft: '2.176vh',
-            paddingRight: '2.176vh',
-          })}
-        >
+      <div className={css`
+        flex-grow: 1;
+        background: hsla(0, 0%, 0%, 50%);
+      `}>
+        <ul className={css`
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          gap: 0.972vh;
+          padding-top: 1.435vh;
+          padding-bottom: 0.741vh;
+          padding-left: 2.176vh;
+          padding-right: 2.176vh;
+        `}>
           {items.map((item, i) => {
             return (
               <ListBoxItem

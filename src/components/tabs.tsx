@@ -15,6 +15,9 @@ import { TextOffset } from '@/components/text';
 import { InputButton } from '@/components/input-button';
 import { getFontVariant } from '@/app/styles/fonts';
 
+// lol at the "_". I think the typical way to sovle this is just have
+// the types in a separate file then import them with "as"?
+// Alas, my inventory of fucks is limited.
 type Tab_ = {
   title: string;
   href: string;
