@@ -251,8 +251,12 @@ export const useDirectionalInputs = ({
 // This type isn't used here, it's for components to standardize on how
 // to work with portals in input even handlers.
 export type PortalTarget = {
-  target: string; // "to" portal
-  direction: InputDirection, // "target is R of name" etc.
+  // "to" portal
+  target: string;
+  // "target is R of name" etc. Tabs (others?) don't need this.
+  direction?: InputDirection;
+  // Tabs (others?) need to filter portal targets bby route.
+  pathname?: string;
 };
 
 export const getTargetForDirection = (
@@ -260,6 +264,16 @@ export const getTargetForDirection = (
   direction: InputDirection,
 ) => {
   return portalTargets.find((portal) => portal.direction === direction);
+};
+
+export const getTargetForRoute = (
+  portalTargets: PortalTarget[],
+  pathname: string,
+  direction?: InputDirection,
+) => {
+  return portalTargets
+    .filter((portal) => !direction || portal.direction === direction)
+    .find((portal) => portal.pathname === pathname);
 };
 
 type UseInputPortalProps = {

@@ -20,7 +20,7 @@ export const MetaButton = ({
 
   return (
     <div
-      className={cx('flex items-center justify-center h-full', TitilliumFont)}
+      className={cx('flex items-center justify-center h-full cursor-pointer', TitilliumFont)}
       style={_4k({ gap: '1vh', fontSize: '2vh' })}
       onClick={onClick}
     >

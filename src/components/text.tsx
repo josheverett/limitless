@@ -5,7 +5,7 @@ import { use4k } from '@/hooks/use-4k';
 // design. This component makes that less painful.
 
 type TextOffsetProps = {
-  top: string; // vh units
+  top?: string; // vh units
   ellipsize?: boolean;
   smush?: boolean; // experimental Teko smoooshing
   children: React.ReactNode;
@@ -26,7 +26,7 @@ export const TextOffset = ({
         {
           'w-full': ellipsize,
           'truncate': ellipsize,
-          'scale-y-[0.8]': smush,
+          'scale-y-[0.75]': smush,
           'text-[1.2em]': smush,
         }
       )}

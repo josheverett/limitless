@@ -60,6 +60,8 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
     ref.current.style.transform = force4k ? `scale(${scale})` : '';
     ref.current.style.width = force4k ? `${FOURK_WIDTH}px` : '';
     ref.current.style.height = force4k ? `${FOURK_HEIGHT}px` : '';
+    // position:fixed is necessary to work around a scaling bug
+    // in webkit and blink (and others?).
     ref.current.style.position = force4k ? `fixed` : '';
   }, [force4k, resizeCounter]);
 
@@ -99,10 +101,16 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
           style={_4k({
             paddingLeft: '5.208vw', // vw is correct
             paddingRight: '5.208vw', // vw is correct
-            paddingTop: '6.019vh',
+            paddingTop: '6.111vh',
           })}
         >
-            <Tabs tabs={tabs} />
+            <Tabs
+              portal="MultiplayerAppTabs"
+              portalTargets={[
+                { pathname: '/multiplayer/play', target: 'PlayTabCarousel' }
+              ]}
+              tabs={tabs}
+              />
             {children}
         </div>
         <Footer />

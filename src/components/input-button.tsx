@@ -96,7 +96,7 @@ export const InputButton = ({
     <div
       className={cx(
         `
-          relative
+          relative cursor-pointer select-none
           flex items-center justify-center
           text-center drop-shadow-sm
           text-[hsl(0,0%,40%)]
