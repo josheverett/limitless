@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 
 import _4k from '@material-design-icons/svg/filled/4k.svg';
 import arrow_left from '@material-design-icons/svg/filled/arrow_left.svg';
@@ -38,7 +38,7 @@ export const MaterialIcon = ({
   className,
   icon,
 }: MaterialIconProps) => {
-  const css = use4k_new();
+  const css = use4k();
   const IconComponent = ICONS[icon];
 
   return (

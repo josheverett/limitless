@@ -1,4 +1,4 @@
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 
 // Often ALL CAPS titles need to be offset to fit perfectly in a tight
 // design. This component makes that less painful.
@@ -16,7 +16,7 @@ export const TextOffset = ({
   smush,
   children
 }: TextOffsetProps) => {
-  const css = use4k_new();
+  const css = use4k();
 
   return (
     <span className={css`

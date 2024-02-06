@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { AppContext } from '@/app/context';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 import { Tabs } from '@/components/tabs';
 import { Footer } from '@/components/footer/footer';
 
@@ -17,7 +17,7 @@ type MultiplayerLayoutProps = {
 
 export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) {
   const { force4k, setForce4k } = useContext(AppContext);
-  const css = use4k_new();
+  const css = use4k();
 
   const ref = useRef<HTMLElement>(null);
   const [resizeCounter, setResizeCounter] = useState(0);

@@ -1,6 +1,6 @@
 import { cx } from '@emotion/css';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 import { useInput, UseInputState } from '@/hooks/use-gamepad';
 import { Image } from '@/components/image';
 import { MaterialIcon, MaterialIconSvg } from '@/components/icon';
@@ -82,7 +82,7 @@ export const InputButton = ({
   portal,
   callback,
 }: InputButtonProps) => {
-  const css = use4k_new();
+  const css = use4k();
 
   useInput({ input, state, portal, callback });
 

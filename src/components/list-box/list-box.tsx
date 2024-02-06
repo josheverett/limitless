@@ -1,7 +1,7 @@
 'use client';
 
 import { cx } from '@emotion/css';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 import {
   getTargetForDirection,
   useDirectionalInputs,
@@ -27,7 +27,7 @@ export const ListBox = ({
   portal,
   portalTargets = [],
 }: ListBoxProps) => {
-  const css = use4k_new();
+  const css = use4k();
 
   const defaultFocusRef = useNavigationFocus(navigationFocusPathname, portal);
   const { focusContainerRef, teleport } = useInputPortal({

@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import Link from 'next/link';
 import { cx } from '@emotion/css';
 import { AppContext } from '@/app/context';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
@@ -22,7 +22,7 @@ export const ListBoxItem = ({
 }: ListBoxItemProps) => {
   const { force4k } = useContext(AppContext);
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
-  const css = use4k_new();
+  const css = use4k();
 
   const transparentEnd = '0.324vh';
   const focusTransparentStart = '0.324vh';

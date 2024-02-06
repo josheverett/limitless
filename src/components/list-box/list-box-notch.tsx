@@ -1,14 +1,14 @@
 'use client';
 
 import { cx } from '@emotion/css';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 
 type ListBoxNotchProps = {
   type: 'top' | 'bottom';
 };
 
 export const ListBoxNotch = ({ type }: ListBoxNotchProps) => {
-  const css = use4k_new();
+  const css = use4k();
 
   const isTop = type === 'top';
 

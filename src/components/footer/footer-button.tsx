@@ -1,6 +1,6 @@
 import { cx } from '@emotion/css';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 import { UseInputState } from '@/hooks/use-gamepad';
 import { MaterialIcon, MaterialIconSvg } from '@/components/icon';
 import { TextOffset } from '@/components/text';
@@ -23,7 +23,7 @@ export const FooterButton = ({
   state,
   callback,
 }: FooterButtonProps) => {
-  const css = use4k_new();
+  const css = use4k();
 
   return (
     <div className={css`

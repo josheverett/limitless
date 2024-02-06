@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { cx } from '@emotion/css';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 import {
   getTargetForRoute,
   useDirectionalInputs,
@@ -35,7 +35,7 @@ const Tab = ({
   isSelected,
 }: TabProps) => {
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
-  const css = use4k_new();
+  const css = use4k();
 
   return (
     <Link
@@ -103,7 +103,7 @@ export const Tabs = ({
 }: TabsProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const css = use4k_new();
+  const css = use4k();
 
   const { defaultFocusRef, focusContainerRef, teleport } = useInputPortal({
     name: portal

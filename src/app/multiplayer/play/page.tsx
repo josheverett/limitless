@@ -1,14 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 import { MediumColumn } from '@/layouts/medium-column';
 import { BrightBox } from '@/layouts/bright-box';
 import { ListBox } from '@/components/list-box/list-box';
 import { PlayTabCarousel } from './play-tab-carousel';
 
 export default function PlayTab() {
-  const css = use4k_new();
+  const css = use4k();
 
   const listItems = [
     { href: '/campaign', text: 'CAMPAIGN' },

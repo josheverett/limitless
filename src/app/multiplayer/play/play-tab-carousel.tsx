@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { cx } from '@emotion/css';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { BrightBox } from '@/layouts/bright-box';
@@ -49,7 +49,7 @@ const PlayTabCarouselItem = ({
   text,
 }: PlayTabCarouselItemProps) => {
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
-  const css = use4k_new();
+  const css = use4k();
 
   return (
     <Link
@@ -114,7 +114,7 @@ export const PlayTabCarousel = ({
   className,
 }: PlayTabCarouselProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const css = use4k_new();
+  const css = use4k();
 
   const { defaultFocusRef, focusContainerRef, teleport } = useInputPortal({
     name: 'PlayTabCarousel'

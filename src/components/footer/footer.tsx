@@ -1,7 +1,7 @@
 import { cx } from '@emotion/css';
 import { useContext } from 'react';
 import { AppContext } from '@/app/context';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 import { useInput } from '@/hooks/use-gamepad';
 import { Image } from '@/components/image';
 import { MetaButton } from '@/components/footer/meta-button';
@@ -11,7 +11,7 @@ import { TitilliumFont } from '@/app/styles/fonts';
 type SeparatorProps = { type?: 'middle' | 'end'; };
 
 const Separator = ({ type = 'middle' }: SeparatorProps) => {
-  const css = use4k_new();
+  const css = use4k();
 
   // TODO: We sure about the hue on this...? lol
   if (type == 'middle') {
@@ -40,7 +40,7 @@ const Separator = ({ type = 'middle' }: SeparatorProps) => {
 };
 
 const FooterNamelate = () => {
-  const css = use4k_new();
+  const css = use4k();
 
   return (
     <div
@@ -83,7 +83,7 @@ export const Footer = () => {
     setFullscreen
   } = useContext(AppContext);
 
-  const css = use4k_new();
+  const css = use4k();
 
   useInput({
     input: 'GUIDE',

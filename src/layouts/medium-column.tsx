@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 
 type MediumColumnProps = {
   className?: string;
@@ -10,7 +10,7 @@ export const MediumColumn = ({
   className,
   children,
 }: MediumColumnProps) => {
-  const css = use4k_new();
+  const css = use4k();
 
   return (
     // vw is correct

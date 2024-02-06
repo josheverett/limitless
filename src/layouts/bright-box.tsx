@@ -1,6 +1,6 @@
 import { useContext, } from 'react';
 import { AppContext } from '@/app/context';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 
 // Forgive me lord for what I am about to do...
 // This is a suuuper special case, not worth updating use4k for.
@@ -80,7 +80,7 @@ const FancyBorder = ({
   children,
 }: FancyBorderProps) => {
   const { force4k } = useContext(AppContext);
-  const css = use4k_new();
+  const css = use4k();
 
   let transparentStart = '1.343vh';
   let transparentEnd = '1.759vh';
@@ -128,7 +128,7 @@ export const BrightBox = ({
   isFocused = false,
   children,
 }: BrightBoxProps) => {
-  const css = use4k_new();
+  const css = use4k();
 
   return (
     // TODO: Might end up needing to remove this negative margin.

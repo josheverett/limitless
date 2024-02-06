@@ -1,5 +1,5 @@
 import NextImage, { ImageProps as NextImageProps } from 'next/image';
-import { use4k_new } from '@/hooks/use-4k';
+import { use4k } from '@/hooks/use-4k';
 
 type ImageProps = NextImageProps & {
   className?: string;
@@ -15,7 +15,7 @@ export const Image = ({
   objectFit = 'contain',
   ...props
 }: ImageProps) => {
-  const css = use4k_new();
+  const css = use4k();
 
   if (!aspectRatio) return <NextImage style={{ objectFit }} {...props} />;
 
