@@ -88,7 +88,7 @@ export const use4k = () => {
   };
 };
 
-export const use4k_TEST = () => {
+export const use4k_new = () => {
   const { force4k } = useContext(AppContext);
 
   // This is a context-infused template tag function. :o

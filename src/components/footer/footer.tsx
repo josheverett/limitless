@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { useContext } from 'react';
 import { AppContext } from '@/app/context';
-import { use4k } from '@/hooks/use-4k';
+import { use4k_new } from '@/hooks/use-4k';
 import { useInput } from '@/hooks/use-gamepad';
 import { Image } from '@/components/image';
 import { MetaButton } from '@/components/footer/meta-button';
@@ -11,58 +11,66 @@ import { TitilliumFont } from '@/app/styles/fonts';
 type SeparatorProps = { type?: 'middle' | 'end'; };
 
 const Separator = ({ type = 'middle' }: SeparatorProps) => {
-  const _4k = use4k();
+  const css = use4k_new();
 
+  // TODO: We sure about the hue on this...? lol
   if (type == 'middle') {
     return (
-      <div
-        className="grow-0 shrink-0 min-w-px bg-[hsla(216,7%,71%,70%)]"
-        style={_4k({ width: '0.093vh', height: '5.556vh' })}
-      />
+      <div className={css`
+        flex-grow: 0;
+        flex-shrink: 0;
+        min-width: 1px;
+        width: 0.093vh;
+        height: 5.556vh;
+        background: hsla(216, 7%, 71%, 70%);
+      `} />
     );
   }
 
   return (
-    <div
-      className="grow-0 shrink-0 min-w-[2px] h-full bg-[hsla(0,0%,100%,15%)]"
-      style={_4k({ width: '0.185vh' })}
-    />
+    <div className={css`
+      flex-grow: 0;
+      flex-shrink: 0;
+      min-width: 2px;
+      width: 0.185vh;
+      height: 100%;
+      background: hsla(0, 0%, 100%, 15%);
+    `} />
   );
 };
 
 const FooterNamelate = () => {
-  const _4k = use4k();
+  const css = use4k_new();
 
   return (
     <div
       className={cx(
-        `
-          flex shrink-0 items-center justify-center
-          italic bg-black bg-opacity-25
+        css`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1.481vh;
+          height: 4.63vh;
+          padding-left: 0.741vh;
+          padding-right: 1.389vh;
+          font-size: 1.9vh;
+          font-style: italic;
+          background: hsla(0, 0%, 0%, 0.25);
         `,
         TitilliumFont
       )}
-      style={_4k({
-        gap: '1.481vh',
-        height: '4.63vh',
-        paddingLeft: '0.741vh',
-        paddingRight: '1.389vh',
-        fontSize: '1.9vh',
-      })}
     >
-      <div
-        className="relative"
-        style={_4k({ width: '3.1vh' })}
-      >
+      <div className={css`position: relative; width: 3.1vh;`}>
         <Image
-          className="w-full h-full"
+          className={css`width: 100%; height: 100%;`}
           fill
           unoptimized
           aspectRatio={1}
           src="/helmet-avatar.png"
-          alt="Player Icon" />
+          alt="Player Icon"
+        />
       </div>
-      <div className="shrink-0 text-shadow">a lil pug</div>
+      <div className={cx(css`flex-shrink: 0;`, 'text-shadow')}>a lil pug</div>
     </div>
   );
 };
@@ -75,26 +83,28 @@ export const Footer = () => {
     setFullscreen
   } = useContext(AppContext);
 
-  const _4k = use4k();
+  const css = use4k_new();
 
   useInput({
-    input: 'GUIDE', state: 'press', callback: () => setFullscreen(!fullscreen),
+    input: 'GUIDE',
+    state: 'press',
+    callback: () => setFullscreen(!fullscreen),
   });
 
   return (
-    <div
-      className={`
-        absolute bottom-0 left-0 right-0
-        flex items-center justify-center
-        bg-black bg-opacity-40
-      `}
-      style={_4k({
-        gap: '3vh', // This only affects the meta buttons.
-        height: '7.315vh',
-        paddingLeft: '4.398vh',
-        paddingRight: '4.398vh',
-      })}
-    >
+    <div className={css`
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3vh;
+      height: 7.315vh;
+      padding: 0 4.398vh;
+      background: hsla(0, 0%, 0%, 0.4);
+    `}>
       <MetaButton
         icon="4k"
         label="Force 4k"
@@ -108,13 +118,15 @@ export const Footer = () => {
         onClick={() => setFullscreen(!fullscreen)}
       />
       <div className="grow" />
-      <div
-        className={`
-          flex shrink-0 items-center justify-center
-          h-full bg-white bg-opacity-[0.02]
-        `}
-        style={_4k({ gap: '1.389vh' })}
-      >
+      <div className={css`
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        gap: 1.389vh;
+        height: 100%;
+        background: hsla(0, 0%, 100%, 0.02);
+      `}>
         <Separator type="end" />
         <FooterNamelate />
         <Separator />

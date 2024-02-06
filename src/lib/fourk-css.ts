@@ -61,29 +61,3 @@ export function fourk (strings: TemplateStringsArray, ...args: string[]) {
   const output = _fourkHelper(strings, ...args);
   return css`${output}`;
 }
-
-// TODO: It might be the case that I just need to return two separate class
-// names, one for vh css and then one for 4k css. Make the 4k css one be
-// wraped in the body.force4k class and return to using that. Boom.
-// This assumes emotion css can be nested lol.
-// That's actually better, lemme try that lol.
-
-// Update: Looks like nesting in emotion css is very limited. Will perhaps
-// need a hook for switching between the two. Not a huge deal, already have
-// the use4k hook.
-
-// Update: Def gonna have to do SOMETHING in the HTML I think. But instead
-// of the hook providing a fn to switch between them, could return a props
-// object instead to spread into the element. That's cleaner at least.
-// That props can include a data attr, which I *think* CAN be used to
-// augment the CSS in a way nested selectors can't.
-
-// Update: no, none of this makes sense. A class name is a class name, lol.
-// OHHHH WAIT! The hook can expose its own template tag that handles all
-// this stupid bullshit and use force4k context prop to know what to do!!!
-
-// export function fourk_TEST (str: string, force4k = false) {
-//   return force4k ? fourk`${str}` : css`${str}`;
-// }
-
-// TODO: I

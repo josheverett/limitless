@@ -3,8 +3,7 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { AppContext } from '@/app/context';
-import { use4k } from '@/hooks/use-4k';
-// import { FourK } from '@/components/fourk';
+import { use4k, use4k_new } from '@/hooks/use-4k';
 import { Tabs } from '@/components/tabs';
 import { Footer } from '@/components/footer/footer';
 
@@ -18,7 +17,7 @@ type MultiplayerLayoutProps = {
 
 export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) {
   const { force4k, setForce4k } = useContext(AppContext);
-  const _4k = use4k();
+  const css = use4k_new();
 
   const ref = useRef<HTMLElement>(null);
   const [resizeCounter, setResizeCounter] = useState(0);
@@ -90,20 +89,36 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
     <main
       ref={ref}
       // TODO: How to use nextjs optimization on this bg image?
-      className="grow-0 shrink-0 w-full h-full transition-transform bg-[url('/multiplayer/play/play-bg.jpg')]"
+      // className="grow-0 shrink-0 w-full h-full transition-transform bg-[url('/multiplayer/play/play-bg.jpg')]"
+      className={css`
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 100%;
+        height: 100%;
+        transition-property: transform;
+        background: url("/multiplayer/play/play-bg.jpg");
+      `}
     >
       <motion.div
-        className="w-full h-full"
+        // className="w-full h-full"
+        className={css`height: 100%; width: 100%;`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
+        {/* vw is correct for padding left/right below. */}
         <div
-          className="h-full"
-          style={_4k({
-            paddingLeft: '5.208vw', // vw is correct
-            paddingRight: '5.208vw', // vw is correct
-            paddingTop: '6.111vh',
-          })}
+          // className="h-full"
+          className={css`
+          height: 100%;
+          padding-left: 5.208vw;
+          padding-right: 5.208vw;
+          padding-top: 6.111vh;
+        `}
+          // style={_4k({
+          //   paddingLeft: '5.208vw', // vw is correct
+          //   paddingRight: '5.208vw', // vw is correct
+          //   paddingTop: '6.111vh',
+          // })}
         >
             <Tabs
               portal="MultiplayerAppTabs"
@@ -115,9 +130,6 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
             {children}
         </div>
         <Footer />
-        {/* This has to be at the L1 app level (multiplayer and campaign)
-            else it doesn't work. Don't care enough to figure out why. */}
-        {/* <FourK /> */}
       </motion.div>
     </main>
   );
