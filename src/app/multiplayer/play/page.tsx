@@ -1,14 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { use4k } from '@/hooks/use-4k';
+import { use4k_new } from '@/hooks/use-4k';
 import { MediumColumn } from '@/layouts/medium-column';
 import { BrightBox } from '@/layouts/bright-box';
 import { ListBox } from '@/components/list-box/list-box';
 import { PlayTabCarousel } from './play-tab-carousel';
 
 export default function PlayTab() {
-  const _4k = use4k();
+  const css = use4k_new();
 
   const listItems = [
     { href: '/campaign', text: 'CAMPAIGN' },
@@ -22,10 +22,12 @@ export default function PlayTab() {
   // one that adds the `exit` prop to the motion div.
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className="flex gap-[30px]">
+      {/* This div with gap:30px is just here for debug/testing. */}
+      <div className={css`display: flex; gap: 30px;`}>
         <MediumColumn>
-          <PlayTabCarousel style={_4k({ marginTop: '4.167vh' })} />
+          <PlayTabCarousel className={css`margin-top: 4.167vh;`} />
           <ListBox
+            className={css`margin-top: 1.713vh;`}
             items={listItems}
             navigationFocusPathname="/multiplayer/play"
             portal='PlayTabListBox'
@@ -33,7 +35,6 @@ export default function PlayTab() {
               { target: 'PlayTabCarousel', direction: 'U' },
               { target: 'PlayTabPortalTest', direction: 'R' }, // debug
             ]}
-            style={_4k({ marginTop: '1.713vh' })}
           />
           <div>text</div>
         </MediumColumn>
@@ -41,10 +42,10 @@ export default function PlayTab() {
         {/* MediumColumn below is temp for testing input portals. */}
         <MediumColumn>
           <ListBox
+            className={css`margin-top: 1.713vh;`}
             items={listItems}
             portal='PlayTabPortalTest'
             portalTargets={[{ target: 'PlayTabListBox', direction: 'L' }]}
-            style={_4k({ marginTop: '1.713vh' })}
           />
         </MediumColumn>
 

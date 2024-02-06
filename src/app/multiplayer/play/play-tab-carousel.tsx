@@ -98,10 +98,12 @@ const PlayTabCarouselItem = ({
 };
 
 type PlayTabCarouselProps = {
+  className?: string;
   style?: CSSProperties;
 };
 
 export const PlayTabCarousel = ({
+  className,
   style,
 }: PlayTabCarouselProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -155,7 +157,7 @@ export const PlayTabCarousel = ({
   });
 
   return (
-    <div ref={focusContainerRef} style={style}>
+    <div ref={focusContainerRef} className={className} style={style}>
       <ul>
         {CAROUSEL_ITEMS.map((item, i) => {
           return (

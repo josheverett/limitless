@@ -2,8 +2,8 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import cx from 'classnames';
-import { use4k } from '@/hooks/use-4k';
+import { cx } from '@emotion/css';
+import { use4k_new } from '@/hooks/use-4k';
 import {
   getTargetForRoute,
   useDirectionalInputs,
@@ -13,7 +13,7 @@ import {
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { TextOffset } from '@/components/text';
 import { InputButton } from '@/components/input-button';
-import { Teko_2_3_Wide_Light } from '@/app/styles/fonts';
+import { getFontVariant } from '@/app/styles/fonts';
 
 type Tab_ = {
   title: string;
@@ -32,44 +32,46 @@ const Tab = ({
   isSelected,
 }: TabProps) => {
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
-  const _4k = use4k();
+  const css = use4k_new();
 
   return (
     <Link
       ref={ref}
       href={tab.href}
-      className={
-        cx('flex items-center w-full h-full font-medium outline outline-offset-0', {
-          'text-halo-white': isSelected,
-          'text-halo-offwhite': !isSelected,
-          'outline-halo-white': isSelected,
-          'outline-halo-offwhite': !isSelected,
-        })
-      }
-      style={_4k({
-        // TODO: This minWidth is probably 0.37vh off. If and when
-        // I do screenshot overlays we'll see.
-        minWidth: '19.444vh',
-        outlineWidth: isSelected ? '0.37vh' : '0.185vh',
-        ...Teko_2_3_Wide_Light,
-      })}
+      // TODO: This min-width is probably 0.37vh off. If and when
+      // I do screenshot overlays we'll see.
+      className={cx(
+        css`
+          display: flex;
+          align-items: center;
+          min-width: 19.444vh;
+          width: 100%;
+          height: 100%;
+          outline-style: solid;
+          outline-offset: 0;
+          outline-width: ${isSelected ? '0.37' : '0.185'}vh;
+          outline-color: var(--halo-${isSelected ? 'white' : 'offwhite'});
+          color: var(--halo-${isSelected ? 'white' : 'offwhite'});
+        `,
+        ...getFontVariant(css, 'teko_2_3_wide_light'),
+      )}
     >
-      <div
-        className="w-full h-full"
-        style={_4k({
-          padding: '0.37vh',
-        })}
-      >
-        <div
-          className={cx(
-            'flex h-full',
-            { 'text-black': isFocused, 'bg-halo-white': isFocused }
-          )}
-          style={_4k({
-            paddingLeft: '1.481vh',
-            paddingRight: '1.481vh',
-          })}
-        >
+      <div className={css`
+        width: 100%;
+        height: 100%;
+        padding: 0.37vh;
+      `}>
+        <div className={cx(
+          css`
+            display: flex;
+            height: 100%;
+            padding: 0 1.481vh;
+          `,
+          isFocused && css`
+            color: black;
+            background: var(--halo-white);
+          `,
+        )}>
           <TextOffset smush top="-0.324vh">{tab.title.toUpperCase()}</TextOffset>
         </div>
       </div>
@@ -98,7 +100,7 @@ export const Tabs = ({
 }: TabsProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const _4k = use4k();
+  const css = use4k_new();
 
   const { defaultFocusRef, focusContainerRef, teleport } = useInputPortal({
     name: portal
@@ -155,34 +157,39 @@ export const Tabs = ({
   return (
     <div
       ref={focusContainerRef}
-      className={cx('relative flex items-center', className)}
-      style={_4k({
-        gap: '1.991vh',
-        height: '3.704vh',
-        // TODO: In the end, I may be eyeballing this down 0.1-0.2vh.
-        // We'll wait for the screenshot overlay tests at the very end
-        // of the project, if I do those.
-        // Also there was a pass of correcting extremely subtle measurement
-        // mistakes in this component. Entirely possible this partocular
-        // value was messed up, given it's a composite of two numbers.
-        // TODO: But hey, if this emotion css (attempt 2!) refactor goes
-        // well, then I can use calc like normal! OH SNAP.
-        marginLeft: '-5.695vh', // button width + gap
-      })}
+      // TODO: In the end, I may be eyeballing the margin-left down 0.1-0.2vh.
+      // We'll wait for the screenshot overlay tests at the very end of the
+      // project, if I do those.
+      className={cx(
+        css`
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 1.991vh;
+          height: 3.704vh;
+          margin-left: -5.695vh; /* button width + gap */
+        `,
+        className
+      )}
     >
       <InputButton
         input="LB"
         callback={selectPreviousTab}
-        style={_4k({
-          width: '3.704vh',
-          height: '1.944vh',
-        })}
+        className={css`
+          width: 3.704vh;
+          height: 1.944vh;
+        `}
       />
-      <ul className="flex items-center h-full" style={_4k({ gap: '1.481vh' })}>
+      <ul className={css`
+        display: flex;
+        align-items: center;
+        gap: 1.481vh;
+        height: 100%;
+      `}>
         {tabs.map((tab) => {
           const isSelected = tab.href === pathname;
           return (
-            <li className="h-full" key={tab.href}>
+            <li key={tab.href} className={css`height: 100%;`}>
               <Tab
                 defaultFocusRef={isSelected ? defaultFocusRef : undefined}
                 tab={tab}
@@ -195,7 +202,7 @@ export const Tabs = ({
       <InputButton
         input="RB"
         callback={selectNextTab}
-        style={_4k({ width: '3.704vh', height: '1.944vh' })}
+        className={css`width: 3.704vh; height: 1.944vh;`}
       />
     </div>
   );

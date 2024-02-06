@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import cx from 'classnames';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
-import { use4k } from '@/hooks/use-4k';
+import { use4k_new } from '@/hooks/use-4k';
 import { useInput, UseInputState } from '@/hooks/use-gamepad';
 import { Image } from '@/components/image';
 import { MaterialIcon, MaterialIconSvg } from '@/components/icon';
@@ -85,7 +85,7 @@ export const InputButton = ({
   callback,
   style,
 }: InputButtonProps) => {
-  const _4k = use4k();
+  const css = use4k_new();
 
   useInput({ input, state, portal, callback });
 
@@ -95,11 +95,16 @@ export const InputButton = ({
   return (
     <div
       className={cx(
-        `
-          relative cursor-pointer select-none
-          flex items-center justify-center
-          text-center drop-shadow-sm
-          text-[hsl(0,0%,40%)]
+        css`
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          color: hsl(0, 0%, 40%);
+          cursor: pointer;
+          user-select: none;
+          filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
         `,
         className
       )}
@@ -107,16 +112,19 @@ export const InputButton = ({
       style={style}
     >
       <Image
-        className="w-full h-full"
+        className={css`width: 100%; height: 100%;`}
         fill
         unoptimized
         src={`/input-shapes/${iconBg}.svg`}
         alt={input} />
         {!!icon ? (
-          // `relative` for stacking context, no explicit z-index needed.
-          <MaterialIcon className="relative w-[60%] h-[60%]" icon={icon} />
+          // pos:relative for stacking context, no explicit z-index needed.
+          <MaterialIcon
+            className={css`position: relative; width: 60%; height: 60%;`}
+            icon={icon}
+          />
         ) : (
-          <span style={_4k({ fontSize: '1.5vh' })}>
+          <span className={css`font-size: 1.5vh;`}>
             <TextOffset top="0.15vh">{input}</TextOffset>
           </span>
         )}
