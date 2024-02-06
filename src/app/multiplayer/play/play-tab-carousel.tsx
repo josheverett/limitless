@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, CSSProperties } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import cx from 'classnames';
+import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
 import { useLinkFocus } from '@/hooks/use-link-focus';
@@ -10,7 +10,7 @@ import { BrightBox } from '@/layouts/bright-box';
 import { Image } from '@/components/image';
 import { MaterialIcon } from '@/components/icon';
 import { TextOffset } from '@/components/text';
-import { Teko_2_3_Wide_Light } from '@/app/styles/fonts';
+import { getFontVariant } from '@/app/styles/fonts';
 
 const CAROUSEL_ITEMS = [
   {
@@ -49,7 +49,7 @@ const PlayTabCarouselItem = ({
   text,
 }: PlayTabCarouselItemProps) => {
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
-  const _4k = use4k();
+  const css = use4k();
 
   return (
     <Link
@@ -60,35 +60,44 @@ const PlayTabCarouselItem = ({
         {/*
           Need an extra wrapping div so abs pos and padding don't collide.
           It also gets a height because BrightBox needs content with dimensions
-          to work. That height used to be applied to the UL, now it's here.
+          to work, and having everything absolutely positioned is a no-no.
+          That height used to be applied to the UL, now it's here because it
+          makes the layout here easier as well. :)
         */}
-        <div className="relative" style={_4k({ height: '26.852vh' })}>
+        <div className={css`position: relative; height: 26.852vh;`}>
           <Image
-            className="w-full h-full"
+            className={css`height: 100%; width: 100%;`}
             fill
             objectFit="cover"
             src={src}
-            alt={text} />
-          <div
-            className="absolute top-0 left-0 w-full h-full"
-            style={{
-              background: 'linear-gradient(0deg, hsla(0,0%,0%,0.9) 0%, hsla(0,0%,0%,0) 25%)',
-            }}
+            alt={text}
           />
-          <div
-            className={cx(
-              'absolute bottom-0 left-0 right-0 flex items-center',
-              { 'text-black': isFocused, 'bg-halo-white': isFocused },
-            )}
-            style={_4k({
-              height: '4.537vh',
-              paddingLeft: '1.435vh',
-              paddingRight: '1.435vh',
-              ...Teko_2_3_Wide_Light,
-              // Hopefully this isn't a trend...
-              letterSpacing: '0.4vh',
-            })}
-          >
+          <div className={css`
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, hsla(0,0%,0%,0.9) 0%, hsla(0,0%,0%,0) 25%);
+          `}/>
+          <div className={cx(
+            css`
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              display: flex;
+              align-items: center;
+              height: 4.537vh;
+              padding: 0 1.435vh;
+              color: ${isFocused ? 'black' : 'inheret'};
+              background: ${isFocused ? 'var(--halo-white)' : 'transparent'};
+            `,
+            ...getFontVariant(css, 'teko_2_3_wide_light'),
+            // One-off (for now?) letter-spacing override for this variant.
+            // If like, 2 more components need this it'll become a variant.
+            css`letter-spacing: 0.4vh;`,
+          )}>
             <TextOffset ellipsize smush top="0.25vh">{text}</TextOffset>
           </div>
         </div>
@@ -98,14 +107,14 @@ const PlayTabCarouselItem = ({
 };
 
 type PlayTabCarouselProps = {
-  style?: CSSProperties;
+  className?: string;
 };
 
 export const PlayTabCarousel = ({
-  style,
+  className,
 }: PlayTabCarouselProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const _4k = use4k();
+  const css = use4k();
 
   const { defaultFocusRef, focusContainerRef, teleport } = useInputPortal({
     name: 'PlayTabCarousel'
@@ -155,11 +164,15 @@ export const PlayTabCarousel = ({
   });
 
   return (
-    <div ref={focusContainerRef} style={style}>
+    <div ref={focusContainerRef} className={className}>
       <ul>
         {CAROUSEL_ITEMS.map((item, i) => {
           return (
-            <li key={item.src} className="relative" hidden={i !== selectedIndex}>
+            <li
+              key={item.src}
+              className={css`position: relative;`}
+              hidden={i !== selectedIndex}
+            >
               <PlayTabCarouselItem
                 // defaultFocusRef should always be the current active item
                 defaultFocusRef={i === selectedIndex ? defaultFocusRef : undefined}
@@ -171,18 +184,24 @@ export const PlayTabCarousel = ({
           );
         })}
       </ul>
-      <div
-        className="flex items-center justify-center"
-        style={_4k({ gap: '0.833vh', marginTop: '0.972vh' })}
-      >
+      <div className={css`
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.833vh;
+        margin-top: 0.972vh;
+      `}>
         <div
-          className="w-full h-full scale-x-[2.5] scale-y-[1.2]"
-          style={_4k({ width: '1.019vh', height: '1.019vh' })}
+          className={css`
+            width: 1.019vh;
+            height: 1.019vh;
+            transform: scale(2.5, 1.2);
+          `}
           onClick={previousItem}
         >
-          <MaterialIcon className="w-full h-full" icon="arrow_left" />
+          <MaterialIcon className={css`width: 100%; height: 100%;`} icon="arrow_left" />
         </div>
-        <ul className="flex" style={_4k({ gap: '0.833vh' })}>
+        <ul className={css`display: flex; gap: 0.833vh;`}>
           {CAROUSEL_ITEMS.map((item, i) => {
             const icon = i === selectedIndex
               ? 'radio_button_checked'
@@ -190,20 +209,22 @@ export const PlayTabCarousel = ({
             return (
               <li
                 key={item.src}
-                style={_4k({ width: '1.019vh', height: '1.019vh' })}
+                className={css`width: 1.019vh; height: 1.019vh;`}
                 onClick={() => setSelectedIndex(i)}
               >
-                <MaterialIcon className="w-full h-full" icon={icon} />
+                <MaterialIcon
+                  className={css`width: 100%; height: 100%;`}
+                  icon={icon}
+                />
               </li>
             );
           })}
         </ul>
         <div
-          className="w-full h-full scale-x-[2.5] scale-y-[1.2]"
-          style={_4k({ width: '1.019vh', height: '1.019vh' })}
+          className={css`width: 1.019vh; height: 1.019vh; transform: scale(2.5, 1.2);`}
           onClick={nextItem}
         >
-          <MaterialIcon className="w-full h-full" icon="arrow_right" />
+          <MaterialIcon className={css`width: 100%; height: 100%;`} icon="arrow_right" />
         </div>
       </div>
     </div>

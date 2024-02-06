@@ -1,5 +1,6 @@
 'use client';
 
+import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 
 type ListBoxNotchProps = {
@@ -7,32 +8,53 @@ type ListBoxNotchProps = {
 };
 
 export const ListBoxNotch = ({ type }: ListBoxNotchProps) => {
-  const _4k = use4k();
+  const css = use4k();
+
   const isTop = type === 'top';
 
+  // The zero width/height divs below are CSS triangles.
   return (
-    <div className="flex" style={_4k({ height: '0.556vh' })}>
-    <div className="h-full bg-[hsla(0,0%,0%,0.5)]" style={_4k({ width: '17.778vh' })} />
-    <div
-      className="w-0 h-0 border-solid border-[hsla(0,0%,0%,0.5)]"
-      style={_4k({
-        borderRightColor: 'transparent',
-        borderRightWidth: '0.6vh', // eyeballed
-        borderBottomWidth: isTop ? '0.6vh' : undefined, // eyeballed
-        borderTopWidth: !isTop ? '0.6vh' : undefined, // eyeballed
-      })}
-    />
-    <div className="grow"></div>
-    <div
-      className="w-0 h-0 border-solid border-[hsla(0,0%,0%,0.5)]"
-      style={_4k({
-        borderLeftColor: 'transparent',
-        borderLeftWidth: '0.6vh', // eyeballed
-        borderBottomWidth: isTop ? '0.6vh' : undefined, // eyeballed
-        borderTopWidth: !isTop ? '0.6vh' : undefined, // eyeballed
-      })}
-    />
-    <div className="h-full bg-[hsla(0,0%,0%,0.5)]" style={_4k({ width: '17.778vh' })} />
-  </div>
+    <div className={css`display: flex; height: 0.556vh;`}>
+      <div className={css`
+        width: 37.452%;
+        height: 100%;
+        background: hsla(0, 0%, 0%, 0.5);
+      `} />
+      <div className={cx(css`
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-color: hsla(0, 0%, 0%, 0.5);
+          border-right-color: transparent;
+          border-right-width: 0.6vh; /* eyeballed */
+          border-top-width: 0.6vh; /* eyeballed */
+        `,
+        isTop && css`
+          border-top-width: 0;
+          border-bottom-width: 0.6vh; /* eyeballed */
+        `
+      )}/>
+      <div className={css`flex-grow: 1;`}></div>
+      <div className={cx(
+        css`
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-color: hsla(0, 0%, 0%, 0.5);
+          border-left-color: transparent;
+          border-left-width: 0.6vh; /* eyeballed */
+          border-top-width: 0.6vh; /* eyeballed */
+        `,
+        isTop && css`
+          border-top-width: 0;
+          border-bottom-width: 0.6vh; /* eyeballed */
+        `
+      )}/>
+      <div className={css`
+        width: 37.452%;
+        height: 100%;
+        background: hsla(0, 0%, 0%, 0.5);
+      `}/>
+    </div>
   );
 };

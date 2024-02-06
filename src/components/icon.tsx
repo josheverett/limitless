@@ -1,5 +1,6 @@
-import { CSSProperties } from 'react';
-import cx from 'classnames';
+import { cx } from '@emotion/css';
+import { use4k } from '@/hooks/use-4k';
+
 import _4k from '@material-design-icons/svg/filled/4k.svg';
 import arrow_left from '@material-design-icons/svg/filled/arrow_left.svg';
 import arrow_right from '@material-design-icons/svg/filled/arrow_right.svg';
@@ -31,21 +32,20 @@ export type MaterialIconSvg = keyof typeof ICONS;
 type MaterialIconProps = {
   className?: string;
   icon: MaterialIconSvg;
-  style?: CSSProperties;
 };
 
 export const MaterialIcon = ({
   className,
   icon,
-  style
 }: MaterialIconProps) => {
+  const css = use4k();
   const IconComponent = ICONS[icon];
 
   return (
-    <div
-      className={cx('flex items-center justify-center', className)}
-      style={style}
-    >
+    <div className={cx(
+      css`display: flex; align-items: center; justify-content: center;`,
+      className
+    )}>
       <IconComponent className="material-icon-svg" />
     </div>
   );

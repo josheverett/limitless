@@ -1,4 +1,4 @@
-import cx from 'classnames';
+import { cx } from '@emotion/css';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
 import { use4k } from '@/hooks/use-4k';
 import { UseInputState } from '@/hooks/use-gamepad';
@@ -23,29 +23,45 @@ export const FooterButton = ({
   state,
   callback,
 }: FooterButtonProps) => {
-  const _4k = use4k();
+  const css = use4k();
 
   return (
-    <div
-      className="flex flex-col items-center justify-center h-full"
-      style={_4k({ gap: '1.065vh' })}
-    >
-      <div
-        className="flex items-center"
-        style={_4k({ height: '1.528vh', gap: '1.111vh' })}
-      >
+    <div className={css`
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.065vh;
+      height: 100%;
+    `}>
+      <div className={css`
+        display: flex;
+        align-items: center;
+        gap: 1.111vh;
+        height: 1.528vh;
+      `}>
         <MaterialIcon
           icon={icon}
           className={cx(
-            'scale-[1.2] h-full text-[hsl(0,0%,90%)]',
-            { 'scale-x-[-1.2]': flip }
+            css`
+              height: 100%;
+              color: hsl(0, 0%, 90%);
+              transform: scale(1.2);
+            `,
+            flip && css`
+              transform: scale(-1.2, 1.2);
+            `,
           )}
         />
         {!!label && (
-          <div
-            className="relative flex items-center justify-center h-full"
-            style={_4k({ fontSize: '1.8vh' })}
-          >
+          <div className={css`
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 1.8vh;
+          `}>
             <TextOffset top="0.15vh">{label}</TextOffset>
           </div>
         )}
@@ -54,7 +70,7 @@ export const FooterButton = ({
         input={input}
         state={state}
         callback={callback}
-        style={_4k({ width: '2.037vh', height: '2.037vh' })}
+        className={css`width: 2.037vh; height: 2.037vh;`}
       />
     </div>
   );

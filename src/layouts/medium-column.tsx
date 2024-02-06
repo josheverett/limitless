@@ -1,25 +1,20 @@
-import { CSSProperties } from 'react';
+import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 
 type MediumColumnProps = {
   className?: string;
-  style?: CSSProperties;
   children: React.ReactNode;
 };
 
 export const MediumColumn = ({
   className,
-  style,
   children,
 }: MediumColumnProps) => {
-  const _4k = use4k();
+  const css = use4k();
 
   return (
-    <div
-      className={className}
-      // vw is correct
-      style={{ ..._4k({ width: '27.292vw' }), ...style}}
-    >
+    // vw is correct
+    <div className={cx(css`width: 27.292vw;`, className)} >
       {children}
     </div>
   );

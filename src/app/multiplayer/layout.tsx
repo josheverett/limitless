@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { AppContext } from '@/app/context';
 import { use4k } from '@/hooks/use-4k';
-// import { FourK } from '@/components/fourk';
 import { Tabs } from '@/components/tabs';
 import { Footer } from '@/components/footer/footer';
 
@@ -18,7 +17,7 @@ type MultiplayerLayoutProps = {
 
 export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) {
   const { force4k, setForce4k } = useContext(AppContext);
-  const _4k = use4k();
+  const css = use4k();
 
   const ref = useRef<HTMLElement>(null);
   const [resizeCounter, setResizeCounter] = useState(0);
@@ -87,24 +86,19 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
   return (
     // Notice how the FM div doesn't wrap main. That's intentional. This was
     // also just me making sure the thing works, it's just a POC. Temporary.
-    <main
-      ref={ref}
-      // TODO: How to use nextjs optimization on this bg image?
-      className="grow-0 shrink-0 w-full h-full transition-transform bg-[url('/multiplayer/play/play-bg.jpg')]"
-    >
+    <main ref={ref}>
       <motion.div
-        className="w-full h-full"
+        className={css`height: 100%; width: 100%;`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <div
-          className="h-full"
-          style={_4k({
-            paddingLeft: '5.208vw', // vw is correct
-            paddingRight: '5.208vw', // vw is correct
-            paddingTop: '6.111vh',
-          })}
-        >
+        {/* vw is correct for padding left/right below. */}
+        <div className={css`
+          height: 100%;
+          padding-left: 5.208vw;
+          padding-right: 5.208vw;
+          padding-top: 6.111vh;
+        `}>
             <Tabs
               portal="MultiplayerAppTabs"
               portalTargets={[
@@ -115,9 +109,6 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
             {children}
         </div>
         <Footer />
-        {/* This has to be at the L1 app level (multiplayer and campaign)
-            else it doesn't work. Don't care enough to figure out why. */}
-        {/* <FourK /> */}
       </motion.div>
     </main>
   );
