@@ -127,7 +127,7 @@ export const PlayTabCarousel = ({
     const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
     const selectedLink = links[selectedIndex];
     selectedLink?.focus();
-  }, [selectedIndex]);
+  }, [selectedIndex, focusContainerRef]);
 
   useDirectionalInputs({
     portal: 'PlayTabCarousel',

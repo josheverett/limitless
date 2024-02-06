@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { AppContext } from '@/app/context';
 import { use4k } from '@/hooks/use-4k';
-import { FourK } from '@/components/fourk';
+// import { FourK } from '@/components/fourk';
 import { Tabs } from '@/components/tabs';
 import { Footer } from '@/components/footer/footer';
 
@@ -117,7 +117,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
         <Footer />
         {/* This has to be at the L1 app level (multiplayer and campaign)
             else it doesn't work. Don't care enough to figure out why. */}
-        <FourK />
+        {/* <FourK /> */}
       </motion.div>
     </main>
   );

@@ -18,6 +18,6 @@ export const FourK = () => {
   }, [force4k]);
 
   return (
-    <Script strategy="beforeInteractive">window.__FORCE_4K = false;</Script>
+    <Script id="fourk" strategy="beforeInteractive">window.__FORCE_4K = false;</Script>
   );
 };

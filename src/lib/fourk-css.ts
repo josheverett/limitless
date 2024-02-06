@@ -82,8 +82,8 @@ export function fourk (strings: TemplateStringsArray, ...args: string[]) {
 // OHHHH WAIT! The hook can expose its own template tag that handles all
 // this stupid bullshit and use force4k context prop to know what to do!!!
 
-export function fourk_TEST (str: string, force4k = false) {
-  return force4k ? fourk`${str}` : css`${str}`;
-}
+// export function fourk_TEST (str: string, force4k = false) {
+//   return force4k ? fourk`${str}` : css`${str}`;
+// }
 
 // TODO: I

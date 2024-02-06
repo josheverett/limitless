@@ -30,6 +30,10 @@ export const useLinkFocus = ({
   const linkRef = ref || ref_;
 
   useEffect(() => {
+    if (!linkRef.current) return;
+
+    const current = linkRef.current;
+
     const handleFocus = () => setIsFocused(true);
     const handleBlur = () => setIsFocused(false);
     const handleMouseEnter = (e: MouseEvent) => {
@@ -37,16 +41,16 @@ export const useLinkFocus = ({
       el.focus();
     };
 
-    linkRef.current?.addEventListener('focus', handleFocus);
-    linkRef.current?.addEventListener('blur', handleBlur);
-    linkRef.current?.addEventListener('mouseenter', handleMouseEnter);
+    current.addEventListener('focus', handleFocus);
+    current.addEventListener('blur', handleBlur);
+    current.addEventListener('mouseenter', handleMouseEnter);
 
     return () => {
-      linkRef.current?.removeEventListener('focus', handleFocus);
-      linkRef.current?.removeEventListener('blur', handleBlur);
-      linkRef.current?.removeEventListener('mouseenter', handleMouseEnter);
+      current.removeEventListener('focus', handleFocus);
+      current.removeEventListener('blur', handleBlur);
+      current.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [linkRef.current]);
+  }, [linkRef]);
 
   return {
     ref: linkRef,

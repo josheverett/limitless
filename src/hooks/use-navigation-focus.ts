@@ -18,7 +18,7 @@ export const useNavigationFocus = (
     // There's an argument for this to be in use-gamepad just because of this.
     document.body.dataset.activePortal = portal;
     ref.current.focus();
-  }, [nextPathname, ref.current]);
+  }, [portal, pathname, nextPathname, ref]);
 
   return ref;
 };

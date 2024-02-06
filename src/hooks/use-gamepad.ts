@@ -120,6 +120,8 @@ export const useGamepad = () => {
     };
   };
 
+  // TODO: useGamepad no longer makes sense as a hook. This should all be
+  // refactored into a nextjs beforeInteractive <Script />. :)
   const init = async () => {
     for (const eventType of Object.values(GAMEPAD_INPUTS)) {
       before(eventType, delegateGamepadEvent('before', eventType));
@@ -305,15 +307,15 @@ export const useInputPortal = ({
   useEffect(() => {
     if (!ref.current) return;
     PORTAL_TARGET_REGISTRY[name] = ref.current;
-  }, [ref.current]);
+  }, [name, ref]);
 
   useEffect(() => {
+    if (!focusContainerRef.current) return;
+    const current = focusContainerRef.current;
     const setActivePortal = () => document.body.dataset.activePortal = name;
-    focusContainerRef.current?.addEventListener('focusin', setActivePortal);
-    return () => {
-      focusContainerRef.current?.removeEventListener('focusin', setActivePortal);
-    };
-  }, [focusContainerRef.current]);
+    current.addEventListener('focusin', setActivePortal);
+    return () => current.removeEventListener('focusin', setActivePortal);
+  }, [name, focusContainerRef]);
 
   return {
     defaultFocusRef: ref,
