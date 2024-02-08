@@ -53,7 +53,7 @@ const titillium_description = {
 
 const titillium_description_small = {
   ...titillium_description,
-  fontSize: '1.5vh', // eyeballed
+  fontSize: '1.6vh', // eyeballed
 };
 
 const teko = {

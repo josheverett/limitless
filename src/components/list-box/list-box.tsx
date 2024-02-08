@@ -135,7 +135,7 @@ export const ListBox = ({
         <ListBoxNotch type="top" />
         <div className={css`
           flex-grow: 1;
-          background: hsla(0, 0%, 0%, 50%);
+          background: hsla(0, 0%, 0%, 0.5);
         `}>
           <ul className={css`
             position: relative;

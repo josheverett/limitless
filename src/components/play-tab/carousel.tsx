@@ -195,6 +195,7 @@ export const PlayTabCarousel = ({
             width: 1.019vh;
             height: 1.019vh;
             transform: scale(2.5, 1.2);
+            cursor: pointer;
           `}
           onClick={previousItem}
         >
@@ -208,7 +209,7 @@ export const PlayTabCarousel = ({
             return (
               <li
                 key={item.src}
-                className={css`width: 1.019vh; height: 1.019vh;`}
+                className={css`width: 1.019vh; height: 1.019vh; cursor: pointer;`}
                 onClick={() => setSelectedIndex(i)}
               >
                 <MaterialIcon
@@ -220,7 +221,12 @@ export const PlayTabCarousel = ({
           })}
         </ul>
         <div
-          className={css`width: 1.019vh; height: 1.019vh; transform: scale(2.5, 1.2);`}
+          className={css`
+            width: 1.019vh;
+            height: 1.019vh;
+            transform: scale(2.5, 1.2);
+            cursor: pointer;
+          `}
           onClick={nextItem}
         >
           <MaterialIcon className={css`width: 100%; height: 100%;`} icon="arrow_right" />

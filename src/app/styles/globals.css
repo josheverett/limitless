@@ -44,7 +44,8 @@ main {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   /* TODO: How to use nextjs optimization on this bg image? */
-  background: url("/multiplayer/play/play-bg.jpg") center / cover no-repeat;
+  /* background: url("/multiplayer/play/play-bg.jpg") center / cover no-repeat; */
+  background: url("/debug-bg-02.jpg") center / cover no-repeat;
   /* This is the shadow for the canvas when in forced 4k mode. */
   box-shadow: 0 0 120px 30px hsla(0, 0%, 0%, 0.8);
 }

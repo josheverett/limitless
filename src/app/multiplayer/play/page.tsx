@@ -6,7 +6,7 @@ import { MediumColumn } from '@/layouts/medium-column';
 import { ListBox } from '@/components/list-box/list-box';
 import { OperationsBox } from '@/components/play-tab/operations/operations-box';
 import { PlayTabCarousel } from '@/components/play-tab/carousel';
-import { Challenges } from '@/components/play-tab/challenges';
+import { Challenges } from '@/components/play-tab/challenges/challenges';
 
 const LIST_ITEMS = [
   {
