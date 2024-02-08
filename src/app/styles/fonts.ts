@@ -30,6 +30,14 @@ type FontVariant = {
   textShadow?: string;
 };
 
+const shadow_crisp = {
+  textShadow: '0.1vh 0.1vh 0 hsla(0, 0%, 0%, 0.8)', // eyeballed
+};
+
+const shadow_soft = {
+  textShadow: '0.1vh 0.1vh 0.25vh hsla(0, 0%, 0%, 0.2)', // eyeballed
+};
+
 const titillium = {
   className: TitilliumFont_.className,
   textTransform: 'none',
@@ -43,9 +51,19 @@ const titillium_description = {
   letterSpacing: '0.15vh', // eyeballed
 };
 
+const titillium_description_small = {
+  ...titillium_description,
+  fontSize: '1.5vh', // eyeballed
+};
+
 const teko = {
   className: TekoFont_.className,
   textTransform: 'uppercase',
+};
+
+const teko_light = {
+  ...teko,
+  fontWeight: '300',
 };
 
 const teko_wide = {
@@ -74,19 +92,13 @@ const teko_2_3_wide_light = {
   fontWeight: '300',
 };
 
-const shadow_crisp = {
-  textShadow: '0.1vh 0.1vh 0 hsla(0, 0%, 0%, 0.8)',
-};
-
-const shadow_soft = {
-  textShadow: '0.1vh 0.1vh 0.25vh hsla(0, 0%, 0%, 0.2)',
-};
-
 const FONT_VARIANTS: { [key: string]: FontVariant } = {
   titillium,
   titillium_description,
+  titillium_description_small,
 
   teko,
+  teko_light,
   teko_wide,
   teko_extra_wide,
   teko_2_3,

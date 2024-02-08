@@ -4,8 +4,9 @@ import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { MediumColumn } from '@/layouts/medium-column';
 import { ListBox } from '@/components/list-box/list-box';
-import { OperationsBox } from '@/components/operations/operations-box';
-import { PlayTabCarousel } from './play-tab-carousel';
+import { OperationsBox } from '@/components/play-tab/operations/operations-box';
+import { PlayTabCarousel } from '@/components/play-tab/carousel';
+import { Challenges } from '@/components/play-tab/challenges';
 
 const LIST_ITEMS = [
   {
@@ -46,7 +47,6 @@ export default function PlayTab() {
   // sense, and this is one of them.
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      {/* This div with gap:30px is just here for debug/testing. */}
       <div className={css`
         display: flex;
         justify-content: space-between;
@@ -58,17 +58,17 @@ export default function PlayTab() {
             className={css`margin-top: 1.713vh;`}
             items={LIST_ITEMS}
             navigationFocusPathname="/multiplayer/play"
-            portal='PlayTabListBox'
+            portal="PlayTabListBox"
             portalTargets={[
               { target: 'PlayTabCarousel', direction: 'U' },
-              // { target: 'PlayTabPortalTest', direction: 'R' }, // debug
-              { target: 'PlayTabOperations', direction: 'R' }, // debug
+              { target: 'PlayTabOperations', direction: 'R' },
             ]}
           />
         </MediumColumn>
         <div className={css`flex-grow: 1;`} />
         <MediumColumn>
           <OperationsBox />
+          <Challenges className={css`margin-top: 3.287vh`} />
         </MediumColumn>
       </div>
     </motion.div>

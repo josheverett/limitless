@@ -53,6 +53,12 @@ a {
   outline: none;
 }
 
+.truncate {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .material-icon-svg {
   width: 100%;

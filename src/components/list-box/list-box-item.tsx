@@ -29,7 +29,6 @@ export const ListBoxItem = ({
   const focusTransparentEnd = '0.602vh';
 
   return (
-    // <li> has no styles because we need to rely on :focus for erethang.
     <li>
       {/* This <Link> includes the bottom "tray" border. */}
       <Link
@@ -82,7 +81,7 @@ export const ListBoxItem = ({
               #f4f4f4 100%
             ) 1 stretch;
           `,
-          ...getFontVariant(css, 'teko_2_3_wide_light'),
+          getFontVariant(css, 'teko_2_3_wide_light'),
         )}>
           {/* Text padding. */}
           <div className={cx(
@@ -100,7 +99,7 @@ export const ListBoxItem = ({
               background: var(--halo-white);
             `
           )}>
-            <TextOffset ellipsize smush top="0.2vh">{text}</TextOffset>
+            <TextOffset truncate smush top="0.2vh">{text}</TextOffset>
           </div>
         </div>
       </Link>

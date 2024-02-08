@@ -1,3 +1,4 @@
+import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 
 // Often ALL CAPS titles need to be offset to fit perfectly in a tight
@@ -7,38 +8,43 @@ import { use4k } from '@/hooks/use-4k';
 // I need to stop commenting those lmao.
 
 type TextOffsetProps = {
+  className?: string;
   top?: string; // vh units
   left?: string; // vh units
-  ellipsize?: boolean;
+  truncate?: boolean;
   smush?: boolean; // experimental Teko smoooshing
   children: React.ReactNode;
 };
 
 export const TextOffset = ({
+  className,
   top,
-  ellipsize,
   left,
+  truncate,
   smush,
   children
 }: TextOffsetProps) => {
   const css = use4k();
 
   return (
-    <span className={css`
-      position: relative;
-      top: ${!!top ? top : 'auto'};
-      left: ${!!left ? left : 'auto'};
+    <span className={cx(
+      css`
+        position: relative;
+        display: inline-block;
 
-      display: inline-block;
+        ${!!top ? `top: ${top};` : ''};
+        ${!!left ? `left: ${left};` : ''};
 
-      width: ${ellipsize ? '100%' : 'auto'};
-      overflow: ${ellipsize ? 'hidden' : 'visible'};
-      text-overflow: ${ellipsize ? 'ellipsis' : 'clip'};
-      white-space: ${ellipsize ? 'nowrap' : 'normal'};
+        ${!!truncate ? `width: 100%;` : ''};
+        ${!!truncate ? `overflow: hidden;` : ''};
+        ${!!truncate ? `text-overflow: ellipsis;` : ''};
+        ${!!truncate ? `white-space: nowrap;` : ''};
 
-      font-size: ${smush ? '1.2em' : 'inherit'};
-      transform: ${smush ? 'scaleY(0.75)' : 'none'};
-    `}>
+        ${!!smush ? `font-size: 1.2em;` : ''};
+        ${!!smush ? `transform: scaleY(0.75);` : ''};
+      `,
+      className,
+    )}>
       {children}
     </span>
   );
