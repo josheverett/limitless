@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { MediumColumn } from '@/layouts/medium-column';
-import { BrightBox } from '@/layouts/bright-box';
 import { ListBox } from '@/components/list-box/list-box';
+import { OperationsBox } from '@/components/operations/operations-box';
 import { PlayTabCarousel } from './play-tab-carousel';
 
 const LIST_ITEMS = [
@@ -47,9 +47,13 @@ export default function PlayTab() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {/* This div with gap:30px is just here for debug/testing. */}
-      <div className={css`display: flex; gap: 30px;`}>
+      <div className={css`
+        display: flex;
+        justify-content: space-between;
+        margin-top: 4.167vh;
+      `}>
         <MediumColumn>
-          <PlayTabCarousel className={css`margin-top: 4.167vh;`} />
+          <PlayTabCarousel />
           <ListBox
             className={css`margin-top: 1.713vh;`}
             items={LIST_ITEMS}
@@ -57,34 +61,14 @@ export default function PlayTab() {
             portal='PlayTabListBox'
             portalTargets={[
               { target: 'PlayTabCarousel', direction: 'U' },
-              { target: 'PlayTabPortalTest', direction: 'R' }, // debug
+              // { target: 'PlayTabPortalTest', direction: 'R' }, // debug
             ]}
           />
         </MediumColumn>
-
-        {/* MediumColumn below is temp for testing input portals. */}
+        <div className={css`flex-grow: 1;`} />
         <MediumColumn>
-          <ListBox
-            className={css`margin-top: 1.713vh;`}
-            items={LIST_ITEMS}
-            portal='PlayTabPortalTest'
-            portalTargets={[{ target: 'PlayTabListBox', direction: 'L' }]}
-          />
+          <OperationsBox />
         </MediumColumn>
-
-        {/* MediumColumn below is temp for testing */}
-        <MediumColumn>
-          <BrightBox>
-            <p>what in the hell</p>
-            <p>what in the hell</p>
-            <p>what in the hell</p>
-            <p>what in the hell</p>
-            <p>what in the hell</p>
-            <p>what in the hell</p>
-            <p>what in the hell</p>
-          </BrightBox>
-        </MediumColumn>
-
       </div>
     </motion.div>
   );

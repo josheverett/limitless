@@ -1,5 +1,10 @@
 @tailwind base;
 
+/*
+  Only tailwind's reset is used for this project.
+  Everything else is emotion css.
+*/
+
 :root {
   --foreground-rgb: 242, 242, 242; /* should remove this */
 

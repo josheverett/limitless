@@ -16,22 +16,22 @@ const CAROUSEL_ITEMS = [
   {
     src: '/multiplayer/play/january-update.jpg',
     href: '/multiplayer/shop',
-    text: 'JANUARY UPDATE',
+    text: 'January Update',
   },
   {
     src: '/multiplayer/play/illusion.jpg',
     href: '/multiplayer/shop',
-    text: 'NEW MAP - ILLUSION',
+    text: 'New Map - Illusion',
   },
   {
     src: '/multiplayer/play/spirit-of-fire.jpg',
     href: '/multiplayer/shop',
-    text: 'OPERATION: SPIRIT OF FIRE',
+    text: 'Operation: Spirit of Fire',
   },
   {
     src: '/multiplayer/play/lone-wolves.jpg',
     href: '/multiplayer/shop',
-    text: 'HELL YEAH BROTHER, CHEERS FROM IRAQ!',
+    text: 'Hell yeah brother, cheers from Iraq!',
   },
 ];
 
@@ -56,7 +56,7 @@ const PlayTabCarouselItem = ({
       ref={ref}
       href={href}
     >
-      <BrightBox notched isFocused={isFocused}>
+      <BrightBox notched paddingSize="small" isFocused={isFocused}>
         {/*
           Need an extra wrapping div so abs pos and padding don't collide.
           It also gets a height because BrightBox needs content with dimensions
@@ -93,7 +93,7 @@ const PlayTabCarouselItem = ({
               color: ${isFocused ? 'black' : 'inheret'};
               background: ${isFocused ? 'var(--halo-white)' : 'transparent'};
             `,
-            ...getFontVariant(css, 'teko_2_3_wide_light'),
+            getFontVariant(css, 'teko_2_3_wide_light'),
             // One-off (for now?) letter-spacing override for this variant.
             // If like, 2 more components need this it'll become a variant.
             css`letter-spacing: 0.4vh;`,
@@ -157,7 +157,7 @@ export const PlayTabCarousel = ({
         // Right cycles focus, and portals to operations box at the edge.
         case 'R':
           // TEMP HAX for testing. Needs to be operations box when ready.
-          if (isAtEnd) return teleport('PlayTabPortalTest');
+          // if (isAtEnd) return teleport('PlayTabPortalTest');
           return nextItem();
       }
     },

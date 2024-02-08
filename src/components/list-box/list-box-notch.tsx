@@ -34,7 +34,7 @@ export const ListBoxNotch = ({ type }: ListBoxNotchProps) => {
           border-bottom-width: 0.6vh; /* eyeballed */
         `
       )}/>
-      <div className={css`flex-grow: 1;`}></div>
+      <div className={css`flex-grow: 1;`} />
       <div className={cx(
         css`
           width: 0;

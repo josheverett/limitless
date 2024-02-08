@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useEffect, useState, useRef, useContext } from 'react';
+import { cx } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { AppContext } from '@/app/context';
 import { use4k } from '@/hooks/use-4k';
 import { Tabs } from '@/components/tabs';
 import { Footer } from '@/components/footer/footer';
+import { getFontVariant } from '@/app/styles/fonts';
 
 const FOURK_WIDTH = 3840;
 const FOURK_HEIGHT = 2160;
@@ -86,7 +88,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
   return (
     // Notice how the FM div doesn't wrap main. That's intentional. This was
     // also just me making sure the thing works, it's just a POC. Temporary.
-    <main ref={ref}>
+    <main ref={ref} className={cx(getFontVariant(css, 'teko'))}>
       <motion.div
         className={css`height: 100%; width: 100%;`}
         initial={{ opacity: 0 }}

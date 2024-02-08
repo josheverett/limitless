@@ -1,4 +1,5 @@
 import { useContext, } from 'react';
+import { cx } from '@emotion/css';
 import { AppContext } from '@/app/context';
 import { use4k } from '@/hooks/use-4k';
 
@@ -119,13 +120,22 @@ const FancyBorder = ({
 };
 
 type BrightBoxProps = {
+  className?: string;
   notched?: boolean; // Refers to isFocused state. Default state always notched.
+  paddingSize?: 'small' | 'medium';
   isFocused?: boolean;
   children: React.ReactNode;
 };
 
+const PADDING_SIZES = {
+  small: '0.37vh',
+  medium: '0.463vh',
+};
+
 export const BrightBox = ({
+  className,
   notched = false,
+  paddingSize = 'medium',
   isFocused = false,
   children,
 }: BrightBoxProps) => {
@@ -134,10 +144,10 @@ export const BrightBox = ({
   return (
     // TODO: Might end up needing to remove this negative margin.
     // No big deal, looks fine without it -- just not under a microscope.
-    <div className={css`margin: -${THIN_BORDER};`}>
+    <div className={cx(css`margin: -${THIN_BORDER};`, className)}>
       <FancyBorder notched={notched} isFocused={isFocused} outer>
         <FancyBorder notched={notched} isFocused={isFocused}>
-          <div className={css`padding: 0.37vh;`}>
+          <div className={css`padding: ${PADDING_SIZES[paddingSize]};`}>
             {children}
           </div>
         </FancyBorder>

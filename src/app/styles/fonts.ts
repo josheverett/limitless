@@ -26,11 +26,13 @@ type FontVariant = {
   fontStyle?: string;
   letterSpacing?: string;
   whiteSpace?: string;
+  textTransform?: string;
   textShadow?: string;
 };
 
 const titillium = {
   className: TitilliumFont_.className,
+  textTransform: 'none',
 };
 
 const titillium_description = {
@@ -43,6 +45,17 @@ const titillium_description = {
 
 const teko = {
   className: TekoFont_.className,
+  textTransform: 'uppercase',
+};
+
+const teko_wide = {
+  ...teko,
+  letterSpacing: '0.5vh',
+};
+
+const teko_extra_wide = {
+  ...teko,
+  letterSpacing: '0.7vh',
 };
 
 const teko_2_3 = {
@@ -74,6 +87,8 @@ const FONT_VARIANTS: { [key: string]: FontVariant } = {
   titillium_description,
 
   teko,
+  teko_wide,
+  teko_extra_wide,
   teko_2_3,
   teko_2_3_wide,
   teko_2_3_wide_light,
@@ -99,6 +114,7 @@ export const getFontVariant = (
     fontStyle,
     letterSpacing,
     whiteSpace,
+    textTransform,
     textShadow,
   } = FONT_VARIANTS[variantName];
 
@@ -108,6 +124,7 @@ export const getFontVariant = (
   if (fontStyle) cssString += `font-style: ${fontStyle};`;
   if (letterSpacing) cssString += `letter-spacing: ${letterSpacing};`;
   if (whiteSpace) cssString += `white-space: ${whiteSpace};`;
+  if (textTransform) cssString += `text-transform: ${textTransform};`;
   if (textShadow) cssString += `text-shadow: ${textShadow};`;
 
   const emotionClassName = css`${cssString}`;
