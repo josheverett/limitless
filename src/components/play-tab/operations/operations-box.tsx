@@ -33,14 +33,11 @@ export const OperationsBox = ({
     callback: (direction) => {
       switch (direction) {
         case 'U':
-          teleport('MultiplayerAppTabs');
+          return teleport('MultiplayerAppTabs');
         case 'D':
-          // TODO
-          // teleport('PlayTabChallenges');
-          return;
+          return teleport('PlayTabChallenges');
         case 'L':
-          teleport('PlayTabCarousel');
-          break;
+          return teleport('PlayTabCarousel');
       }
     },
   });
@@ -54,12 +51,19 @@ export const OperationsBox = ({
         ref={linkRef}
         href="/TODO"
       >
-        <BrightBox notched isFocused={isFocused}>
-          <div className={css`
-            width: 100%;
-            height: 100%;
-            background: url('/operations/spirit-of-fire.jpg') center / cover no-repeat;
-          `}>
+        <BrightBox isFocused={isFocused}>
+          <div className={cx(
+            css`
+              width: 100%;
+              height: 100%;
+              background: url('/operations/spirit-of-fire.jpg') center center;
+              background-size: 100%;
+              transition-property: background-size;
+              transition-duration: 150ms;
+              transition-timing-function: ease-out;
+            `,
+            isFocused && css`background-size: 110%;`,
+          )}>
             <div className={css`
               padding: 2.269vh 1.852vh;
               background: linear-gradient(90deg, hsla(0, 0%, 0%, 0.8) 0%, hsla(0, 0%, 0%, 0.525) 100%);

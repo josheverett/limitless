@@ -4,7 +4,13 @@ import { TextOffset } from '@/components/text';
 import { MaterialIcon } from '@/components/icon';
 import { getFontVariant } from '@/app/styles/fonts';
 
-const ChallengeBattlePassBox = () => {
+type ChallengeBattlePassBoxProps = {
+  isFocused: boolean;
+};
+
+const ChallengeBattlePassBox = ({
+  isFocused,
+}: ChallengeBattlePassBoxProps) => {
   const css = use4k();
 
   return (
@@ -13,11 +19,11 @@ const ChallengeBattlePassBox = () => {
         display: flex;
         align-items: center;
         height: 6.713vh;
-        margin: 1.62vh 0;
+        margin-top: 1.62vh;
         padding: 0 2.222vh;
         border: 0.185vh solid hsla(210, 11%, 80%, 0.4);
       `,
-      getFontVariant(css, 'shadow_soft'),
+      isFocused && css`border-color: black;`,
     )}>
       <div className={cx(
         css`display: flex; align-items: center; gap: 1.111vh;`,
@@ -29,7 +35,6 @@ const ChallengeBattlePassBox = () => {
             css`
               height: 1.759vh;
               width: 1.759vh;
-              color: hsl(0, 0%, 90%);
               transform: scale(1.2);
             `,
           )}
@@ -51,12 +56,9 @@ type ChallengeBoxProps = {
   description?: string;
   value?: number;
   max?: number;
+  isFocused?: boolean;
 };
 
-// The BG colors here are FUCKING HARD to figure out. They have somewhere in
-// the range of 80-90% opacity but getting the color right is friggin tough.
-// I may end up deciding to make these opaque, as it'll better match visually
-// than a tiny bit of transparency with the wrong colors.
 export const ChallengeBox = ({
   className,
   color = 'default',
@@ -64,11 +66,14 @@ export const ChallengeBox = ({
   title,
   description,
   value,
-  max
+  max,
+  isFocused = false,
 }: ChallengeBoxProps) => {
   const css = use4k();
 
-  if (color === 'battle-pass') return <ChallengeBattlePassBox />
+  if (color === 'battle-pass') {
+    return <ChallengeBattlePassBox isFocused={isFocused} />;
+  }
 
   return (
     <div className={cx(
@@ -78,6 +83,7 @@ export const ChallengeBox = ({
         gap: 1.343vh;
         padding: 0.972vh 1.898vh 1.389vh 1.898vh;
         border-top: 0.463vh solid hsl(200, 7%, 21%);
+        color: var(--halo-white);
         background: hsla(200, 5%, 28%, 0.9);
       `,
       color === 'teal' && css`

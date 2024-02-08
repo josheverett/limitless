@@ -255,8 +255,8 @@ export const useDirectionalInputs = ({
 // Any components anywhere can be linked via input portals.
 // They can even be nested or whatever the fuck.
 
-// This type isn't used here, it's for components to standardize on how
-// to work with portals in input even handlers.
+// This type and the two functions beneath it are for components to
+// standardize on how to work with portals in input event handlers.
 export type PortalTarget = {
   // "to" portal
   target: string;
