@@ -7,19 +7,43 @@ import { BrightBox } from '@/layouts/bright-box';
 import { ListBox } from '@/components/list-box/list-box';
 import { PlayTabCarousel } from './play-tab-carousel';
 
+const LIST_ITEMS = [
+  {
+    href: '/campaign',
+    text: 'CAMPAIGN',
+    description: 'Unravel the mysteries of Zeta Halo through Solo or Co-Op play.',
+  },
+  {
+    href: '/multiplayer/play/multiplayer',
+    text: 'MULTIPLAYER',
+    description: 'Play matches against other online players.',
+  },
+  {
+    href: '/multiplayer/play/academy',
+    text: 'ACADEMY',
+    description: 'Build your own legend, Spartan.',
+  },
+  {
+    href: '/multiplayer/play/custom',
+    text: 'CUSTOM GAMES',
+    description: 'Browse available community games or create your own custom match.',
+  },
+  {
+    href: '/multiplayer/play/forge',
+    text: 'FORGE',
+    description: 'Build content to play and share with other players.',
+  },
+];
+
 export default function PlayTab() {
   const css = use4k();
 
-  const listItems = [
-    { href: '/campaign', text: 'CAMPAIGN' },
-    { href: '/multiplayer/play/multiplayer', text: 'MULTIPLAYER' },
-    { href: '/multiplayer/play/academy', text: 'ACADEMY' },
-    { href: '/multiplayer/play/custom', text: 'CUSTOM GAMES' },
-    { href: '/multiplayer/play/forge', text: 'FORGE' },
-  ];
-
   // TODO: Add fade out. There's that wrapper element thing for this, the
   // one that adds the `exit` prop to the motion div.
+  // Update: The real thing is so friggin janky about page transitions at times.
+  // Don't be afraid to go rogue and improve upon the real thing.
+  // There are very, very few places in the app where going rogue might make
+  // sense, and this is one of them.
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {/* This div with gap:30px is just here for debug/testing. */}
@@ -28,7 +52,7 @@ export default function PlayTab() {
           <PlayTabCarousel className={css`margin-top: 4.167vh;`} />
           <ListBox
             className={css`margin-top: 1.713vh;`}
-            items={listItems}
+            items={LIST_ITEMS}
             navigationFocusPathname="/multiplayer/play"
             portal='PlayTabListBox'
             portalTargets={[
@@ -36,14 +60,13 @@ export default function PlayTab() {
               { target: 'PlayTabPortalTest', direction: 'R' }, // debug
             ]}
           />
-          <div>text</div>
         </MediumColumn>
 
         {/* MediumColumn below is temp for testing input portals. */}
         <MediumColumn>
           <ListBox
             className={css`margin-top: 1.713vh;`}
-            items={listItems}
+            items={LIST_ITEMS}
             portal='PlayTabPortalTest'
             portalTargets={[{ target: 'PlayTabListBox', direction: 'L' }]}
           />

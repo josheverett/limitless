@@ -1,6 +1,4 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 :root {
   --foreground-rgb: 242, 242, 242; /* should remove this */
@@ -9,10 +7,24 @@
   --halo-offwhite: #dedede;
 }
 
+/* All the emotion css stuff renders on the client, so we need some styles
+   to bootstrap <html> and <body> and <main> with proper dimensions. */
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
-  font-size: 2vh; /* debug default */
-  color: rgb(var(--foreground-rgb));
-  background: url('/background.jpg') center / cover no-repeat; /* debug default */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2vh; /* meaningless arbitrary default */
+  color: rgb(var(--foreground-rgb)); /* meaingingless arbitrary default */
+  background: url('/background.jpg') center / cover no-repeat; /* DEBUG (!) default */
   background-color: hsl(0, 0%, 0%);
 }
 
@@ -36,58 +48,9 @@ a {
   outline: none;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
 
 .material-icon-svg {
   width: 100%;
   height: 100%;
   fill: currentColor;
-}
-
-/**
- * Box Model Dimensions
- *
- * sigh
- *
- * So fun fact, when using `transform:scale(n)` vw/vh units don't scale as one
- * might expect. E.g. if you have two divs. An outer div with its width and
- * height both set to 100% of the viewport (via html/body set to 100% height
- * as well). An inner div with height set to 50%. When resizing the viewport,
- * the height of the inner div will always be 50% of that of its container,
- * as one would expect. If, on the other hand, the height of the outer and
- * inner divs are set to 100vh and 50vh, the height of the inner div will *not*
- * be 50% of its container, even with `transform:scale(1)`.
- *
- * I've given up on trying to understand why this is. Because the forced 4k mode
- * gets dynamically scale()'ed in order to fit within the browser's viewport,
- * layouts completely break. Yet using vw/vh units to define proportions in the
- * default responsive mode has been magical, and I don't want to abandon that.
- *
- * Thus here we are, where the default proportions are for the default
- * responsive mode, and the force4k class (applied to the body element when the
- * app is in 4k mode) is used to override the styles with discrete pixels (which
- * works in 4k mode because the "canvas" is a fixed size of 3840 x 2160).
- *
- * - Responsive mode units are primarily in vw/vh, with % where appropriate.
- *   - This includes font sizes.
- *   - In the case of borders and lines, min-width:1px (sometimes 2px) is used.
- *   - In no other cases are pixel units used.
- *   - When vh units are used for width, it is probably not a mistake.
- *   - It is absolutely stupid how well this all works.
- * - 4k mode units are primarily in pixels, but some % units used by the
- *   responsive mode are applicable to 4k mode as well, and thus not overridden.
- * - For a lot of the classes here, there's often box model stuff in the JSX as
- *   well, not sure if I really care or not.
- *
- * UPDATE: New shit has come to light. See the use4k() hook
- * to deal with this madness.
- */
-
- /* TODO: Does this need 4k sizing or does it happen to work? */
-.text-shadow {
-  text-shadow: 0.1vh 0.1vh 0.25vh hsla(0, 0%, 0%, 0.2);
 }

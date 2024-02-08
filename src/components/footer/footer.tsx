@@ -6,7 +6,7 @@ import { useInput } from '@/hooks/use-gamepad';
 import { Image } from '@/components/image';
 import { MetaButton } from '@/components/footer/meta-button';
 import { FooterButton } from '@/components/footer/footer-button';
-import { TitilliumFont } from '@/app/styles/fonts';
+import { getFontVariant } from '@/app/styles/fonts';
 
 type SeparatorProps = { type?: 'middle' | 'end'; };
 
@@ -57,7 +57,7 @@ const FooterNamelate = () => {
           font-style: italic;
           background: hsla(0, 0%, 0%, 0.25);
         `,
-        TitilliumFont
+        getFontVariant(css, 'titillium'),
       )}
     >
       <div className={css`position: relative; width: 3.1vh;`}>
@@ -70,7 +70,12 @@ const FooterNamelate = () => {
           alt="Player Icon"
         />
       </div>
-      <div className={cx(css`flex-shrink: 0;`, 'text-shadow')}>a lil pug</div>
+      <div className={cx(
+        css`flex-shrink: 0;`,
+        getFontVariant(css, 'shadow_soft'),
+      )}>
+        a lil pug
+      </div>
     </div>
   );
 };

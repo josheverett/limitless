@@ -1,9 +1,7 @@
 'use client';
 
-import { useContext } from 'react';
 import Link from 'next/link';
 import { cx } from '@emotion/css';
-import { AppContext } from '@/app/context';
 import { use4k } from '@/hooks/use-4k';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { TextOffset } from '@/components/text';
@@ -13,6 +11,9 @@ export type ListBoxItemProps = {
   defaultFocusRef?: React.RefObject<HTMLAnchorElement>;
   href: string;
   text: string;
+  // Not used in list items themselves. When a list has descriptions for its
+  // items, they show up somewhere adjacent to the list, usually below.
+  description?: string;
 };
 
 export const ListBoxItem = ({
@@ -20,7 +21,6 @@ export const ListBoxItem = ({
   href,
   text,
 }: ListBoxItemProps) => {
-  const { force4k } = useContext(AppContext);
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
   const css = use4k();
 

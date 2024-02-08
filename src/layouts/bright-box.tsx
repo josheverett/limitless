@@ -109,8 +109,9 @@ const FancyBorder = ({
         width: 100%;
         border-style: solid;
         border-width: ${THIN_BORDER};
-        transition-property: border-image;
         border-image: ${borderImage};
+        transition-property: border-image;
+        transition-duration: 150ms;
       `}>
         {children}
       </div>

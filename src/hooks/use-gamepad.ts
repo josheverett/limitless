@@ -120,8 +120,13 @@ export const useGamepad = () => {
     };
   };
 
-  // TODO: useGamepad no longer makes sense as a hook. This should all be
-  // refactored into a nextjs beforeInteractive <Script />. :)
+  // TODO: Refactor this shit so that calling useInput does the initialization
+  // lazily (instead of calling the useGamepad hook at the app level).
+  // Oh that actually should enable more things to be rendered on the server,
+  // I hadn't considered that at all. But the important thing here is that
+  // for an open source version, initialization MUST be lazy and triggered by
+  // useInput, otherwise it's not a one-size-fits-all implementation for
+  // every use case / framework / app.
   const init = async () => {
     for (const eventType of Object.values(GAMEPAD_INPUTS)) {
       before(eventType, delegateGamepadEvent('before', eventType));

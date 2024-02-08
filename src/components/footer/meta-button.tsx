@@ -1,7 +1,7 @@
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 import { MaterialIcon, MaterialIconSvg } from '@/components/icon';
-import { TitilliumFont } from '@/app/styles/fonts';
+import { getFontVariant } from '@/app/styles/fonts';
 
 type MetaButtonProps = {
   icon: MaterialIconSvg;
@@ -30,7 +30,7 @@ export const MetaButton = ({
           font-size: 2vh;
           cursor: pointer;
         `,
-        TitilliumFont
+        getFontVariant(css, 'titillium'),
       )}
       onClick={onClick}
     >

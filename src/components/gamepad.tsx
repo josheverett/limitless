@@ -21,6 +21,5 @@ export const Gamepad = () => {
     },
   });
 
-  // lol
-  return <></>;
+  return null;
 };
