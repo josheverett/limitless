@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, createContext } from 'react';
+import { useLocalStorage } from '@/hooks/use-localstorage';
 
 export type AppContextProps = {
   force4k: boolean;
@@ -20,13 +21,19 @@ type AppContextProviderProps = {
   children: React.ReactNode;
 };
 
+const LOCAL_STORAGE_KEY_4K = 'limiteless-force4k';
+
 export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [force4k, setForce4k] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
+  const storage = useLocalStorage();
 
   const value: AppContextProps = {
     force4k,
-    setForce4k,
+    setForce4k: (enable: boolean) => {
+      storage.setItem(LOCAL_STORAGE_KEY_4K, String(enable));
+      return setForce4k(enable);
+    },
     fullscreen,
     setFullscreen,
   };
@@ -51,6 +58,11 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   }, []);
+
+  useEffect(() => {
+    const savedForce4k = storage.getItem(LOCAL_STORAGE_KEY_4K);
+    if (savedForce4k === 'true') setForce4k(true);
+  }, [storage]);
 
   return (
     <AppContext.Provider value={value}>
