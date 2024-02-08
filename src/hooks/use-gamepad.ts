@@ -145,7 +145,7 @@ export const useGamepad = () => {
     });
 
     init();
-  }, []);
+  });
 
   // Most of this API doesn't make sense post-portals but might
   // as well keep it around whatevs.
@@ -312,7 +312,7 @@ export const useInputPortal = ({
   useEffect(() => {
     if (!ref.current) return;
     PORTAL_TARGET_REGISTRY[name] = ref.current;
-  }, [name, ref]);
+  });
 
   useEffect(() => {
     if (!focusContainerRef.current) return;
@@ -320,7 +320,8 @@ export const useInputPortal = ({
     const setActivePortal = () => document.body.dataset.activePortal = name;
     current.addEventListener('focusin', setActivePortal);
     return () => current.removeEventListener('focusin', setActivePortal);
-  }, [name, focusContainerRef]);
+  // }, [name, focusContainerRef]);
+  }, [name]);
 
   return {
     defaultFocusRef: ref,

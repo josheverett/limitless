@@ -62,6 +62,7 @@ export default function PlayTab() {
             portalTargets={[
               { target: 'PlayTabCarousel', direction: 'U' },
               // { target: 'PlayTabPortalTest', direction: 'R' }, // debug
+              { target: 'PlayTabOperations', direction: 'R' }, // debug
             ]}
           />
         </MediumColumn>

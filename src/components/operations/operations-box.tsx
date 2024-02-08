@@ -1,5 +1,12 @@
+import Link from 'next/link';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
+import {
+  getTargetForDirection,
+  useDirectionalInputs,
+  useInputPortal,
+} from '@/hooks/use-gamepad';
+import { useLinkFocus } from '@/hooks/use-link-focus';
 import { BrightBox } from '@/layouts/bright-box';
 import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
@@ -17,63 +24,93 @@ export const OperationsBox = ({
 }: OperationsBoxProps) => {
   const css = use4k();
 
+  const { focusContainerRef, defaultFocusRef, teleport } = useInputPortal({
+    name: 'PlayTabOperations',
+  });
+  const { ref: linkRef, isFocused } = useLinkFocus({ ref: defaultFocusRef });
+
+  useDirectionalInputs({
+    portal: 'PlayTabOperations',
+    directions: ['U', 'D', 'L'],
+    callback: (direction) => {
+      switch (direction) {
+        case 'U':
+          teleport('MultiplayerAppTabs');
+        case 'D':
+          // TODO
+          // teleport('PlayTabChallenges');
+          return;
+        case 'L':
+          teleport('PlayTabCarousel');
+          break;
+      }
+    },
+  });
+
   return (
-    <BrightBox notched className={className}>
-      <div className={css`
-        width: 100%;
-        height: 100%;
-        background: url('/operations/spirit-of-fire.jpg') center / cover no-repeat;
-      `}>
-        <div className={css`
-          padding: 2.269vh 1.852vh;
-          background: linear-gradient(90deg, hsla(0, 0%, 0%, 0.8) 0%, hsla(0, 0%, 0%, 0.525) 100%);
-          background-origin: border-box;
-        `}>
-          <div className={css`display: flex; align-items: stretch; gap: 1.991vh;`}>
-            <OperationsLevel className={css`flex-grow: 1`} />
+    <div ref={focusContainerRef} className={className}>
+      <Link
+        ref={linkRef}
+        href="/TODO"
+      >
+        <BrightBox notched isFocused={isFocused}>
+          <div className={css`
+            width: 100%;
+            height: 100%;
+            background: url('/operations/spirit-of-fire.jpg') center / cover no-repeat;
+          `}>
             <div className={css`
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-              gap: 1.343vh;
-              padding: 0.833vh 0 1.157vh 0;
-              width: 70%; /* NOT eyeballed! Really was 70% exactly lmao. */
+              padding: 2.269vh 1.852vh;
+              background: linear-gradient(90deg, hsla(0, 0%, 0%, 0.8) 0%, hsla(0, 0%, 0%, 0.525) 100%);
+              background-origin: border-box;
             `}>
-              <div className={css`display: flex;`}>
-                <div className={cx(
-                  // I like to put getFontVariant after css, but in this case
-                  // we need to override the size. If any other components use
-                  // 1.9vh I'll add a 1_9 variant.
-                  css`
-                    display: inline-block;
-                    max-width: 90%; /* portrait orientation safety belt */
-                    height: 1.944vh;
-                    /* The teko font has a super annoying pseudo-space at the
-                       end of a string of text. So we eyeball an offset here. */
-                    padding: 0 1vh 0 1.528vh;
-                    font-size: 2.4vh; /* eyeballed */
-                    color: black;
-                    background: var(--halo-white);
-                  `,
-                  getFontVariant(css, 'teko_2_3_wide_light'),
-                )}>
-                  <TextOffset smush ellipsize top="-0.93vh">Operation</TextOffset>
+              <div className={css`display: flex; align-items: stretch; gap: 1.991vh;`}>
+                <OperationsLevel className={css`flex-grow: 1`} />
+                <div className={css`
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-between;
+                  gap: 1.343vh;
+                  padding: 0.833vh 0 1.157vh 0;
+                  width: 70%; /* NOT eyeballed! Really was 70% exactly lmao. */
+                `}>
+                  <div className={css`display: flex;`}>
+                    <div className={cx(
+                      // I like to put getFontVariant after css, but in this case
+                      // we need to override the size. If any other components use
+                      // 1.9vh I'll add a 1_9 variant.
+                      css`
+                        display: inline-block;
+                        max-width: 90%; /* portrait orientation safety belt */
+                        height: 1.944vh;
+                        /* The teko font has a super annoying pseudo-space at the
+                          end of a string of text. So we eyeball an offset here. */
+                        padding: 0 1vh 0 1.528vh;
+                        font-size: 2.4vh; /* eyeballed */
+                        color: black;
+                        background: var(--halo-white);
+                      `,
+                      getFontVariant(css, 'teko_2_3_wide_light'),
+                    )}>
+                      <TextOffset smush ellipsize top="-0.93vh">Operation</TextOffset>
+                    </div>
+                  </div>
+                  <div className={cx(
+                    css`
+                      height: 1.667vh;
+                      font-size: 2.7vh;
+                    `,
+                    getFontVariant(css, 'teko_extra_wide'),
+                    getFontVariant(css, 'shadow_soft'),
+                  )}>
+                    <TextOffset smush ellipsize top="-1.4vh">Spirit of Fire</TextOffset>
+                  </div>
                 </div>
-              </div>
-              <div className={cx(
-                css`
-                  height: 1.667vh;
-                  font-size: 2.7vh;
-                `,
-                getFontVariant(css, 'teko_extra_wide'),
-                getFontVariant(css, 'shadow_soft'),
-              )}>
-                <TextOffset smush ellipsize top="-1.4vh">Spirit of Fire</TextOffset>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </BrightBox>
+        </BrightBox>
+      </Link>
+    </div>
   );
 };

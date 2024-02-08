@@ -15,22 +15,22 @@ import { getFontVariant } from '@/app/styles/fonts';
 const CAROUSEL_ITEMS = [
   {
     src: '/multiplayer/play/january-update.jpg',
-    href: '/multiplayer/shop',
+    href: '/multiplayer/shop1',
     text: 'January Update',
   },
   {
     src: '/multiplayer/play/illusion.jpg',
-    href: '/multiplayer/shop',
+    href: '/multiplayer/shop2',
     text: 'New Map - Illusion',
   },
   {
     src: '/multiplayer/play/spirit-of-fire.jpg',
-    href: '/multiplayer/shop',
+    href: '/multiplayer/shop3',
     text: 'Operation: Spirit of Fire',
   },
   {
     src: '/multiplayer/play/lone-wolves.jpg',
-    href: '/multiplayer/shop',
+    href: '/multiplayer/shop4',
     text: 'Hell yeah brother, cheers from Iraq!',
   },
 ];
@@ -156,8 +156,7 @@ export const PlayTabCarousel = ({
           return previousItem();
         // Right cycles focus, and portals to operations box at the edge.
         case 'R':
-          // TEMP HAX for testing. Needs to be operations box when ready.
-          // if (isAtEnd) return teleport('PlayTabPortalTest');
+          if (isAtEnd) return teleport('PlayTabOperations');
           return nextItem();
       }
     },

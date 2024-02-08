@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation'
 
 // This hooks allows you to choose an element that should be focused by
-// default when navigating to a given route.
+// default when navigating to a given route. There should only ever be
+// one component that uses this hook per route.
 
 export const useNavigationFocus = (
   pathname?: string, // Pathname of route el should be focused for.
