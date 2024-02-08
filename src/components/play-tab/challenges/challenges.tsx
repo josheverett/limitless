@@ -25,7 +25,7 @@ export const Challenges = ({
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
 
   useDirectionalInputs({
-    portal: 'PlayTabCarousel',
+    portal: 'PlayTabChallenges',
     directions: ['U', 'L'],
     callback: (direction) => {
       switch (direction) {
