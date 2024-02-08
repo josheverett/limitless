@@ -8,6 +8,7 @@ import comment from '@material-design-icons/svg/filled/comment.svg';
 import fullscreen from '@material-design-icons/svg/filled/fullscreen.svg';
 import grid_view from '@material-design-icons/svg/filled/grid_view.svg';
 import group from '@material-design-icons/svg/filled/group.svg';
+import lock from '@material-design-icons/svg/filled/lock.svg';
 import menu from '@material-design-icons/svg/filled/menu.svg';
 import radio_button_checked from '@material-design-icons/svg/filled/radio_button_checked.svg';
 import radio_button_unchecked from '@material-design-icons/svg/filled/radio_button_unchecked.svg';
@@ -21,6 +22,7 @@ const ICONS = {
   fullscreen,
   grid_view,
   group,
+  lock,
   menu,
   radio_button_checked,
   radio_button_unchecked,
