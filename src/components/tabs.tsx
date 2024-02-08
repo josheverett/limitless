@@ -178,10 +178,7 @@ export const Tabs = ({
       <InputButton
         input="LB"
         callback={selectPreviousTab}
-        className={css`
-          width: 3.704vh;
-          height: 1.944vh;
-        `}
+        className={css`width: 3.704vh; height: 1.944vh;`}
       />
       <ul className={css`
         display: flex;

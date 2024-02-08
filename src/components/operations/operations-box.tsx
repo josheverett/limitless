@@ -9,6 +9,7 @@ import {
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { BrightBox } from '@/layouts/bright-box';
 import { TextOffset } from '@/components/text';
+import { InputButton } from '@/components/input-button';
 import { getFontVariant } from '@/app/styles/fonts';
 import { OperationsLevel } from './operations-level';
 
@@ -48,7 +49,10 @@ export const OperationsBox = ({
   });
 
   return (
-    <div ref={focusContainerRef} className={className}>
+    <div
+      ref={focusContainerRef}
+      className={cx(css`position: relative;`, className)}
+    >
       <Link
         ref={linkRef}
         href="/TODO"
@@ -111,6 +115,18 @@ export const OperationsBox = ({
           </div>
         </BrightBox>
       </Link>
+      <InputButton
+        input="Y"
+        callback={() => console.log('DERP Y BUTTON PRESSED!')}
+        className={css`
+          position: absolute;
+          top: 50%;
+          right: -3.565vh;
+          width: 2.037vh;
+          height: 2.037vh;
+          margin-top: -1.019vh;
+        `}
+      />
     </div>
   );
 };
