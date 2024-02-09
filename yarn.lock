@@ -1046,6 +1046,16 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
+"@babylonjs/core@^6.42.0":
+  version "6.42.0"
+  resolved "https://registry.yarnpkg.com/@babylonjs/core/-/core-6.42.0.tgz#1d0fa1ce158781131b0ba9a7dc92b139fd3bdf7e"
+  integrity sha512-HNffInqQilrjrbKzjUv1iW5XdN31G8rw/FT5Lk/IlD6wK9vwSjxXaFUn5qCTCNUkGhU8gzpyxHrhsFtpy1X1yA==
+
+"@babylonjs/gui@^6.42.0":
+  version "6.42.0"
+  resolved "https://registry.yarnpkg.com/@babylonjs/gui/-/gui-6.42.0.tgz#7833050fd7a57602ec79ef27f243d9084bf40a96"
+  integrity sha512-CkzIvGHIFTM5vQK2IWigimKx19Imx2PnLKXDa6Q1shCQMk4TvuuLJ71fBhGToSiTrWngdcwI9tolQSktZlkpHw==
+
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
@@ -4796,6 +4806,13 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
+react-babylonjs@^3.1.27:
+  version "3.1.27"
+  resolved "https://registry.yarnpkg.com/react-babylonjs/-/react-babylonjs-3.1.27.tgz#89d08aba84fe28b437e29b38c5e90a10dc980d18"
+  integrity sha512-eh5nOKoiwINUpS0vBRKYs+fGcK9ckBgB5VVml7mFvUv+nAu5znwpFE8knx0AiihA4UyoZnldYOjlOsgaHZwitw==
+  dependencies:
+    react-reconciler "^0.27.0"
+
 react-dom@^18:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -4813,6 +4830,14 @@ react-is@^18.0.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-reconciler@^0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.27.0.tgz#360124fdf2d76447c7491ee5f0e04503ed9acf5b"
+  integrity sha512-HmMDKciQjYmBRGuuhIaKA1ba/7a+UsM5FzOZsMO2JYHt9Jh8reCb7j1eDC95NOyUlKM9KRyvdx0flBuDvYSBoA==
+  dependencies:
+    loose-envify "^1.1.0"
+    scheduler "^0.21.0"
 
 react@^18:
   version "18.2.0"
@@ -4987,6 +5012,13 @@ safe-regex-test@^1.0.0:
     call-bind "^1.0.5"
     get-intrinsic "^1.2.2"
     is-regex "^1.1.4"
+
+scheduler@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.21.0.tgz#6fd2532ff5a6d877b6edb12f00d8ab7e8f308820"
+  integrity sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==
+  dependencies:
+    loose-envify "^1.1.0"
 
 scheduler@^0.23.0:
   version "0.23.0"

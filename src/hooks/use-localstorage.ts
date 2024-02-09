@@ -2,11 +2,7 @@
 
 export const useLocalStorage = () => {
   return {
-    setItem: (key: string, value: string) => {
-      window.localStorage.setItem(key, value);
-    },
-    getItem: (key: string) => {
-      return window.localStorage.getItem(key);
-    },
+    setItem: (k: string, v: string) => window.localStorage.setItem(k, v),
+    getItem: (k: string) => window.localStorage.getItem(k),
   };
 };

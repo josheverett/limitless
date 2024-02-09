@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { AppContextProvider } from '@/app/context';
+import { Resize } from '@/components/resize';
 import { Gamepad } from '@/components/gamepad';
 import { TekoFont } from '@/app/styles/fonts';
 import '@/app/styles/globals.css';
@@ -17,7 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={TekoFont}>
-        <AppContextProvider>{children}</AppContextProvider>
+        <AppContextProvider>
+          <Resize>
+            {children}
+          </Resize>
+        </AppContextProvider>
         <Gamepad />
       </body>
     </html>

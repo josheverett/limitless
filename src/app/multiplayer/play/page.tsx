@@ -11,27 +11,27 @@ import { Challenges } from '@/components/play-tab/challenges/challenges';
 const LIST_ITEMS = [
   {
     href: '/campaign',
-    text: 'CAMPAIGN',
+    text: 'Campaign',
     description: 'Unravel the mysteries of Zeta Halo through Solo or Co-Op play.',
   },
   {
     href: '/multiplayer/play/multiplayer',
-    text: 'MULTIPLAYER',
+    text: 'Multiplayer',
     description: 'Play matches against other online players.',
   },
   {
     href: '/multiplayer/play/academy',
-    text: 'ACADEMY',
+    text: 'Acadmey',
     description: 'Build your own legend, Spartan.',
   },
   {
     href: '/multiplayer/play/custom',
-    text: 'CUSTOM GAMES',
+    text: 'Custom Games',
     description: 'Browse available community games or create your own custom match.',
   },
   {
     href: '/multiplayer/play/forge',
-    text: 'FORGE',
+    text: 'Forge',
     description: 'Build content to play and share with other players.',
   },
 ];
@@ -65,7 +65,6 @@ export default function PlayTab() {
             ]}
           />
         </MediumColumn>
-        <div className={css`flex-grow: 1;`} />
         <MediumColumn>
           <OperationsBox />
           <Challenges className={css`margin-top: 3.287vh`} />

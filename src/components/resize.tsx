@@ -1,32 +1,20 @@
 'use client';
 
 import { useEffect, useState, useRef, useContext } from 'react';
-import { usePathname } from 'next/navigation';
 import { AppContext } from '@/app/context';
-import { use4k } from '@/hooks/use-4k';
-import { TabbedPage } from '@/layouts/tabbed-page';
 
 const FOURK_WIDTH = 3840;
 const FOURK_HEIGHT = 2160;
 const FOURK_MARGIN = 40;
 
-type MultiplayerLayoutProps = {
+type ResizeProps = {
   children: React.ReactNode;
 };
 
-const TABS = [
-  { title: 'Play', href: '/multiplayer/play' },
-  { title: 'Customize', href: '/multiplayer/customize' },
-  { title: 'Community', href: '/multiplayer/community' },
-  { title: 'Shop', href: '/multiplayer/shop' },
-];
-
-export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) {
+export const Resize = ({ children }: ResizeProps) => {
   const { force4k, setForce4k } = useContext(AppContext);
-  const pathname = usePathname();
-  const css = use4k();
 
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [resizeCounter, setResizeCounter] = useState(0);
   const [lastViewportSize, setLastViewportSize] = useState([0, 0]);
 
@@ -86,15 +74,8 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
   }, [setForce4k]);
 
   return (
-    <TabbedPage
-      portal="MultiplayerAppTabs"
-      portalTargets={[
-        { pathname: '/multiplayer/play', target: 'PlayTabCarousel' }
-      ]}
-      tabs={TABS}
-      hidden={!pathname.startsWith('/multiplayer')}
-    >
+    <div ref={ref} className="resize-container">
       {children}
-    </TabbedPage>
+    </div>
   );
 };

@@ -1,5 +1,3 @@
-'use client';
-
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { cx } from '@emotion/css';
@@ -15,17 +13,17 @@ import { TextOffset } from '@/components/text';
 import { InputButton } from '@/components/input-button';
 import { getFontVariant } from '@/app/styles/fonts';
 
-// lol at the "_". I think the typical way to sovle this is just have
+// lol at the "_Type". I think the typical way to sovle this is just have
 // the types in a separate file then import them with "as"?
 // Alas, my inventory of fucks is limited.
-type Tab_ = {
+export type Tab_Type = {
   title: string;
   href: string;
 };
 
 type TabProps = {
   defaultFocusRef?: React.RefObject<HTMLAnchorElement>;
-  tab: Tab_;
+  tab: Tab_Type;
   isSelected?: boolean;
 };
 
@@ -84,7 +82,7 @@ const Tab = ({
 
 type TabsProps = {
   className?: string;
-  tabs: Tab_[];
+  tabs: Tab_Type[];
   portal: string;
   portalTargets: PortalTarget[];
 };
