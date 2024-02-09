@@ -8,6 +8,8 @@ import { OperationsBox } from '@/components/play-tab/operations/operations-box';
 import { PlayTabCarousel } from '@/components/play-tab/carousel';
 import { Challenges } from '@/components/play-tab/challenges/challenges';
 
+import { SceneWithSpinningBoxes } from '@/components/3d/test';
+
 const LIST_ITEMS = [
   {
     href: '/campaign',
@@ -48,9 +50,21 @@ export default function PlayTab() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <div className={css`
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      `}>
+        <SceneWithSpinningBoxes />
+      </div>
+      <div className={css`
+        position: relative;
         display: flex;
         justify-content: space-between;
         margin-top: 4.167vh;
+        z-index: 2;
       `}>
         <MediumColumn>
           <PlayTabCarousel />

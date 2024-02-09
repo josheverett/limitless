@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { PortalTarget } from '@/hooks/use-gamepad';
 import { Tabs, Tab_Type } from '@/components/tabs';
-import { Footer } from '@/components/footer/footer';
 import { getFontVariant } from '@/app/styles/fonts';
 
 type TabbedPageProps = {
@@ -33,25 +32,30 @@ export const TabbedPage = ({
       className={cx(getFontVariant(css, 'teko'))}
     >
       <motion.div
-        className={css`height: 100%; width: 100%;`}
+        className={css`width: 100%; height: 100%;`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
         {/* vw is correct for padding left/right below. */}
         <div className={css`
+          display: flex;
+          flex-direction: column;
           height: 100%;
           padding-left: 5.208vw;
           padding-right: 5.208vw;
           padding-top: 6.111vh;
         `}>
-          <Tabs
-            portal={portal}
-            portalTargets={portalTargets}
-            tabs={tabs}
-          />
-          {children}
+          <div className={css`position: relative; z-index: 2;`}>
+            <Tabs
+              portal={portal}
+              portalTargets={portalTargets}
+              tabs={tabs}
+            />
+          </div>
+          <div className={css`flex-grow: 1; position: relative; z-index: 1;`}>
+            {children}
+          </div>
         </div>
-        <Footer />
       </motion.div>
     </main>
   );

@@ -1,7 +1,9 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { use4k } from '@/hooks/use-4k';
 import { TabbedPage } from '@/layouts/tabbed-page';
+import { Footer } from '@/components/footer/footer';
 
 type MultiplayerLayoutProps = {
   children: React.ReactNode;
@@ -16,6 +18,7 @@ const TABS = [
 
 export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) {
   const pathname = usePathname();
+  const css = use4k();
 
   return (
     <TabbedPage
@@ -27,6 +30,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
       hidden={!pathname.startsWith('/multiplayer')}
     >
       {children}
+      <Footer className={css`z-index: 1;`} />
     </TabbedPage>
   );
 };

@@ -80,7 +80,11 @@ const FooterNamelate = () => {
   );
 };
 
-export const Footer = () => {
+type FooterProps = {
+  className?: string;
+};
+
+export const Footer = ({ className }: FooterProps) => {
   const {
     force4k,
     setForce4k,
@@ -97,19 +101,22 @@ export const Footer = () => {
   });
 
   return (
-    <div className={css`
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 3vh;
-      height: 7.315vh;
-      padding: 0 4.398vh;
-      background: hsla(0, 0%, 0%, 0.4);
-    `}>
+    <div className={cx(
+      css`
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3vh;
+        height: 7.315vh;
+        padding: 0 4.398vh;
+        background: hsla(0, 0%, 0%, 0.4);
+      `,
+      className,
+    )}>
       <MetaButton
         icon="4k"
         label="Force 4k"
