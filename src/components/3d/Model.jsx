@@ -7,11 +7,11 @@ Source: https://sketchfab.com/3d-models/mechanical-keyboard-1facc22c744a403dbb31
 Title: Mechanical Keyboard
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react';
+import { useGLTF } from '@react-three/drei';
 
 export function Model(props) {
-  const { nodes, materials } = useGLTF('/3d/model.glb')
+  const { nodes, materials } = useGLTF('/3d/model.glb');
   return (
     <group {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
@@ -25,7 +25,7 @@ export function Model(props) {
         </group>
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/3d/model.glb')
+useGLTF.preload('/3d/model.glb');
