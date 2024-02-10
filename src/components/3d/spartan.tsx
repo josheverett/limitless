@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import { Model } from './Spartan';
+import { Model } from './SpartanModel';
 
 type CameraProps = {
   position: [number, number, number];
@@ -18,18 +18,20 @@ const Camera = ({ position, lookAt }: CameraProps) => {
   return null;
 };
 
-export const ThreeJsTest = () => {
+// Yeah there's 2 kinds of camera here but
+// I don't know wtf I'm doing so
+export const Spartan = () => {
   return (
     <Canvas
-      camera={{ position: [3, 20, 14.25], fov: 8 }}
+      camera={{ position: [0, 0, 30], fov: 8 }}
       style={{ width: "100%", height: "100%" }}
     >
       <ambientLight intensity={1} />
       <ambientLight intensity={5} />
       <Suspense fallback={null}>
-        <Model position={[0, -0.1, 0]} />
+        <Model position={[0, -0.25, 0]} />
       </Suspense>
-      <Camera position={[0, 0, 20]} lookAt={[0, 2, 0]} />
+      <Camera position={[0, 0, 25]} lookAt={[0, 2, 0]} />
     </Canvas>
   );
 };

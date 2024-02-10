@@ -7,9 +7,7 @@ import { ListBox } from '@/components/list-box/list-box';
 import { OperationsBox } from '@/components/play-tab/operations/operations-box';
 import { PlayTabCarousel } from '@/components/play-tab/carousel';
 import { Challenges } from '@/components/play-tab/challenges/challenges';
-
-// import { ThreeJsTest } from '@/components/3d/threejs-test-01';
-import { ThreeJsTest } from '@/components/3d/threejs-test-02';
+import { Spartan } from '@/components/3d/spartan';
 
 const LIST_ITEMS = [
   {
@@ -58,7 +56,7 @@ export default function PlayTab() {
         height: 100%;
         z-index: 1;
       `}>
-        <ThreeJsTest />
+        <Spartan />
       </div>
       <div className={css`
         position: relative;
