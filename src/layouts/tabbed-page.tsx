@@ -2,11 +2,12 @@ import { cx } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { use4k, TABBED_PAGE_PADDING_X } from '@/hooks/use-4k';
 import { PortalTarget } from '@/hooks/use-gamepad';
-import { Tabs, Tab_Type } from '@/components/tabs';
+import { Tabs } from '@/components/tabs/tabs';
+import { TabLink } from '@/components/tabs/tab';
 import { getFontVariant } from '@/app/styles/fonts';
 
 type TabbedPageProps = {
-  tabs: Tab_Type[];
+  tabs: TabLink[];
   portal: string; // Name of the input portal for these tabs.
   // This is required even when false because it's important to have only
   // one <main> element with hidden=false at a time. Safety belt.
