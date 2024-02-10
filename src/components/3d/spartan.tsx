@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
+import React, { Suspense, useEffect } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
 import { Model } from './SpartanModel';
 
 type CameraProps = {
@@ -24,7 +24,7 @@ export const Spartan = () => {
   return (
     <Canvas
       camera={{ position: [0, 0, 30], fov: 8 }}
-      style={{ width: "100%", height: "100%" }}
+      style={{ width: '100%', height: '100%' }}
     >
       <ambientLight intensity={1} />
       <ambientLight intensity={5} />

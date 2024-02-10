@@ -1,13 +1,13 @@
-import React, { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
 import { Model } from './Model';
 
 export const ThreeJsTest = () => {
   return (
     <Canvas
       camera={{ position: [3, 20, 14.25], fov: 8 }}
-      style={{ width: "100vw", height: "100vh" }}
+      style={{ width: '100vw', height: '100vh' }}
     >
       <ambientLight intensity={1.25} />
       <ambientLight intensity={0.1} />
