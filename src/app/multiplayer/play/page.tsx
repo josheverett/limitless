@@ -7,7 +7,9 @@ import { ListBox } from '@/components/list-box/list-box';
 import { OperationsBox } from '@/components/play-tab/operations/operations-box';
 import { PlayTabCarousel } from '@/components/play-tab/carousel';
 import { Challenges } from '@/components/play-tab/challenges/challenges';
+
 import { Spartan } from '@/components/3d/spartan';
+import { CloudsTest } from '@/components/3d/clouds-test';
 
 const LIST_ITEMS = [
   {
@@ -56,7 +58,8 @@ export default function PlayTab() {
         height: 100%;
         z-index: 1;
       `}>
-        <Spartan />
+        {/* <Spartan /> */}
+        <CloudsTest />
       </div>
       <div className={css`
         position: relative;

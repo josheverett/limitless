@@ -15,6 +15,7 @@
     "@material-design-icons/svg": "^0.14.13",
     "@react-three/drei": "^9.97.3",
     "@react-three/fiber": "^8.15.16",
+    "@react-three/rapier": "^1.2.1",
     "@svgr/webpack": "^8.1.0",
     "@types/jest": "^29.5.12",
     "@types/three": "^0.161.2",

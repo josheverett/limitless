@@ -6,6 +6,7 @@
       "single",
       { "avoidEscape": true, "allowTemplateLiterals": true }
     ],
-    "react/no-unescaped-entities": 0
+    "react/no-unescaped-entities": 0,
+    "semi": [2, "always"]
   }
 }
