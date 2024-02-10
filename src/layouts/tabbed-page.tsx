@@ -1,6 +1,6 @@
 import { cx } from '@emotion/css';
 import { motion } from 'framer-motion';
-import { use4k } from '@/hooks/use-4k';
+import { use4k, TABBED_PAGE_PADDING_X } from '@/hooks/use-4k';
 import { PortalTarget } from '@/hooks/use-gamepad';
 import { Tabs, Tab_Type } from '@/components/tabs';
 import { getFontVariant } from '@/app/styles/fonts';
@@ -41,8 +41,8 @@ export const TabbedPage = ({
           display: flex;
           flex-direction: column;
           height: 100%;
-          padding-left: var(--tabbed-page-padding-x);
-          padding-right: var(--tabbed-page-padding-x);
+          padding-left: ${TABBED_PAGE_PADDING_X};
+          padding-right: ${TABBED_PAGE_PADDING_X};
           padding-top: 6.111vh;
         `}>
           <div className={css`position: relative; z-index: 2;`}>

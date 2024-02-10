@@ -8,8 +8,6 @@
 :root {
   --halo-white: #f4f4f4;
   --halo-offwhite: #dedede;
-
-  --tabbed-page-padding-x: 5.208vw; /* vw is correct. */
 }
 
 /* All the emotion css stuff renders on the client, so we need some styles

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { use4k } from '@/hooks/use-4k';
+import { use4k, TABBED_PAGE_PADDING_X } from '@/hooks/use-4k';
 import { MediumColumn } from '@/layouts/medium-column';
 import { ListBox } from '@/components/list-box/list-box';
 import { OperationsBox } from '@/components/play-tab/operations/operations-box';
@@ -53,7 +53,7 @@ const ResponsiveMediumColumn = ({
     <MediumColumn className={css`
       @media (orientation: portrait) {
         // vw is correct.
-        width: calc(50vw - (var(--tabbed-page-padding-x) * 1.5));
+        width: calc(50vw - (${TABBED_PAGE_PADDING_X} * 1.5));
       }
     `}>
       {children}
