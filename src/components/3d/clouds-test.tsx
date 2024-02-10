@@ -51,6 +51,8 @@ export const CloudsTest = () => {
         </Physics>
       </Clouds>
 
+      {/* Uncomment for debugging, makes a black background. */}
+
       {/* <mesh scale={200}>
         <sphereGeometry />
         <meshStandardMaterial color="#000" roughness={0.7} side={BackSide} />

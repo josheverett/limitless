@@ -29,6 +29,10 @@ export const MetaButton = ({
           height: 100%;
           font-size: 2vh;
           cursor: pointer;
+
+          @media (orientation: portrait) {
+            display: none;
+          }
         `,
         getFontVariant(css, 'titillium'),
       )}

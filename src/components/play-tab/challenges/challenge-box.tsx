@@ -26,7 +26,7 @@ const ChallengeBattlePassBox = ({
       isFocused && css`border-color: black;`,
     )}>
       <div className={cx(
-        css`display: flex; align-items: center; gap: 1.111vh;`,
+        css`display: flex; align-items: center; gap: 1.111vh; width: 100%;`,
         getFontVariant(css, 'titillium_description')
       )}>
         <MaterialIcon
@@ -129,7 +129,16 @@ export const ChallengeBox = ({
         >
           {description}
         </TextOffset>
-        <TextOffset top="-0.65vh" className={css`font-size: 1.85vh;`}>
+        <TextOffset
+          top="-0.65vh"
+          className={css`
+            font-size: 1.85vh;
+
+            @media (orientation: portrait) {
+              display: none;
+            }
+          `}
+        >
           {value}/{max}
         </TextOffset>
       </div>

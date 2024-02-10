@@ -36,7 +36,13 @@ export const ChallengeHeading = ({
         <TextOffset smush top="-1.2vh" className={css``}>{title}</TextOffset>
       </div>
       {/* temp obviously lol */}
-      <div>[clock] {endDate.getHours()}</div>
+      <div className={css`
+        @media (orientation: portrait) {
+          display: none;
+        }
+      `}>
+        [clock] {endDate.getHours()}
+      </div>
     </div>
   );
 };

@@ -53,6 +53,10 @@ const Tab = ({
           outline-width: ${isSelected ? '0.37' : '0.185'}vh;
           outline-color: var(--halo-${isSelected ? 'white' : 'offwhite'});
           color: var(--halo-${isSelected ? 'white' : 'offwhite'});
+
+          @media (orientation: portrait) {
+            min-width: 0;
+          }
         `,
         ...getFontVariant(css, 'teko_2_3_wide_light'),
       )}
@@ -169,6 +173,10 @@ export const Tabs = ({
           gap: 1.991vh;
           height: 3.704vh;
           margin-left: -5.695vh; /* button width + gap */
+
+          @media (orientation: portrait) {
+            margin-left: 0;
+          }
         `,
         className
       )}

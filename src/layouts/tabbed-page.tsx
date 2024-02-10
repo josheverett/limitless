@@ -41,8 +41,8 @@ export const TabbedPage = ({
           display: flex;
           flex-direction: column;
           height: 100%;
-          padding-left: 5.208vw;
-          padding-right: 5.208vw;
+          padding-left: var(--tabbed-page-padding-x);
+          padding-right: var(--tabbed-page-padding-x);
           padding-top: 6.111vh;
         `}>
           <div className={css`position: relative; z-index: 2;`}>

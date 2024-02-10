@@ -102,6 +102,10 @@ export const InputButton = ({
           cursor: pointer;
           user-select: none;
           filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+
+          @media (orientation: portrait) {
+            display: none;
+          }
         `,
         className
       )}

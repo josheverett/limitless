@@ -8,7 +8,6 @@ import { OperationsBox } from '@/components/play-tab/operations/operations-box';
 import { PlayTabCarousel } from '@/components/play-tab/carousel';
 import { Challenges } from '@/components/play-tab/challenges/challenges';
 
-import { Spartan } from '@/components/3d/spartan';
 import { CloudsTest } from '@/components/3d/clouds-test';
 
 const LIST_ITEMS = [
@@ -39,6 +38,29 @@ const LIST_ITEMS = [
   },
 ];
 
+type ResponsiveMediumColumnProps = {
+  children: React.ReactNode;
+};
+
+// If this adjustment is made outside of this particular page it
+// needs to become a feature of the MediumColumn component.
+const ResponsiveMediumColumn = ({
+  children,
+}: ResponsiveMediumColumnProps) => {
+  const css = use4k();
+
+  return (
+    <MediumColumn className={css`
+      @media (orientation: portrait) {
+        // vw is correct.
+        width: calc(50vw - (var(--tabbed-page-padding-x) * 1.5));
+      }
+    `}>
+      {children}
+    </MediumColumn>
+  );
+};
+
 export default function PlayTab() {
   const css = use4k();
 
@@ -55,10 +77,10 @@ export default function PlayTab() {
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
+        // height: 100%;
+        height: 100vh;
         z-index: 1;
       `}>
-        {/* <Spartan /> */}
         <CloudsTest />
       </div>
       <div className={css`
@@ -68,7 +90,7 @@ export default function PlayTab() {
         margin-top: 4.167vh;
         z-index: 2;
       `}>
-        <MediumColumn>
+        <ResponsiveMediumColumn>
           <PlayTabCarousel />
           <ListBox
             className={css`margin-top: 1.713vh;`}
@@ -80,11 +102,11 @@ export default function PlayTab() {
               { target: 'PlayTabOperations', direction: 'R' },
             ]}
           />
-        </MediumColumn>
-        <MediumColumn>
+        </ResponsiveMediumColumn>
+        <ResponsiveMediumColumn>
           <OperationsBox />
           <Challenges className={css`margin-top: 3.287vh`} />
-        </MediumColumn>
+        </ResponsiveMediumColumn>
       </div>
     </motion.div>
   );

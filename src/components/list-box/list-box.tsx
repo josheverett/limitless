@@ -162,8 +162,8 @@ export const ListBox = ({
         </div>
         <ListBoxNotch type="bottom" />
       </div>
+      <div hidden={!description} className={css`position: relative; height: 0;`}>
       <div
-        hidden={!description}
         // The 40vw width below allows the description text to spill out of
         // any containing columns for the list. This value is eyeballed and
         // was chosen to work well with portrait-oriented screens, where the
@@ -173,18 +173,17 @@ export const ListBox = ({
         className={cx(
           css`
             position: absolute;
-            display: flex;
-            align-items: center;
-            height: 1.296vh;
+            // top: 0;
+            top: 1.4vh;
+            left: 1.991vh;
             width: 40vw;
-            margin-top: 2.222vh;
-            margin-left: 1.991vh;
           `,
           getFontVariant(css, 'titillium_description'),
           getFontVariant(css, 'shadow_crisp'),
         )}
       >
         {description}
+      </div>
       </div>
     </div>
   );

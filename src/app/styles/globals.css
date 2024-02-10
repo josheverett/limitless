@@ -8,6 +8,8 @@
 :root {
   --halo-white: #f4f4f4;
   --halo-offwhite: #dedede;
+
+  --tabbed-page-padding-x: 5.208vw; /* vw is correct. */
 }
 
 /* All the emotion css stuff renders on the client, so we need some styles
@@ -29,6 +31,7 @@ body {
   color: var(--halo-white); /* meaingingless arbitrary default */
   background: url('/background.jpg') center / cover no-repeat;
   background-color: hsl(0, 0%, 0%);
+  overflow: hidden; /* this was needed for mobile viewports to behave */
 }
 
 /* All the emotion css stuff renders on the client, so we need these styles
