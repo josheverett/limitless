@@ -7,8 +7,8 @@ Source: https://sketchfab.com/3d-models/spartan-armour-mkv-halo-reach-57070b2fd9
 Title: Spartan Armour MKV - Halo Reach
 */
 
-import React, { useRef, useEffect } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import React, { useRef, useEffect } from 'react';
+import { useGLTF, useAnimations } from '@react-three/drei';
 
 export function Model(props) {
   const group = useRef();
@@ -57,7 +57,7 @@ export function Model(props) {
         </group>
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/3d/spartan.glb')
+useGLTF.preload('/3d/spartan.glb');

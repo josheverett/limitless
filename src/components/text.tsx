@@ -48,4 +48,4 @@ export const TextOffset = ({
       {children}
     </span>
   );
-}
+};

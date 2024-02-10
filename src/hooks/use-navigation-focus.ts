@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation';
 
 // This hooks allows you to choose an element that should be focused by
 // default when navigating to a given route. There should only ever be
