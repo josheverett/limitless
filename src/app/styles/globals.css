@@ -67,3 +67,14 @@ a {
   height: 100%;
   fill: currentColor;
 }
+
+/**
+ * threejs
+ */
+
+/* This is needed due to the forced 4k mode as threejs' built-in resizer
+   doesn't account for the transform:scale(). */
+canvas[data-engine] {
+  width: 100% !important;
+  height: 100% !important;
+}
