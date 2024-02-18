@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { Clouds, Cloud, Environment, PerspectiveCamera } from '@react-three/drei';
 import { Physics } from '@react-three/rapier';
-import { Model } from './SpartanModel';
+import { Model } from '../models/SpartanModel';
 
 import { MeshLambertMaterial, BackSide } from 'three';
 
@@ -34,7 +34,7 @@ const PuffyCloud = ({
   );
 };
 
-export const CloudsTest = () => {
+export const PlayTabBackground = () => {
   return (
     <Canvas style={{ width: '100%', height: '100%' }}>
       <ambientLight intensity={Math.PI / 2} />
