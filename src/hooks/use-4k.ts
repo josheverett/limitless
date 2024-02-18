@@ -26,3 +26,28 @@ export const use4k = () => {
     return force4k ? fourk`${output}` : css`${output}`;
   };
 };
+
+// If you have a use case where you have to pass a *shallow* object with CSS
+// props that include vw/vh values, use this to wrap the object and 4k-ify it.
+// In other situations it's just a needless perf penalty.
+//
+// This might include non-standard props, so we just use
+// a simple string-->string|number object for the type.
+
+type SimpleObject = { [key: string]: string | number };
+
+export const useObjectTo4k = () => {
+  const { force4k } = useContext(AppContext);
+
+  return function (props: SimpleObject) {
+    const props_: SimpleObject = { ...props };
+
+    for (const [k, v] of Object.entries(props)) {
+      // Important to only transform strings.
+      const isString = typeof v === 'string';
+      props_[k] = isString && force4k ?fourk`${String(v)}` : v;
+    }
+
+    return props_;
+  };
+};

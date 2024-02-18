@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { use4k } from '@/hooks/use-4k';
+import { use4k, useObjectTo4k } from '@/hooks/use-4k';
 
 type Position = [number, number]; // vh units
 
@@ -13,26 +13,27 @@ type LineProps = {
   position: Position; // relative to parent
   startXY: Position; // relative to transformOrigin
   transformOrigin?: string;
-  animationOffset?: number; // ms
+  delay?: number; // seconds
   children?: React.ReactNode;
 };
 
 const LINE_WIDTH = 0.417; // vh
 export const CAP_HEIGHT = 5.185; // vh
 const HEIGHT_DURATION = 1; // seconds, eyeballed
-const EASING = [0.33, 0.88, 0.87, 0.95];
+const EASING = [0.33, 0.88, 0.87, 0.95]; // eyeballed
 
 export const Line = ({
   type,
   width = 0,
-  initialHeight,
+  initialHeight = 0,
   position,
   startXY,
   transformOrigin = 'top left',
-  animationOffset = 0, // is this getting used?
+  delay = 0,
   children,
 }: LineProps) => {
   const css = use4k();
+  const objectTo4k = useObjectTo4k();
 
   let [posX, posY] = position;
   const [startX, startY] = startXY;
@@ -40,9 +41,11 @@ export const Line = ({
 
   let width_ = width;
   let height = 0;
+  let initialHeight_ = initialHeight;
   let rotate = 0;
   let scaleX = 1;
   let scaleY = 1;
+  let delay_ = delay;
 
   switch (type) {
     case 'vertical':
@@ -52,7 +55,9 @@ export const Line = ({
       break;
     case 'horizontal':
       height = LINE_WIDTH;
+      initialHeight_ = height;
       scaleX = 0;
+      delay_ += HEIGHT_DURATION;
       break;
     // I'm sure the adjustments below can be derived with math
     // and not eyeballs buy yeah wtf is math lol.
@@ -62,13 +67,9 @@ export const Line = ({
       width_ = LINE_WIDTH;
       height = CAP_HEIGHT + 0.75; // eyeballed
       rotate = -34; // eyeballed
+      delay_ += HEIGHT_DURATION;
       break;
   }
-
-  const initialHeight_ = type === 'horizontal' ? height : (initialHeight || 0);
-  const delay = type === 'vertical' ? 0 : HEIGHT_DURATION;
-
-  // TODO: This needs use4k!!!!
 
   return (
     // Position, scale, rotation, opacity.
@@ -79,25 +80,24 @@ export const Line = ({
         left: ${String(posX)}vh;
         width: ${String(width_)}vh;
       `}
-      initial={{
+      initial={objectTo4k({
         height: initialHeight_ + 'vh',
-        opacity: 0,
+        opacity: type === 'vertical' ? 0 : 1,
         rotate,
         scaleX,
         scaleY,
         transformOrigin,
-      }}
-      animate={{
+      })}
+      animate={objectTo4k({
         height: height + 'vh',
         opacity: 1,
         scaleX: 1,
         scaleY: 1,
-      }}
+      })}
       transition={{
         duration: HEIGHT_DURATION,
         ease: EASING,
-        delay,
-        animationOffset,
+        delay: delay_,
       }}
     >
       {/* x axis animation. */}
@@ -112,7 +112,7 @@ export const Line = ({
         transition={{
           duration: HEIGHT_DURATION * 3, // eyeballed
           ease: EASING,
-          animationOffset,
+          delay: delay_,
         }}
       >
         {/* y axis animation (and white color). */}
@@ -127,7 +127,7 @@ export const Line = ({
           transition={{
             duration: HEIGHT_DURATION, // eyeballed
             ease: EASING,
-            animationOffset,
+            delay: delay_,
           }}
         >
           {children}
