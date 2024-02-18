@@ -27,19 +27,28 @@ body {
   height: 100%;
   font-size: 2vh; /* meaningless arbitrary default */
   color: var(--halo-white); /* meaingingless arbitrary default */
-  background: url('/background.jpg') center / cover no-repeat;
+  background: url('/background.jpg') center / cover no-repeat; /* TODO: Optimize. */
   background-color: hsl(0, 0%, 0%);
   overflow: hidden; /* this was needed for mobile viewports to behave */
 }
 
 /* All the emotion css stuff renders on the client, so we need these styles
    to bootstrap the the main layout el that contains all other components. */
+
+/* TODO: Optimize these, use webp. */
+
 main {
   width: 100%;
   height: 100%;
-  /* TODO: How to use nextjs optimization on this bg image? */
   background: url("/multiplayer/play/play-bg.jpg") center / cover no-repeat;
-  /* background: url("/debug-bg-02.jpg") center / cover no-repeat; */
+}
+
+main.start-screen {
+  background: url("/start-screen/bg.jpg") center / cover no-repeat;
+}
+
+main.tabbed-page-multiplayer-play {
+  background: url("/multiplayer/play/play-bg.jpg") center / cover no-repeat;
 }
 
 a {

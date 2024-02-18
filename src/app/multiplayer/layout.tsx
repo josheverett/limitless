@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { TabbedPage } from '@/layouts/tabbed-page';
 import { Footer } from '@/components/footer/footer';
@@ -20,17 +21,30 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
   const pathname = usePathname();
   const css = use4k();
 
+  const pathnameWithDashes = pathname.replace(/\//g, '-');
+
   return (
-    <TabbedPage
-      portal="MultiplayerAppTabs"
-      portalTargets={[
-        { pathname: '/multiplayer/play', target: 'PlayTabCarousel' }
-      ]}
-      tabs={TABS}
-      hidden={!pathname.startsWith('/multiplayer')}
-    >
-      {children}
-      <Footer className={css`z-index: 1;`} />
-    </TabbedPage>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <div className={css`
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+      `}>
+        <TabbedPage
+          className={`tabbed-page${pathnameWithDashes}`}
+          portal="MultiplayerAppTabs"
+          portalTargets={[
+            { pathname: '/multiplayer/play', target: 'PlayTabCarousel' }
+          ]}
+          tabs={TABS}
+          hidden={!pathname.startsWith('/multiplayer')}
+        >
+          {children}
+          <Footer className={css`z-index: 1;`} />
+        </TabbedPage>
+      </div>
+    </motion.div>
   );
 };

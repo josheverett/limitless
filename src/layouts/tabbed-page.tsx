@@ -7,6 +7,7 @@ import { TabLink } from '@/components/tabs/tab';
 import { getFontVariant } from '@/app/styles/fonts';
 
 type TabbedPageProps = {
+  className: string; // Required for bg image classes.
   tabs: TabLink[];
   portal: string; // Name of the input portal for these tabs.
   // This is required even when false because it's important to have only
@@ -17,6 +18,7 @@ type TabbedPageProps = {
 };
 
 export const TabbedPage = ({
+  className,
   tabs,
   portal,
   portalTargets,
@@ -30,7 +32,7 @@ export const TabbedPage = ({
     // also just me making sure the thing works, it's just a POC. Temporary.
     <main
       hidden={hidden}
-      className={cx(getFontVariant(css, 'teko'))}
+      className={cx(getFontVariant(css, 'teko'), className)}
     >
       <motion.div
         className={css`width: 100%; height: 100%;`}
