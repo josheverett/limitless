@@ -3,18 +3,23 @@
 import { motion } from 'framer-motion';
 import { use4k, useObjectTo4k } from '@/hooks/use-4k';
 
-type Position = [number, number]; // vh units
+export type Position = [number, number]; // vh units
 
 // All width/height/x/y units are vh
 type LineProps = {
   type: 'vertical' | 'horizontal' | 'diagonal';
   width?: number;
   initialHeight?: number; // vertical only
-  position: Position; // relative to parent
-  startXY: Position; // relative to transformOrigin
+  position?: Position; // relative to parent
+  startXY?: Position; // relative to transformOrigin
   transformOrigin?: string;
   delay?: number; // seconds
   children?: React.ReactNode;
+};
+
+// Surely there is a way to clobber `children` without Omit?
+export type LineTree = Omit<LineProps, 'children'> & {
+  children?: LineTree[];
 };
 
 const LINE_WIDTH = 0.417; // vh
@@ -26,8 +31,8 @@ export const Line = ({
   type,
   width = 0,
   initialHeight = 0,
-  position,
-  startXY,
+  position = [0, 0],
+  startXY = [0, 0],
   transformOrigin = 'top left',
   delay = 0,
   children,
