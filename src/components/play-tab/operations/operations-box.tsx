@@ -115,6 +115,7 @@ export const OperationsBox = ({
       </Link>
       <InputButton
         input="Y"
+        allowMobile={false}
         callback={() => console.log('DERP Y BUTTON PRESSED!')}
         className={css`
           position: absolute;

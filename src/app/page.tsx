@@ -198,7 +198,7 @@ export default function StartScreen() {
               // right: 2.731vh;
               right: 3.2vh; // eyeballed to account for italics
               height: 0.972vh;
-              font-size: 1.944vh;
+              font-size: 1.62vh;
               text-transform: none;
             `
           )}>

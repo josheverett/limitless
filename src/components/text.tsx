@@ -47,6 +47,8 @@ export const TextOffset = ({
         ${truncate ? `text-overflow: ellipsis;` : ''};
         ${truncate ? `white-space: nowrap;` : ''};
 
+        ${smush ? `font-size: 1.2em;` : ''};
+
         transform: ${transforms.length ? transforms.join(' ') : 'none'};
       `,
       className,
