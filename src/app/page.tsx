@@ -1,10 +1,12 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { cx } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { Image } from '@/components/image';
-import { Line, LineTree, CAP_HEIGHT } from '@/components/start-screen/line';
+import { LineTree, CAP_HEIGHT } from '@/components/start-screen/line';
+import { InfiniteLogo } from '@/components/start-screen/infinite-logo';
 
 // This shit is exactly as hilarious as it looks.
 
@@ -86,6 +88,12 @@ const LOGO_ANIMATION_DELAY = 1.5; // seconds. delay before the whole thing kicks
 
 export default function StartScreen() {
   const css = use4k();
+  const [shouldRenderLogo, setShouldRenderLogo] = useState(false);
+
+  // stupid workaround for 4k mode bug
+  useEffect(() => {
+    setTimeout(() => setShouldRenderLogo(true), LOGO_ANIMATION_DELAY * 1000);
+  });
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -128,22 +136,9 @@ export default function StartScreen() {
           role="img"
           aria-label="Infinite"
         >
-          {LOGO_LINES.map((parentLine, i) => {
-            const { delay, children, ...parentProps } = parentLine;
-            const delay_ = (delay || 0) + LOGO_ANIMATION_DELAY;
-            // It's ok to use indexes as keys here, everything is static.
-            return (
-              <Line key={`line-parent-${i}`} delay={delay_} {...parentProps}>
-                {children?.map((childLine, ii) => {
-                  // Even though there's no children it needs to be destructured
-                  // lest we try to set children={[]} on a react component.
-                  const { delay, children: _, ...childProps } = childLine;
-                  const delay_ = (delay || 0) + LOGO_ANIMATION_DELAY;
-                  return <Line key={`line-child-${ii}`} delay={delay_} {...childProps} />;
-                })}
-              </Line>
-            );
-          })}
+          {/* We render null until the setTimeout goes off because it works
+              around a tricky bug with scaled transitions. */}
+          {shouldRenderLogo ? <InfiniteLogo lines={LOGO_LINES} /> : null }
         </div>
         <div className={css`margin-top: 5.509vh`}>Press a to play</div>
       </main>
