@@ -43,7 +43,7 @@ main {
 }
 
 main.start-screen {
-  background: url("/start-screen/bg.jpg") center / cover no-repeat;
+  background: url("/start-screen/bg.webp") center / cover no-repeat;
 }
 
 main.tabbed-page-multiplayer-play {

@@ -92,6 +92,11 @@ const teko_2_3_wide_light = {
   fontWeight: '300',
 };
 
+const teko_2_3_extra_wide_light = {
+  ...teko_extra_wide,
+  fontWeight: '300',
+};
+
 const FONT_VARIANTS: { [key: string]: FontVariant } = {
   titillium,
   titillium_description,
@@ -104,6 +109,7 @@ const FONT_VARIANTS: { [key: string]: FontVariant } = {
   teko_2_3,
   teko_2_3_wide,
   teko_2_3_wide_light,
+  teko_2_3_extra_wide_light,
 
   shadow_crisp,
   shadow_soft,

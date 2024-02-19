@@ -5,7 +5,7 @@ import { AppContext } from '@/app/context';
 
 const FOURK_WIDTH = 3840;
 const FOURK_HEIGHT = 2160;
-const FOURK_MARGIN = 40;
+const FOURK_MARGIN = 80;
 
 type ResizeProps = {
   children: React.ReactNode;

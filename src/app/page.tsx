@@ -5,8 +5,11 @@ import { cx } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { Image } from '@/components/image';
+import { TextOffset } from '@/components/text';
+import { InputButton } from '@/components/input-button';
 import { LineTree, CAP_HEIGHT } from '@/components/start-screen/line';
 import { InfiniteLogo } from '@/components/start-screen/infinite-logo';
+import { getFontVariant } from '@/app/styles/fonts';
 
 // This shit is exactly as hilarious as it looks.
 
@@ -95,6 +98,16 @@ export default function StartScreen() {
     setTimeout(() => setShouldRenderLogo(true), LOGO_ANIMATION_DELAY * 1000);
   });
 
+  const pressAToPlayClassName = cx(
+    getFontVariant(css, 'teko_2_3_extra_wide_light'),
+    // getFontVariant(css, 'shadow_crisp'),
+    css`
+      font-size: 3.5vh;
+      // This is a one-off shadow.
+      text-shadow: 0.1vh 0.15vh hsla(0, 0%, 0%, 0.8);
+    `,
+  );
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <main className={cx(
@@ -103,20 +116,28 @@ export default function StartScreen() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          // oh, this stuff isn't actually centered. derpy doo.
+          // Minus the "Press A" bit, the "Halo" and "Infinite" *look*
+          // centered, but they ain't. Dumb margins it is!
+          // justify-content: center;
           position: fixed;
           top: 0;
           left: 0;
           width: 100%;
           height: 100vh;
-        `
+        `,
       )}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ ease: 'easeIn', duration: 1.5 }}
         >
-          <div className={css`position: relative; width: 27.593vh; height: 4.028vh;`}>
+          <div className={css`
+            position: relative;
+            width: 27.593vh;
+            height: 4.028vh;
+            margin-top: 42.176vh;
+          `}>
             <Image
               className={css`width: 100%; height: 100%;`}
               unoptimized
@@ -140,7 +161,28 @@ export default function StartScreen() {
               around a tricky bug with scaled transitions. */}
           {shouldRenderLogo ? <InfiniteLogo lines={LOGO_LINES} /> : null }
         </div>
-        <div className={css`margin-top: 5.509vh`}>Press a to play</div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: 'easeIn', duration: 0.5 }}
+        >
+          <div className={css`
+            display: flex;
+            align-items: center;
+            height: 1.759vh;
+            margin-top: 5.509vh;
+            margin-right: -0.7vh;
+          `}>
+            <TextOffset className={pressAToPlayClassName} smush top="0.2vh">Press</TextOffset>
+            <InputButton
+              className={css`width: 2vh; height: 2vh; margin: 0 1.1vh 0 0.7vh`}
+              shadowed
+              input="A"
+              callback={() => { console.log('SUP A'); }}
+            />
+            <TextOffset className={pressAToPlayClassName} smush top="0.2vh">to play</TextOffset>
+          </div>
+        </motion.div>
       </main>
     </motion.div>
   );

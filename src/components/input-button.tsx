@@ -69,6 +69,8 @@ type InputButtonProps = {
   input: GAMEPAD_INPUT_KEYS;
   state?: UseInputState;
   portal?: string;
+  allowMobile?: boolean;
+  shadowed?: boolean;
   callback: () => void;
 };
 
@@ -80,6 +82,8 @@ export const InputButton = ({
   input,
   state = 'press',
   portal,
+  allowMobile = true,
+  shadowed = false,
   callback,
 }: InputButtonProps) => {
   const css = use4k();
@@ -88,6 +92,9 @@ export const InputButton = ({
 
   const icon = ICON_MAP[input];
   const iconBg = SHAPE_MAP[input];
+  const filter = shadowed
+    ? 'drop-shadow(0.075vh 0.075vh 0.025vh black)'
+    : 'none';
 
   return (
     <div
@@ -98,13 +105,15 @@ export const InputButton = ({
           align-items: center;
           justify-content: center;
           text-align: center;
-          color: hsl(0, 0%, 40%);
+          // This is temporary until I have SVGs with cut out letters
+          // that will be used as css mask (allowing bg to bleed through).
+          color: ${shadowed ? 'hsl(0, 0%, 20%)' : 'hsl(0, 0%, 40%)'};
           cursor: pointer;
           user-select: none;
-          filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+          filter: ${filter};
 
           @media (orientation: portrait) {
-            display: none;
+            display: ${allowMobile ? 'flex' : 'none'};
           }
         `,
         className
@@ -116,18 +125,20 @@ export const InputButton = ({
         fill
         unoptimized
         src={`/input-shapes/${iconBg}.svg`}
-        alt={input} />
-        {!!icon ? (
-          // pos:relative for stacking context, no explicit z-index needed.
-          <MaterialIcon
-            className={css`position: relative; width: 60%; height: 60%;`}
-            icon={icon}
-          />
-        ) : (
-          <span className={css`font-size: 1.5vh;`}>
-            <TextOffset top="0.15vh">{input}</TextOffset>
-          </span>
-        )}
+        role="button"
+        alt={input}
+      />
+      {!!icon ? (
+        // pos:relative for stacking context, no explicit z-index needed.
+        <MaterialIcon
+          className={css`position: relative; width: 60%; height: 60%;`}
+          icon={icon}
+        />
+      ) : (
+        <span className={css`font-size: 1.5vh;`}>
+          <TextOffset top="0.139vh">{input}</TextOffset>
+        </span>
+      )}
     </div>
   );
 };
