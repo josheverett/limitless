@@ -82,6 +82,8 @@ const LOGO_LINES: LineTree[] = [
   },
 ];
 
+const LOGO_ANIMATION_DELAY = 1.5; // seconds. delay before the whole thing kicks off.
+
 export default function StartScreen() {
   const css = use4k();
 
@@ -101,15 +103,21 @@ export default function StartScreen() {
           height: 100vh;
         `
       )}>
-        <div className={css`position: relative; width: 27.593vh; height: 4.028vh;`}>
-          <Image
-            className={css`width: 100%; height: 100%;`}
-            unoptimized
-            fill
-            src="/start-screen/halo.svg"
-            alt="Halo"
-          />
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: 'easeIn', duration: 1.5 }}
+        >
+          <div className={css`position: relative; width: 27.593vh; height: 4.028vh;`}>
+            <Image
+              className={css`width: 100%; height: 100%;`}
+              unoptimized
+              fill
+              src="/start-screen/halo.svg"
+              alt="Halo"
+            />
+          </div>
+        </motion.div>
         <div
           className={css`
             position: relative;
@@ -121,15 +129,17 @@ export default function StartScreen() {
           aria-label="Infinite"
         >
           {LOGO_LINES.map((parentLine, i) => {
-            const { children, ...parentProps } = parentLine;
+            const { delay, children, ...parentProps } = parentLine;
+            const delay_ = (delay || 0) + LOGO_ANIMATION_DELAY;
             // It's ok to use indexes as keys here, everything is static.
             return (
-              <Line key={`line-parent-${i}`} {...parentProps}>
+              <Line key={`line-parent-${i}`} delay={delay_} {...parentProps}>
                 {children?.map((childLine, ii) => {
-                  // Even no there's no children it needs to be destructured
+                  // Even though there's no children it needs to be destructured
                   // lest we try to set children={[]} on a react component.
-                  const { children: _, ...childProps } = childLine;
-                  return <Line key={`line-child-${ii}`} {...childProps} />;
+                  const { delay, children: _, ...childProps } = childLine;
+                  const delay_ = (delay || 0) + LOGO_ANIMATION_DELAY;
+                  return <Line key={`line-child-${ii}`} delay={delay_} {...childProps} />;
                 })}
               </Line>
             );
