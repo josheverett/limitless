@@ -183,6 +183,26 @@ export default function StartScreen() {
             <TextOffset className={pressAToPlayClassName} smush top="0.2vh">to play</TextOffset>
           </div>
         </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: 'easeIn', duration: 0.5 }}
+        >
+          <div className={cx(
+            getFontVariant(css, 'teko_2_3'),
+            css`
+              position: absolute;
+              bottom: 2.269vh;
+              // right: 2.731vh;
+              right: 3.2vh; // eyeballed to account for italics
+              height: 0.972vh;
+              font-size: 1.944vh;
+              text-transform: none;
+            `
+          )}>
+            <TextOffset smush italic top="-0.833vh">Version 6.10025.15257.0</TextOffset>
+          </div>
+        </motion.div>
       </main>
     </motion.div>
   );

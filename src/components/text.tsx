@@ -13,6 +13,7 @@ type TextOffsetProps = {
   left?: string; // vh units
   truncate?: boolean;
   smush?: boolean; // experimental Teko smoooshing
+  italic?: boolean; // experimental Teko skewing because the italics are extreme lol
   children: React.ReactNode;
 };
 
@@ -20,11 +21,17 @@ export const TextOffset = ({
   className,
   top,
   left,
-  truncate,
-  smush,
+  truncate = false,
+  smush = false,
+  italic = false,
   children
 }: TextOffsetProps) => {
   const css = use4k();
+
+  const transforms = [];
+
+  if (smush) transforms.push('scaleY(0.75)');
+  if (italic) transforms.push('skewX(-3.5deg)');
 
   return (
     <span className={cx(
@@ -35,13 +42,12 @@ export const TextOffset = ({
         ${!!top ? `top: ${top};` : ''};
         ${!!left ? `left: ${left};` : ''};
 
-        ${!!truncate ? `width: 100%;` : ''};
-        ${!!truncate ? `overflow: hidden;` : ''};
-        ${!!truncate ? `text-overflow: ellipsis;` : ''};
-        ${!!truncate ? `white-space: nowrap;` : ''};
+        ${truncate ? `width: 100%;` : ''};
+        ${truncate ? `overflow: hidden;` : ''};
+        ${truncate ? `text-overflow: ellipsis;` : ''};
+        ${truncate ? `white-space: nowrap;` : ''};
 
-        ${!!smush ? `font-size: 1.2em;` : ''};
-        ${!!smush ? `transform: scaleY(0.75);` : ''};
+        transform: ${transforms.length ? transforms.join(' ') : 'none'};
       `,
       className,
     )}>
