@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { cx } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
@@ -90,6 +91,7 @@ const LOGO_LINES: LineTree[] = [
 const LOGO_ANIMATION_DELAY = 1.5; // seconds. delay before the whole thing kicks off.
 
 export default function StartScreen() {
+  const router = useRouter();
   const css = use4k();
   const [shouldRenderLogo, setShouldRenderLogo] = useState(false);
 
@@ -178,7 +180,7 @@ export default function StartScreen() {
               className={css`width: 2vh; height: 2vh; margin: 0 1.1vh 0 0.7vh`}
               shadowed
               input="A"
-              callback={() => { console.log('SUP A'); }}
+              callback={() => router.push('/multiplayer/play')}
             />
             <TextOffset className={pressAToPlayClassName} smush top="0.2vh">to play</TextOffset>
           </div>
