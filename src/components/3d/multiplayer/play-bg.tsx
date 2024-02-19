@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Clouds, Cloud, Environment, PerspectiveCamera, useProgress } from '@react-three/drei';
 import { Physics } from '@react-three/rapier';
@@ -10,20 +11,35 @@ type LoaderProps = {
 };
 
 const Loader = ({ children }: LoaderProps) => {
+  const [isLoaded, setisLoaded] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   // `active` = "something is loading"
   // loaded and total are bytes
   const { active, loaded, total } = useProgress();
 
-  const isLoaded = !active && loaded === total;
+  if (!isLoaded && !active && loaded === total) setisLoaded(true);
+
+  // This works around an issue with the threejs scene only fading in
+  // on its first load.
+  useEffect(() => {
+    if (!isLoaded) return;
+    setTimeout(() => {
+      if (ref.current) ref.current.style.opacity = '1';
+    }, 200);
+  }, [isLoaded]);
 
   return (
-    <div style={{
-      width: '100%',
-      height: '100%',
-      opacity: isLoaded ? 1 : 0,
-      transition: '500ms opacity ease-out',
-    }}>
+    <div
+      ref={ref}
+      style={{
+        width: '100%',
+        height: '100%',
+        // opacity: isLoaded ? 1 : 0,
+        opacity: 0,
+        transition: '500ms opacity ease-out',
+      }}
+    >
       {children}
     </div>
   );

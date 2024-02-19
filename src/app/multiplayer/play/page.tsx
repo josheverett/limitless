@@ -63,12 +63,6 @@ const ResponsiveMediumColumn = ({
 export default function PlayTab() {
   const css = use4k();
 
-  // TODO: Add fade out. There's that wrapper element thing for this, the
-  // one that adds the `exit` prop to the motion div.
-  // Update: The real thing is so friggin janky about page transitions at times.
-  // Don't be afraid to go rogue and improve upon the real thing.
-  // There are very, very few places in the app where going rogue might make
-  // sense, and this is one of them.
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <div className={css`
