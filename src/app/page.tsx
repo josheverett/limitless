@@ -1,7 +1,9 @@
 'use client';
 
 import { cx } from '@emotion/css';
+import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
+import { Image } from '@/components/image';
 import { Line, LineTree, CAP_HEIGHT } from '@/components/start-screen/line';
 
 // This shit is exactly as hilarious as it looks.
@@ -84,35 +86,57 @@ export default function StartScreen() {
   const css = use4k();
 
   return (
-    <main className={cx(
-      'start-screen',
-      css`
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-      `
-    )}>
-      <div className={css`position: relative; width: 39.259vh; height: 8.056vh;`}>
-        {LOGO_LINES.map((parentLine, i) => {
-          const { children, ...parentProps } = parentLine;
-          // It's ok to use indexes as keys here, everything is static.
-          return (
-            <Line key={`line-parent-${i}`} {...parentProps}>
-              {children?.map((childLine, ii) => {
-                // Even no there's no children it needs to be destructured
-                // lest we try to set children={[]} on a react component.
-                const { children: _, ...childProps } = childLine;
-                return <Line key={`line-child-${ii}`} {...childProps} />;
-              })}
-            </Line>
-          );
-        })}
-      </div>
-    </main>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <main className={cx(
+        'start-screen',
+        css`
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+        `
+      )}>
+        <div className={css`position: relative; width: 27.593vh; height: 4.028vh;`}>
+          <Image
+            className={css`width: 100%; height: 100%;`}
+            unoptimized
+            fill
+            src="/start-screen/halo.svg"
+            alt="Halo"
+          />
+        </div>
+        <div
+          className={css`
+            position: relative;
+            width: 39.259vh;
+            height: 5.185vh;
+            margin-top: 2.13vh;
+          `}
+          role="img"
+          aria-label="Infinite"
+        >
+          {LOGO_LINES.map((parentLine, i) => {
+            const { children, ...parentProps } = parentLine;
+            // It's ok to use indexes as keys here, everything is static.
+            return (
+              <Line key={`line-parent-${i}`} {...parentProps}>
+                {children?.map((childLine, ii) => {
+                  // Even no there's no children it needs to be destructured
+                  // lest we try to set children={[]} on a react component.
+                  const { children: _, ...childProps } = childLine;
+                  return <Line key={`line-child-${ii}`} {...childProps} />;
+                })}
+              </Line>
+            );
+          })}
+        </div>
+        <div className={css`margin-top: 5.509vh`}>Press a to play</div>
+      </main>
+    </motion.div>
   );
 }

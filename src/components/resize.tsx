@@ -26,6 +26,9 @@ export const Resize = ({ children }: ResizeProps) => {
   // eventually for use in the campaign app.
   useEffect(() => {
     if (!ref.current) return;
+    // okay first toggle the className on body
+    document.body.classList.toggle('force4k', force4k);
+
     // oh god oh fuck i have to do math
     // help me high school algebra, you're my only hope
     // 1. Take % of 4k width, % of 4k height, then use whichever is smaller.

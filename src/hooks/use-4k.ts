@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { css } from '@emotion/css';
-import { fourk, stitchStrings } from '@/lib/fourk-css';
+import { fourk, stitchStrings, viewportCssTo4k } from '@/lib/fourk-css';
 import { AppContext } from '@/app/context';
 
 // Because vw and vh units need to be processed by this hook, we can't
@@ -45,7 +45,7 @@ export const useObjectTo4k = () => {
     for (const [k, v] of Object.entries(props)) {
       // Important to only transform strings.
       const isString = typeof v === 'string';
-      props_[k] = isString && force4k ?fourk`${String(v)}` : v;
+      props_[k] = isString && force4k ? viewportCssTo4k(v) : v;
     }
 
     return props_;
