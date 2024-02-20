@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { TabbedPage } from '@/layouts/tabbed-page';
+import { MultiplayerBg } from '@/components/multiplayer-bg';
 import { Footer } from '@/components/footer/footer';
 
 type MultiplayerLayoutProps = {
@@ -21,10 +22,9 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
   const pathname = usePathname();
   const css = use4k();
 
-  const pathnameWithDashes = pathname.replace(/\//g, '-');
-
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <MultiplayerBg />
       <div className={css`
         position: fixed;
         top: 0;
@@ -33,12 +33,13 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
         height: 100vh;
       `}>
         <TabbedPage
-          className={`tabbed-page${pathnameWithDashes}`}
           portal="MultiplayerAppTabs"
           portalTargets={[
             { pathname: '/multiplayer/play', target: 'PlayTabCarousel' }
           ]}
           tabs={TABS}
+          // TODO: Wait, why was this needed? In what scenario are we
+          // rendering this component outside of multiplayer routes??
           hidden={!pathname.startsWith('/multiplayer')}
         >
           {children}

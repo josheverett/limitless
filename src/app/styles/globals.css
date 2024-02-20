@@ -38,17 +38,15 @@ body.force4k {
 }
 
 main {
+  position: relative;
   width: 100%;
   height: 100%;
-  background: black center / cover no-repeat;
+  background: transparent center / cover no-repeat;
 }
 
 main.start-screen {
+  background-color: black;
   background-image: url("/start-screen/bg.webp");
-}
-
-main.tabbed-page-multiplayer-play {
-  background-image: url("/multiplayer/play/play-bg.jpg");
 }
 
 a {

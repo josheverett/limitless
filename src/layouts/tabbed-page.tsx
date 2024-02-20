@@ -7,7 +7,7 @@ import { TabLink } from '@/components/tabs/tab';
 import { getFontVariant } from '@/app/styles/fonts';
 
 type TabbedPageProps = {
-  className: string; // Required for bg image classes.
+  className?: string;
   tabs: TabLink[];
   portal: string; // Name of the input portal for these tabs.
   // This is required even when false because it's important to have only
