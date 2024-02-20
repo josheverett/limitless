@@ -14,9 +14,19 @@ import { getFontVariant } from '@/app/styles/fonts';
 import { ListBoxItem, ListBoxItemProps } from './list-box-item';
 import { ListBoxNotch } from './list-box-notch';
 
+// re: descriptionWidths
+// The default values of 40vw below allow the description text to spill out of
+// any containing columns for the list, while still wrapping at a reasonable
+// spot (that, importantly, results in the correct line breaks in 4k mode).
+// This default value is eyeballed based on good results in both landscape and
+// portrait orientations. These widths might need to be adjusted for some use
+// cases, hence these props.
+
 type ListBoxProps = {
   className?: string;
   items: ListBoxItemProps[];
+  descriptionWidthLandscape?: number; // vw units! not vh!
+  descriptionWidthPortrait?: number; // vw units! not vh!
   navigationFocusPathname?: string;
   portal?: string;
   portalTargets?: PortalTarget[];
@@ -25,6 +35,8 @@ type ListBoxProps = {
 export const ListBox = ({
   className,
   items,
+  descriptionWidthLandscape = 40,
+  descriptionWidthPortrait = 40,
   navigationFocusPathname,
   portal,
   portalTargets = [],
@@ -164,19 +176,18 @@ export const ListBox = ({
       </div>
       <div hidden={!description} className={css`position: relative; height: 0;`}>
       <div
-        // The 40vw width below allows the description text to spill out of
-        // any containing columns for the list. This value is eyeballed and
-        // was chosen to work well with portrait-oriented screens, where the
-        // text will wrap if needed. It is likely that this will need to be
-        // configurable by the parent component as I employ ListBox in more
-        // places.
         className={cx(
           css`
             position: absolute;
-            // top: 0;
             top: 1.4vh;
             left: 1.991vh;
-            width: 40vw;
+            // vw is correct.
+            width: ${String(descriptionWidthLandscape)}vw;
+
+            @media (orientation: portrait) {
+              // vw is correct.
+              width: ${String(descriptionWidthPortrait)}vw;
+            }
           `,
           getFontVariant(css, 'titillium_description'),
           getFontVariant(css, 'shadow_crisp'),

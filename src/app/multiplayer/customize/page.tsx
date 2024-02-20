@@ -39,26 +39,23 @@ export default function CustomizeTab() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className={css`
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        margin-top: 4.167vh;
-      `}>
-        <ResponsiveMediumColumn>
-          {/* TODO: The black box around the list needs to be abstracted
-              to "DarkBox" or similar. */}
-          <ListBox
-            className={css`margin-top: 1.713vh;`}
-            items={LIST_ITEMS}
-            navigationFocusPathname="/multiplayer/play"
-            portal="PlayTabListBox"
-            portalTargets={[
-              { target: 'MultiplayerAppTabs', direction: 'U' },
-            ]}
-          />
-        </ResponsiveMediumColumn>
-      </div>
+      <ListBox
+        className={css`
+          width: 37.222vh;
+          margin-top: 35.324vh;
+
+          @media (orientation: portrait) {
+            width: auto;
+          }
+        `}
+        items={LIST_ITEMS}
+        descriptionWidthPortrait={80}
+        navigationFocusPathname="/multiplayer/play"
+        portal="PlayTabListBox"
+        portalTargets={[
+          { target: 'MultiplayerAppTabs', direction: 'U' },
+        ]}
+      />
     </motion.div>
   );
 }
