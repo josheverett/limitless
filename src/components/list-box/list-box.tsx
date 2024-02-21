@@ -52,6 +52,9 @@ export const ListBox = ({
     name: portal, defaultFocusRef
   });
 
+  // selectedIndex exists only to determine what description text to display.
+  // This function makes sure it gets set correctly whenever a listbox item
+  // receives focus.
   const handleFocusIn = () => {
     if (!focusContainerRef.current) return;
     const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
@@ -91,8 +94,8 @@ export const ListBox = ({
         case 'L':
         case 'R': {
           portalTarget = getTargetForDirection(portalTargets, direction);
-          if (!!portalTarget) teleport(portalTarget.target);
-          return;
+          if (!!portalTarget) return teleport(portalTarget.target);
+          break;
         }
         // Up and down teleport only when the edge is reached (and a
         // portal is available).

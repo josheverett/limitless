@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { TabbedPage } from '@/layouts/tabbed-page';
-import { MultiplayerBg } from '@/components/multiplayer-bg';
+import { MultiplayerBackground } from '@/components/multiplayer/multiplayer-background';
 import { Footer } from '@/components/footer/footer';
 
 type MultiplayerLayoutProps = {
@@ -24,7 +24,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <MultiplayerBg />
+      <MultiplayerBackground />
       <div className={css`
         position: fixed;
         top: 0;

@@ -15,12 +15,12 @@ const BGS = [
   },
 ];
 
-type MultiplayerBgProps = {
-  //
+type MultiplayerBackgroundProps = {
+  // TODO
 };
 
 // TODO: threejs stuff
-export const MultiplayerBg = ({}: MultiplayerBgProps) => {
+export const MultiplayerBackground = ({}: MultiplayerBackgroundProps) => {
   const pathname = usePathname();
   const css = use4k();
 
@@ -34,6 +34,8 @@ export const MultiplayerBg = ({}: MultiplayerBgProps) => {
       key={pathname}
       className={css`
         position: fixed;
+
+
         top: 0;
         left: 0;
         width: 100vw;
