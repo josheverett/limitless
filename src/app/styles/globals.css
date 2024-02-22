@@ -59,6 +59,7 @@ a {
   background: black;
   /* This is the shadow for the canvas when in forced 4k mode. */
   box-shadow: 0 0 120px 30px hsla(0, 0%, 0%, 0.8);
+  overflow: hidden;
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;

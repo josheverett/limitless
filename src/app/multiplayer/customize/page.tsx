@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
-import { ResponsiveMediumColumn } from '@/layouts/medium-column';
 import { ListBox } from '@/components/list-box/list-box';
 
 
