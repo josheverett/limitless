@@ -38,7 +38,7 @@ export const Challenges = ({
   });
 
   return (
-    <div className={className}>
+    <div ref={focusContainerRef} className={className}>
       <Link ref={ref} href="404">
           <div className={cx(
             css`

@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 import {
-  getTargetForDirection,
   useDirectionalInputs,
   useInputPortal,
 } from '@/hooks/use-gamepad';

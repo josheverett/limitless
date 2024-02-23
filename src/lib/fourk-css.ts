@@ -42,7 +42,7 @@ export const viewportCssTo4k = (css: string) => {
 // empty string. Thus stringArray1.length is ALWAYS stringArray2.length + 1.
 export const stitchStrings = (stringArray1: string[], stringArray2: string[]) => {
   let compoundString = '';
-  for (const [i, str] of stringArray1.entries()) {
+  for (let i = 0; i < stringArray1.length; i++) {
     if (stringArray2[i]) compoundString += stringArray1[i] + stringArray2[i];
     else compoundString += stringArray1[i];
   }
@@ -53,7 +53,7 @@ export const stitchStrings = (stringArray1: string[], stringArray2: string[]) =>
 // `fourk` template tag function below returns the result of the `css` template
 // tag, which is a class name. :)
 export function _fourkHelper (strings: TemplateStringsArray, ...args: string[]) {
-  const output = stitchStrings(Array.from(strings), args);
+  const output = stitchStrings([...strings], args);
   return viewportCssTo4k(output);
 }
 

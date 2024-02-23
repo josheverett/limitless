@@ -42,7 +42,9 @@ export const Line = ({
 
   let [posX, posY] = position;
   const [startX, startY] = startXY;
-  let [endX, endY] = [0, 0];
+  // TODO: Wait... looking at how these are used, they are always 0%?
+  // Maybe a refactor artifact?
+  const [endX, endY] = [0, 0];
 
   let width_ = width;
   let height = 0;

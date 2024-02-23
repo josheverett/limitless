@@ -15,7 +15,11 @@
     "@typescript-eslint/no-unused-vars": [
       2,
       {
-        "args": "none"
+        "args": "none",
+        // Don't complain about using _ for cases when you need to ignore a
+        // a function arg or destructure some prop using only an underscore.
+        // For the destructure case you can use `delete` but who does that. :P
+        "varsIgnorePattern": "^_+$"
       }
     ]
   }

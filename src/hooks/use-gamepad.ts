@@ -303,6 +303,7 @@ type UseInputPortalProps = {
 const PORTAL_TARGET_REGISTRY: { [key: string]: HTMLAnchorElement } = {};
 
 // name = portal name
+//
 // defaultFocusRef = element to focus on when portal receives focus.
 // this ref is created for you if not provided.
 //

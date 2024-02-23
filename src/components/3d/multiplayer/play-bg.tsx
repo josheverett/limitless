@@ -4,7 +4,7 @@ import { Clouds, Cloud, Environment, PerspectiveCamera, useProgress } from '@rea
 import { Physics } from '@react-three/rapier';
 import { Model } from '../models/SpartanModel';
 
-import { MeshLambertMaterial, BackSide } from 'three';
+import { MeshLambertMaterial } from 'three';
 
 type LoaderProps = {
   children: React.ReactNode;

@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { useInput } from '@/hooks/use-gamepad';
 
 type UseLinkFocusProps = {
   ref?: React.RefObject<HTMLAnchorElement>;
@@ -9,7 +8,6 @@ type UseLinkFocusProps = {
 //
 // 1. Focuses ref on mouse enter.
 // 2. Toggles isFocused based on focus/blur events.
-// 3. Wires up the A controller button (globally) to click the link.
 //
 // You can optionally pass in an existing ref, but you MUST use the
 // returned ref within the component calling useLinkFocus(). Feels like

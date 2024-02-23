@@ -1,6 +1,4 @@
-import { useContext, } from 'react';
 import { cx } from '@emotion/css';
-import { AppContext } from '@/app/context';
 import { use4k } from '@/hooks/use-4k';
 
 // Forgive me lord for what I am about to do...
@@ -80,7 +78,6 @@ const FancyBorder = ({
   isFocused = false,
   children,
 }: FancyBorderProps) => {
-  const { force4k } = useContext(AppContext);
   const css = use4k();
 
   let transparentStart = '1.343vh';
