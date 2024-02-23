@@ -17,6 +17,9 @@ const STATE_MAP: { [key in UseInputState]: GcjsStateMethod } = {
 // {
 //   'before': () => { ... } // GcjsStateMethod --> callback
 // }
+// TODO: Use <T> instead of any. Figure out how to make that optional so it's
+// <any> by default or otherwise inferred from what gets passed.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type InputEventStateHandlers = { [key in GcjsStateMethod]?: (...args: any) => any };
 
 // {
@@ -163,6 +166,9 @@ type UseInputProps = {
   input: GAMEPAD_INPUT_KEYS;
   state: UseInputState;
   portal?: string; // name of input portal this input belongs to
+  // TODO: Use <T> instead of any. Figure out how to make that optional so it's
+  // <any> by default or otherwise inferred from what gets passed.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callback: (...args: any) => any;
 };
 
@@ -176,7 +182,6 @@ export const useInput = ({
   const method = STATE_MAP[state];
 
   let inputHandlers: InputEventHandlers = GLOBAL_HANDLER_REGISTRY;
-  let stateHandlers: InputEventStateHandlers;
 
   if (portal) {
     // Lazy init portal InputEventHandlers.
@@ -187,8 +192,8 @@ export const useInput = ({
 
   // Lazy init InputEventStateHandlers.
   if (!inputHandlers[eventType]) inputHandlers[eventType] = {};
-  stateHandlers = inputHandlers[eventType] as InputEventStateHandlers; // :\
 
+  const stateHandlers = inputHandlers[eventType] as InputEventStateHandlers; // :\
   stateHandlers[method] = callback;
 };
 
@@ -202,6 +207,9 @@ type UseDirectionalInputsHelperProps = {
   input: GAMEPAD_INPUT_KEYS;
   direction: InputDirection;
   directions: InputDirection[];
+  // TODO: Use <T> instead of any. Figure out how to make that optional so it's
+  // <any> by default or otherwise inferred from what gets passed.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callback: (direction: InputDirection) => any;
 };
 
@@ -225,6 +233,9 @@ const _useDirectionalInputsHelper = ({
 type UseDirectionalInputsProps = {
   portal?: string;
   directions?: InputDirection[];
+  // TODO: Use <T> instead of any. Figure out how to make that optional so it's
+  // <any> by default or otherwise inferred from what gets passed.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callback: (direction: InputDirection) => any;
 };
 

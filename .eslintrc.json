@@ -1,5 +1,9 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "rules": {
     "quotes": [
       2,
@@ -8,6 +12,11 @@
     ],
     "react/no-unescaped-entities": 0,
     "semi": [2, "always"],
-    "no-unused-vars": 2
+    "@typescript-eslint/no-unused-vars": [
+      2,
+      {
+        "args": "none"
+      }
+    ]
   }
 }

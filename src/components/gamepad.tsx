@@ -9,7 +9,7 @@ import { useGamepad, useInput } from '@/hooks/use-gamepad';
 // vibrate and shit lmao.
 
 // Update: Okay now it also exists to globally wire the A button
-// to click whatever the currently focused element is.
+// to click whatever the currently focused element is. lmao
 
 export const Gamepad = () => {
   useGamepad();

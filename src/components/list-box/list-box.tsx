@@ -65,6 +65,10 @@ export const ListBox = ({
   // Can't directly handle focusin via React.
   // TODO: Consider exposing an onFocusIn in the returned props
   // from useInputPortal? If only listbox needs it then nah.
+  // Reminder: As mentioned above, listbox needs this to set the correct
+  // selectedIndex, used for the "detached" description display. That
+  // description text isn't part of the <ul> -- hence the need for
+  // special handling on top of the normal focus/input patterns.
   useEffect(() => {
     if (!focusContainerRef.current) return;
     const current = focusContainerRef.current;
@@ -94,7 +98,7 @@ export const ListBox = ({
         case 'L':
         case 'R': {
           portalTarget = getTargetForDirection(portalTargets, direction);
-          if (!!portalTarget) return teleport(portalTarget.target);
+          if (portalTarget) return teleport(portalTarget.target);
           break;
         }
         // Up and down teleport only when the edge is reached (and a
