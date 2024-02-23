@@ -31,17 +31,22 @@ export const Tab = ({
       // TODO: This min-width is probably 0.37vh off. If and when
       // I do screenshot overlays we'll see.
       className={cx(
+        // .resize-container is a lil hack to make the specificity equal to
+        // the reset rule for a:focus (and therefore override it). This is
+        // the only component where this is needed (so far).
         css`
-          display: flex;
-          align-items: center;
-          min-width: 19.444vh;
-          width: 100%;
-          height: 100%;
-          outline-style: solid;
-          outline-offset: 0;
-          outline-width: ${isSelected ? '0.37' : '0.185'}vh;
-          outline-color: var(--halo-${isSelected ? 'white' : 'offwhite'});
-          color: var(--halo-${isSelected ? 'white' : 'offwhite'});
+          .resize-container & {
+            display: flex;
+            align-items: center;
+            min-width: 19.444vh;
+            width: 100%;
+            height: 100%;
+            outline-style: solid;
+            outline-offset: 0;
+            outline-width: ${isSelected ? '0.37' : '0.185'}vh;
+            outline-color: var(--halo-${isSelected ? 'white' : 'offwhite'});
+            color: var(--halo-${isSelected ? 'white' : 'offwhite'});
+          }
 
           @media (orientation: portrait) {
             min-width: 0;

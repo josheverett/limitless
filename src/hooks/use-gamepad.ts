@@ -341,6 +341,17 @@ export const useInputPortal = ({
     teleport: (portal: string) => {
       const el = PORTAL_TARGET_REGISTRY[portal];
       if (!el) return;
+      // TODO: I'm 87% I did this because some CSS depended on it before the
+      // animated/3d backgrounds got implemented. This needs to be refactored to
+      // use a history stack instead. That will handle e.g. this play tab case:
+      // 1. User has operations box focused.
+      // 2. User presses up, now the tabs are focused.
+      // 3. User presses down, but now the carousel is focused! Oh noes.
+      // In the real thing, pressing down from the tabs goes back to whatever
+      // you had focused before you pressed up. A history stack solves that.
+      // In addition to teleport(), just expose back() and forward() methods.
+      // I can't think of a use case for forward(), but just add it for
+      // completeness, since these hooks will get open sourced.
       document.body.dataset.activePortal = portal;
       el.focus();
     },

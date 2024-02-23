@@ -64,7 +64,7 @@ const PlayTabCarouselItem = ({
           That height used to be applied to the UL, now it's here because it
           makes the layout here easier as well. :)
         */}
-        <div className={css`position: relative; height: 26.852vh;`}>
+        <div className={css`position: relative; height: 25.833vh;`}>
           <Image
             className={css`height: 100%; width: 100%;`}
             fill

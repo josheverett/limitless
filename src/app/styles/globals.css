@@ -49,8 +49,12 @@ main.start-screen {
   background-image: url("/start-screen/bg.webp");
 }
 
-a {
+a, a:focus {
   outline: none;
+}
+
+a {
+  display: block;
 }
 
 .resize-container {

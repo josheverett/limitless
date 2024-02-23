@@ -87,6 +87,7 @@ export default function PlayTab() {
           <PlayTabCarousel />
           <ListBox
             className={css`margin-top: 1.713vh;`}
+            bordered
             items={LIST_ITEMS}
             navigationFocusPathname="/multiplayer/play"
             portal="PlayTabListBox"

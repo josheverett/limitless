@@ -41,7 +41,8 @@ export default function CustomizeTab() {
       <ListBox
         className={css`
           width: 37.222vh;
-          margin-top: 35.324vh;
+          // margin-top: 35.324vh;
+          margin-top: 36.204vh;
 
           @media (orientation: portrait) {
             width: auto;

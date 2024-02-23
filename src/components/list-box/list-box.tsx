@@ -10,6 +10,7 @@ import {
   PortalTarget,
 } from '@/hooks/use-gamepad';
 import { useNavigationFocus } from '@/hooks/use-navigation-focus';
+import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
 import { ListBoxItem, ListBoxItemProps } from './list-box-item';
 import { ListBoxNotch } from './list-box-notch';
@@ -25,6 +26,7 @@ import { ListBoxNotch } from './list-box-notch';
 type ListBoxProps = {
   className?: string;
   items: ListBoxItemProps[];
+  bordered?: boolean;
   descriptionWidthLandscape?: number; // vw units! not vh!
   descriptionWidthPortrait?: number; // vw units! not vh!
   navigationFocusPathname?: string;
@@ -35,6 +37,7 @@ type ListBoxProps = {
 export const ListBox = ({
   className,
   items,
+  bordered = false,
   descriptionWidthLandscape = 40,
   descriptionWidthPortrait = 40,
   navigationFocusPathname,
@@ -133,38 +136,39 @@ export const ListBox = ({
           position: relative;
           display: flex;
           flex-direction: column;
-          border: 0.093vh solid hsl(0, 0%, 50%);
-          padding: 0.463vh;
+          border: ${bordered ? '0.093vh solid hsl(0, 0%, 50%)' : 'none'};
+          padding: ${bordered ? '0.463vh' : '0'};
         `}
       >
-        {/*
-          This is that little extra-wide piece of the left border.
-          The `left` below is eyeballed, but I'm confused why that was needed.
-          Perhaps natural jank from the very (and variably) thin borders?
-        */}
-        <div className={css`
-          position: absolute;
-          top: 50%;
-          left: -0.175vh;
-          width: 0.278vh;
-          height: 7.222vh;
-          margin-top: -3.611vh;
-          background: hsl(0, 0%, 50%);
-        `}/>
-        <ListBoxNotch type="top" />
+        {bordered && (
+          <>
+            {/*
+              This div is that little extra-wide piece of the left border.
+              The `left` below is eyeballed, but I'm confused why that was needed.
+              Perhaps natural jank from the very (and variably) thin borders?
+            */}
+            <div className={css`
+              position: absolute;
+              top: 50%;
+              left: -0.175vh;
+              width: 0.278vh;
+              height: 7.222vh;
+              margin-top: -3.611vh;
+              background: hsl(0, 0%, 50%);
+            `}/>
+            <ListBoxNotch type="top" />
+          </>
+        )}
         <div className={css`
           flex-grow: 1;
-          background: hsla(0, 0%, 0%, 0.5);
+          background: ${bordered ? 'hsla(0, 0%, 0%, 0.5)': 'none'};
         `}>
           <ul className={css`
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 0.972vh;
-            padding-top: 1.435vh;
-            padding-bottom: 0.741vh;
-            padding-left: 2.176vh;
-            padding-right: 2.176vh;
+            gap: 0.787vh;
+            padding: ${bordered ? '1.296vh 2.176vh 0.741vh': '0'};
           `}>
             {items.map((item, i) => {
               return (
@@ -179,29 +183,33 @@ export const ListBox = ({
             })}
           </ul>
         </div>
-        <ListBoxNotch type="bottom" />
+        {bordered && <ListBoxNotch type="bottom" />}
       </div>
       <div hidden={!description} className={css`position: relative; height: 0;`}>
-      <div
-        className={cx(
-          css`
-            position: absolute;
-            top: 1.4vh;
-            left: 1.991vh;
-            // vw is correct.
-            width: ${String(descriptionWidthLandscape)}vw;
-
-            @media (orientation: portrait) {
+        <div
+          className={cx(
+            css`
+              position: fixed;
+              bottom: 18.935vh;
+              left: 11.157vh;
+              height: 1.25vh;
               // vw is correct.
-              width: ${String(descriptionWidthPortrait)}vw;
-            }
-          `,
-          getFontVariant(css, 'titillium_description'),
-          getFontVariant(css, 'shadow_crisp'),
-        )}
-      >
-        {description}
-      </div>
+              width: ${String(descriptionWidthLandscape)}vw;
+
+              @media (orientation: portrait) {
+                // vw is correct.
+                width: ${String(descriptionWidthPortrait)}vw;
+              }
+            `,
+            getFontVariant(css, 'titillium_description'),
+            getFontVariant(css, 'shadow_crisp'),
+          )}
+        >
+          {/* <TextOffset top="-0.741vh"> */}
+          <TextOffset top="-0.787vh">
+            {description}
+          </TextOffset>
+        </div>
       </div>
     </div>
   );

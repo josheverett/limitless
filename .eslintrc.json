@@ -6,16 +6,16 @@
   ],
   "rules": {
     "quotes": [
-      2,
+      "error",
       "single",
       { "avoidEscape": true, "allowTemplateLiterals": true }
     ],
     "react/no-unescaped-entities": 0,
-    "semi": [2, "always"],
+    "semi": ["error", "always"],
     "@typescript-eslint/no-unused-vars": [
-      2,
+      "error",
       {
-        "args": "none",
+        "args": "after-used",
         // Don't complain about using _ for cases when you need to ignore a
         // a function arg or destructure some prop using only an underscore.
         // For the destructure case you can use `delete` but who does that. :P

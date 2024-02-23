@@ -21,10 +21,9 @@ const BGS: BG[] = [
 
 type BackgroundImageProps = {
   bg: BG;
-  children?: React.ReactNode;
 };
 
-const BackgroundImage = ({ bg, children }: BackgroundImageProps) => {
+const BackgroundImage = ({ bg }: BackgroundImageProps) => {
   const css = use4k();
   const bgCss = bg.src ? `url("${bg.src}")` : 'none';
 
@@ -34,9 +33,10 @@ const BackgroundImage = ({ bg, children }: BackgroundImageProps) => {
       height: 100%;
       background: black center / cover no-repeat;
       background-image: ${bgCss};
-    `}>
-      {children}
-    </div>
+      // This single rule grinds Safari to a halt. So BGs that need to
+      // be blurred will need to do it manually as part of the image.
+      // filter: blur(0.15vh);
+    `} />
   );
 };
 
@@ -95,7 +95,7 @@ const Pan = ({ children }: PanProps) => {
   return (
     <motion.div
       className={css`width: 100%; height: 100%;`}
-      initial={{ ...initial, scale: 1.2, }}
+      initial={{ ...initial, scale: 1.2 }}
       animate={{ ...animate, scale: 1.2 }}
       transition={{
         duration: 45,
@@ -124,7 +124,8 @@ export const MultiplayerBackground = ({ children }: MultiplayerBackgroundProps) 
     return (
       <Fade>
         <Pan>
-          <BackgroundImage bg={bg}>{children}</BackgroundImage>
+          <BackgroundImage bg={bg} />
+          {children}
         </Pan>
       </Fade>
     );
@@ -132,7 +133,8 @@ export const MultiplayerBackground = ({ children }: MultiplayerBackgroundProps) 
 
   return (
     <Fade>
-      <BackgroundImage bg={bg}>{children}</BackgroundImage>
+      <BackgroundImage bg={bg} />
+      {children}
     </Fade>
   );
 };
