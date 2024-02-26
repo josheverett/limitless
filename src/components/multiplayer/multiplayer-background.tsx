@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
@@ -66,14 +67,18 @@ const Fade = ({ children }: FadeProps) => {
   );
 };
 
-const COMPASS_DIRECTIONS = {
+type CompassDirection = { x: string; y: string };
+
+const COMPASS_DIRECTIONS: { [key: string]: CompassDirection } = {
   NE: { x: '5%', y: '-5%' },
   SE: { x: '5%', y: '5%' },
   SW: { x: '-5%', y: '5%' },
   NW: { x: '-5%', y: '-5%' },
 };
 
-const ANIMATIONS = [
+type Animation = [CompassDirection, CompassDirection];
+
+const ANIMATIONS: Animation[] = [
   [COMPASS_DIRECTIONS.NE, COMPASS_DIRECTIONS.SW],
   [COMPASS_DIRECTIONS.SW, COMPASS_DIRECTIONS.NE],
   [COMPASS_DIRECTIONS.NW, COMPASS_DIRECTIONS.SE],
@@ -81,6 +86,7 @@ const ANIMATIONS = [
 ];
 
 const randomAnimation = () => {
+  console.log('DERP', Math.floor(Math.random() * ANIMATIONS.length));
   return ANIMATIONS[Math.floor(Math.random() * ANIMATIONS.length)];
 };
 
@@ -89,12 +95,18 @@ type PanProps = {
 };
 
 const Pan = ({ children }: PanProps) => {
+  const [animation, setAnimation] = useState<Animation>(ANIMATIONS[0]);
   const css = use4k();
-  const [initial, animate] = randomAnimation();
+
+  const [initial, animate] = animation;
+
+  useEffect(() => setAnimation(randomAnimation()), [setAnimation]);
 
   return (
     <motion.div
       className={css`width: 100%; height: 100%;`}
+      // scale() must be part of these props, because motion takes
+      // over the `transition` prop and will clobber stuff.
       initial={{ ...initial, scale: 1.2 }}
       animate={{ ...animate, scale: 1.2 }}
       transition={{
@@ -110,11 +122,7 @@ const Pan = ({ children }: PanProps) => {
   );
 };
 
-type MultiplayerBackgroundProps = {
-  children?: React.ReactNode;
-};
-
-export const MultiplayerBackground = ({ children }: MultiplayerBackgroundProps) => {
+export const MultiplayerBackground = () => {
   const pathname = usePathname();
   const bg = BGS.find((bg) => bg.pathname === pathname);
 
@@ -125,7 +133,6 @@ export const MultiplayerBackground = ({ children }: MultiplayerBackgroundProps) 
       <Fade>
         <Pan>
           <BackgroundImage bg={bg} />
-          {children}
         </Pan>
       </Fade>
     );
@@ -134,7 +141,6 @@ export const MultiplayerBackground = ({ children }: MultiplayerBackgroundProps) 
   return (
     <Fade>
       <BackgroundImage bg={bg} />
-      {children}
     </Fade>
   );
 };
