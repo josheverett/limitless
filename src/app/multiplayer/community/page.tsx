@@ -17,17 +17,17 @@ const LIST_ITEMS = [
   {
     href: 'multiplayer/community/theater',
     text: 'Theater',
-    description: 'Find and join custom games hosted by other players.',
+    description: 'View films and post-game results of multiplayer matches.',
   },
   {
     href: 'multiplayer/community/bookmarks',
     text: 'My Bookmarks',
-    description: 'Find and join custom games hosted by other players.',
+    description: 'View your bookmarked files.',
   },
   {
     href: 'multiplayer/community/files',
     text: 'My Files',
-    description: 'Find and join custom games hosted by other players.',
+    description: 'View your files.',
   },
 ];
 
@@ -41,7 +41,7 @@ export default function CommunityTab() {
           <ListBox
             className={css`margin-top: 40.509vh;`}
             items={LIST_ITEMS}
-            descriptionWidthLandscape={27}
+            descriptionWidthLandscape={26}
             navigationFocusPathname="/multiplayer/community"
             portal="CommunityTabListBox"
             portalTargets={[
