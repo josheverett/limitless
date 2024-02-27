@@ -1,22 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 
-type BG = { pathname: string, src: string, animated: boolean };
+type BG = { pathname: string, src: string };
 
 const BGS: BG[] = [
   {
     pathname: '/multiplayer/play',
     src: '/multiplayer/play/play-bg.jpg',
-    animated: false,
   },
   {
     pathname: '/multiplayer/customize',
     src: '/multiplayer/customize/bg.jpg',
-    animated: true,
   },
 ];
 
@@ -67,79 +64,14 @@ const Fade = ({ children }: FadeProps) => {
   );
 };
 
-type CompassDirection = { x: string; y: string };
-
-const COMPASS_DIRECTIONS: { [key: string]: CompassDirection } = {
-  NE: { x: '5%', y: '-5%' },
-  SE: { x: '5%', y: '5%' },
-  SW: { x: '-5%', y: '5%' },
-  NW: { x: '-5%', y: '-5%' },
-};
-
-type Animation = [CompassDirection, CompassDirection];
-
-const ANIMATIONS: Animation[] = [
-  [COMPASS_DIRECTIONS.NE, COMPASS_DIRECTIONS.SW],
-  [COMPASS_DIRECTIONS.SW, COMPASS_DIRECTIONS.NE],
-  [COMPASS_DIRECTIONS.NW, COMPASS_DIRECTIONS.SE],
-  [COMPASS_DIRECTIONS.SE, COMPASS_DIRECTIONS.NW],
-];
-
-const randomAnimation = () => {
-  return ANIMATIONS[Math.floor(Math.random() * ANIMATIONS.length)];
-};
-
-type PanProps = {
-  children: React.ReactNode;
-};
-
-const Pan = ({ children }: PanProps) => {
-  const [animation, setAnimation] = useState<Animation>(ANIMATIONS[0]);
-  const css = use4k();
-
-  const [initial, animate] = animation;
-
-  useEffect(() => setAnimation(randomAnimation()), [setAnimation]);
-
-  return (
-    <motion.div
-      className={css`width: 100%; height: 100%;`}
-      // scale() must be part of these props, because motion takes
-      // over the `transition` prop and will clobber stuff.
-      initial={{ ...initial, scale: 1.2 }}
-      animate={{ ...animate, scale: 1.2 }}
-      transition={{
-        // duration: 45,
-        duration: 30,
-        // duration: 5, // debug
-        ease: 'linear',
-        repeat: Infinity,
-        repeatType: 'mirror',
-      }}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
 export const MultiplayerBackground = () => {
   const pathname = usePathname();
   const bg = BGS.find((bg) => bg.pathname === pathname);
 
   if (!bg) return null;
 
-  if (bg.animated) {
-    return (
-      <Fade>
-        <Pan>
-          <BackgroundImage bg={bg} />
-        </Pan>
-      </Fade>
-    );
-  }
-
   return (
-    <Fade>
+    <Fade key={pathname}>
       <BackgroundImage bg={bg} />
     </Fade>
   );
