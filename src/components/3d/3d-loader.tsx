@@ -16,6 +16,7 @@ export const Loader = ({
   total,
   children,
 }: LoaderProps) => {
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [isLoaded, setisLoaded] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -26,11 +27,20 @@ export const Loader = ({
   // UPDATE: After splitting out this component into its own file, the bug
   // took the opposite form -- only fading if it's not the first load. lol
   useEffect(() => {
-    if (!isLoaded) return;
+    if (!shouldLoad || !isLoaded) return;
     setTimeout(() => {
       if (ref.current) ref.current.style.opacity = '1';
     }, 200);
-  }, [isLoaded]);
+  }, [shouldLoad, isLoaded]);
+
+  // When a page's initial transitions run, loading up a 3D model at the same
+  // time makes things stuttery. This is further kludge to the above, keeping
+  // it separate for clarity.
+  useEffect(() => {
+    setTimeout(() => setShouldLoad(true), 450);
+  });
+
+  if (!shouldLoad) return null;
 
   return (
     <div

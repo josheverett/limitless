@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion, Variants } from 'framer-motion';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 import {
@@ -14,6 +15,27 @@ import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
 import { ListBoxItem, ListBoxItemProps } from './list-box-item';
 import { ListBoxNotch } from './list-box-notch';
+
+const LIST_VARIANTS: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.05,
+    }
+  }
+};
+
+export const ITEM_VARIANTS: Variants = {
+  hidden: { opacity: 0, x: '10%' },
+  show: {
+    opacity: 1,
+    x: '0%',
+    transition: {
+      duration: 0.3,
+      ease: 'easeOut',
+    },
+  },
+};
 
 // re: descriptionWidths
 // The default values of 40vw below allow the description text to spill out of
@@ -163,13 +185,18 @@ export const ListBox = ({
           flex-grow: 1;
           background: ${bordered ? 'hsla(0, 0%, 0%, 0.5)': 'none'};
         `}>
-          <ul className={css`
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 0.787vh;
-            padding: ${bordered ? '1.296vh 2.176vh 0.741vh': '0'};
-          `}>
+          <motion.ul
+            className={css`
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              gap: 0.787vh;
+              padding: ${bordered ? '1.296vh 2.176vh 0.741vh': '0'};
+            `}
+            variants={LIST_VARIANTS}
+            initial="hidden"
+            animate="show"
+          >
             {items.map((item, i) => {
               return (
                 <ListBoxItem
@@ -181,7 +208,7 @@ export const ListBox = ({
                 />
               );
             })}
-          </ul>
+          </motion.ul>
         </div>
         {bordered && <ListBoxNotch type="bottom" />}
       </div>

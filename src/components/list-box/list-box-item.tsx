@@ -1,13 +1,16 @@
 'use client';
 
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
+import { ITEM_VARIANTS } from './list-box';
 
 export type ListBoxItemProps = {
+  className?: string;
   defaultFocusRef?: React.RefObject<HTMLAnchorElement>;
   href: string;
   text: string;
@@ -17,6 +20,7 @@ export type ListBoxItemProps = {
 };
 
 export const ListBoxItem = ({
+  className,
   defaultFocusRef,
   href,
   text,
@@ -29,7 +33,7 @@ export const ListBoxItem = ({
   const focusTransparentEnd = '0.602vh';
 
   return (
-    <li>
+    <motion.li className={className} variants={ITEM_VARIANTS}>
       {/* This <Link> includes the bottom "tray" border. */}
       <Link
         ref={ref}
@@ -103,6 +107,6 @@ export const ListBoxItem = ({
           </div>
         </div>
       </Link>
-    </li>
+    </motion.li>
   );
 };
