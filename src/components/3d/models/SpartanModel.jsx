@@ -12,7 +12,7 @@ import { useGLTF, useAnimations } from '@react-three/drei';
 
 export function Model(props) {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF('/3d/spartan.glb');
+  const { nodes, materials, animations } = useGLTF('/3d/glb/spartan.glb');
   const { actions } = useAnimations(animations, group);
 
   useEffect(() => {
@@ -60,4 +60,4 @@ export function Model(props) {
   );
 }
 
-useGLTF.preload('/3d/spartan.glb');
+useGLTF.preload('/3d/glb/spartan.glb');
