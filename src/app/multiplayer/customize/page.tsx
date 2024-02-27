@@ -1,9 +1,59 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { ListBox } from '@/components/list-box/list-box';
-import { CustomizeTabBackground } from '@/components/3d/multiplayer/customize-bg';
+import { AssaultRifleBg } from '@/components/3d/multiplayer/customize-bg-ar';
+import { BattleRifleBg } from '@/components/3d/multiplayer/customize-bg-br';
+
+const BG_COMPONENTS = [AssaultRifleBg, BattleRifleBg];
+
+const Background = () => {
+  const [index, setIndex] = useState(0);
+  const css = use4k();
+
+  const BGComponent = BG_COMPONENTS[index];
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // We're only gonna have 2 bgs so whatever lol.
+      setIndex(index === 0 ? 1 : 0);
+    }, 10000);
+
+    return () => clearInterval(intervalId);
+  });
+
+  return (
+    <div className={css`
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 1;
+    `}>
+      <AnimatePresence>
+        <motion.div
+          key={`bg-slide-${index}`}
+          className={css`
+            display: flex;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+          `}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <BGComponent />
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const LIST_ITEMS = [
   {
@@ -38,17 +88,7 @@ export default function CustomizeTab() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className={css`
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        // height: 100%;
-        height: 100vh;
-        z-index: 1;
-      `}>
-        <CustomizeTabBackground />
-      </div>
+      <Background />
       <ListBox
         className={css`
           position: relative;
