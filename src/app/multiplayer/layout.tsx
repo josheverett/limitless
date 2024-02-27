@@ -35,7 +35,8 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
         <TabbedPage
           portal="MultiplayerAppTabs"
           portalTargets={[
-            { pathname: '/multiplayer/play', target: 'PlayTabCarousel' }
+            { pathname: '/multiplayer/play', target: 'PlayTabCarousel' },
+            { pathname: '/multiplayer/customize', target: 'CustomizeTabListBox' },
           ]}
           tabs={TABS}
           // TODO: Wait, why was this needed? In what scenario are we

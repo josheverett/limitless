@@ -5,7 +5,6 @@ import { use4k } from '@/hooks/use-4k';
 import { ListBox } from '@/components/list-box/list-box';
 import { CustomizeTabBackground } from '@/components/3d/multiplayer/customize-bg';
 
-
 const LIST_ITEMS = [
   {
     href: '/customize/armor',
