@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { Clouds, Cloud, Environment, PerspectiveCamera, useProgress } from '@react-three/drei';
 import { Physics } from '@react-three/rapier';
-import { Model } from '../models/SpartanModel';
+import { Model } from '../models/spartan';
 import { Loader } from '../3d-loader';
 
 import { MeshLambertMaterial } from 'three';

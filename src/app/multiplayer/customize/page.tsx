@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { ListBox } from '@/components/list-box/list-box';
+import { CustomizeTabBackground } from '@/components/3d/multiplayer/customize-bg';
 
 
 const LIST_ITEMS = [
@@ -38,11 +39,23 @@ export default function CustomizeTab() {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <div className={css`
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        // height: 100%;
+        height: 100vh;
+        z-index: 1;
+      `}>
+        <CustomizeTabBackground />
+      </div>
       <ListBox
         className={css`
+          position: relative;
           width: 37.222vh;
-          // margin-top: 35.324vh;
           margin-top: 36.204vh;
+          z-index: 2;
 
           @media (orientation: portrait) {
             width: auto;
@@ -50,8 +63,8 @@ export default function CustomizeTab() {
         `}
         items={LIST_ITEMS}
         descriptionWidthPortrait={80}
-        navigationFocusPathname="/multiplayer/play"
-        portal="PlayTabListBox"
+        navigationFocusPathname="/multiplayer/customize"
+        portal="CustomizeTabListBox"
         portalTargets={[
           { target: 'MultiplayerAppTabs', direction: 'U' },
         ]}

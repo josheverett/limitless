@@ -23,6 +23,8 @@ export const Loader = ({
 
   // This works around an issue with the threejs scene only fading in
   // on its first load.
+  // UPDATE: After splitting out this component into its own file, the bug
+  // took the opposite form -- only fading if it's not the first load. lol
   useEffect(() => {
     if (!isLoaded) return;
     setTimeout(() => {

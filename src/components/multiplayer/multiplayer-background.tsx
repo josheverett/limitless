@@ -86,7 +86,6 @@ const ANIMATIONS: Animation[] = [
 ];
 
 const randomAnimation = () => {
-  console.log('DERP', Math.floor(Math.random() * ANIMATIONS.length));
   return ANIMATIONS[Math.floor(Math.random() * ANIMATIONS.length)];
 };
 
@@ -110,7 +109,8 @@ const Pan = ({ children }: PanProps) => {
       initial={{ ...initial, scale: 1.2 }}
       animate={{ ...animate, scale: 1.2 }}
       transition={{
-        duration: 45,
+        // duration: 45,
+        duration: 30,
         // duration: 5, // debug
         ease: 'linear',
         repeat: Infinity,
