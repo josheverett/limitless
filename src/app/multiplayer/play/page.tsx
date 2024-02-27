@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { use4k, TABBED_PAGE_PADDING_X } from '@/hooks/use-4k';
-import { MediumColumn } from '@/layouts/medium-column';
+import { use4k } from '@/hooks/use-4k';
+import { ResponsiveMediumColumn } from '@/layouts/medium-column';
 import { ListBox } from '@/components/list-box/list-box';
 import { OperationsBox } from '@/components/multiplayer/play/operations/operations-box';
 import { PlayTabCarousel } from '@/components/multiplayer/play/carousel';
@@ -36,29 +36,6 @@ const LIST_ITEMS = [
     description: 'Build content to play and share with other players.',
   },
 ];
-
-type ResponsiveMediumColumnProps = {
-  children: React.ReactNode;
-};
-
-// If this adjustment is made outside of this particular page it
-// needs to become a feature of the MediumColumn component.
-const ResponsiveMediumColumn = ({
-  children,
-}: ResponsiveMediumColumnProps) => {
-  const css = use4k();
-
-  return (
-    <MediumColumn className={css`
-      @media (orientation: portrait) {
-        // vw is correct.
-        width: calc(50vw - (${TABBED_PAGE_PADDING_X} * 1.5));
-      }
-    `}>
-      {children}
-    </MediumColumn>
-  );
-};
 
 export default function PlayTab() {
   const css = use4k();

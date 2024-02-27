@@ -37,6 +37,7 @@ export default function MultiplayerLayout({ children }: MultiplayerLayoutProps) 
           portalTargets={[
             { pathname: '/multiplayer/play', target: 'PlayTabCarousel' },
             { pathname: '/multiplayer/customize', target: 'CustomizeTabListBox' },
+            { pathname: '/multiplayer/community', target: 'CommunityTabListBox' },
           ]}
           tabs={TABS}
           // TODO: Wait, why was this needed? In what scenario are we

@@ -13,7 +13,13 @@ const BGS: BG[] = [
   },
   {
     pathname: '/multiplayer/customize',
+    // TODO: Darken and blur a bit.
     src: '/multiplayer/customize/bg.jpg',
+  },
+  {
+    pathname: '/multiplayer/community',
+    // TODO: Needs own bg image!
+    src: '/multiplayer/play/play-bg.jpg',
   },
 ];
 

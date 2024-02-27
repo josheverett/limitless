@@ -186,15 +186,19 @@ export const ListBox = ({
         {bordered && <ListBoxNotch type="bottom" />}
       </div>
       <div hidden={!description} className={css`position: relative; height: 0;`}>
+        {/* Have to wrap */}
         <div
           className={cx(
             css`
               position: fixed;
               bottom: 18.935vh;
-              left: 11.157vh;
+              // vw is correct.
+              left: 5.156vw;
               height: 1.25vh;
               // vw is correct.
               width: ${String(descriptionWidthLandscape)}vw;
+              // Matches padding of list items.
+              padding-left: 1.991vh;
 
               @media (orientation: portrait) {
                 // vw is correct.

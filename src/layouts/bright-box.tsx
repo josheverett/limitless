@@ -103,16 +103,16 @@ const FancyBorder = ({
 
   // Yup animating border-image actually works, what a time to be alive.
   return (
-      <div className={css`
-        width: 100%;
-        border-style: solid;
-        border-width: ${THIN_BORDER};
-        border-image: ${borderImage};
-        transition-property: border-image;
-        transition-duration: 150ms;
-      `}>
-        {children}
-      </div>
+    <div className={css`
+      width: 100%;
+      border-style: solid;
+      border-width: ${THIN_BORDER};
+      border-image: ${borderImage};
+      transition-property: border-image;
+      transition-duration: 150ms;
+    `}>
+      {children}
+    </div>
   );
 };
 
