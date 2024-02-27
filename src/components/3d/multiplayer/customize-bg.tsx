@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { PerspectiveCamera, useProgress } from '@react-three/drei';
+import * as THREE from 'three';
 import { Model as ARModel } from '../models/assault-rifle';
 import { Loader } from '../3d-loader';
 
+
 const Camera = () => {
-  const ref = useRef<any>(); // :\
+  const ref = useRef<THREE.PerspectiveCamera | null>(null);
 
   const { camera } = useThree();
 
@@ -23,7 +25,7 @@ const Camera = () => {
 };
 
 const Model = () => {
-  const ref = useRef<any>(); // :\
+  const ref = useRef<THREE.Group | null>(null);
 
   useFrame(() => {
     if (!ref.current) return;
@@ -42,7 +44,6 @@ const Model = () => {
 };
 
 export const CustomizeTabBackground = () => {
-  const ref = useRef<any>(); // :\
   const { active, loaded, total } = useProgress();
 
   // threejs gpt literally wrote the lighting by feeding it screenshots lmao

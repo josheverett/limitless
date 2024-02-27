@@ -7,13 +7,12 @@ Source: https://sketchfab.com/3d-models/halo-infinite-assault-rifle-remake-56531
 Title: Halo: Infinite Assault Rifle - Remake
 */
 
-import React, { useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import React, { useRef } from 'react';
+import { useGLTF } from '@react-three/drei';
 
 export function Model(props) {
-  const group = useRef()
-  const { nodes, materials, animations } = useGLTF('/3d/glb/assault_rifle.glb')
-  const { actions } = useAnimations(animations, group)
+  const group = useRef();
+  const { nodes } = useGLTF('/3d/glb/assault_rifle.glb');
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
@@ -32,7 +31,7 @@ export function Model(props) {
         </group>
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/3d/glb/assault_rifle.glb')
+useGLTF.preload('/3d/glb/assault_rifle.glb');
