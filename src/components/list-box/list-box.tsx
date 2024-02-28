@@ -20,7 +20,7 @@ const LIST_VARIANTS: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.05,
+      staggerChildren: 0.08,
     }
   }
 };

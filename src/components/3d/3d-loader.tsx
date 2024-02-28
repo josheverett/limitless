@@ -34,10 +34,10 @@ export const Loader = ({
   }, [shouldLoad, isLoaded]);
 
   // When a page's initial transitions run, loading up a 3D model at the same
-  // time makes things stuttery. This is further kludge to the above, keeping
-  // it separate for clarity.
+  // time makes things stuttery. This is further kludge to the above, only
+  // keeping it separate for clarity.
   useEffect(() => {
-    setTimeout(() => setShouldLoad(true), 450);
+    setTimeout(() => setShouldLoad(true), 600);
   });
 
   if (!shouldLoad) return null;
