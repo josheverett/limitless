@@ -67,7 +67,7 @@ export const Challenges = ({
                 background: var(--halo-white);
               `
             )}>
-              <ChallengeHeading title="Daily" endDate={new Date()} />
+              <ChallengeHeading countdownPeriod="daily" title="Daily" />
               <ChallengeBox
                 className={css`margin-top: 1.944vh;`}
                 color="teal"
@@ -79,8 +79,8 @@ export const Challenges = ({
               />
               <ChallengeHeading
                 className={css`margin-top: 1.806vh;`}
+                countdownPeriod="weekly"
                 title="Weekly"
-                endDate={new Date()}
               />
               <ChallengeBox
                 className={css`margin-top: 1.944vh;`}

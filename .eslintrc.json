@@ -1,4 +1,8 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -11,15 +15,12 @@
       { "avoidEscape": true, "allowTemplateLiterals": true }
     ],
     "react/no-unescaped-entities": 0,
-    "semi": ["error", "always"],
+    "@typescript-eslint/semi": ["error", "always"],
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
         "args": "after-used",
-        // Don't complain about using _ for cases when you need to ignore a
-        // a function arg or destructure some prop using only an underscore.
-        // For the destructure case you can use `delete` but who does that. :P
-        "varsIgnorePattern": "^_+$"
+        "argsIgnorePattern": "^_"
       }
     ]
   }

@@ -1,12 +1,13 @@
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 import { TextOffset } from '@/components/text';
+import { Countdown, CountdownPeriod } from '@/components/countdown';
 import { getFontVariant } from '@/app/styles/fonts';
 
 type ChallengeHeadingProps = {
   className?: string;
+  countdownPeriod?: CountdownPeriod;
   title: string;
-  endDate: Date; // This will probably become moment.Date
 };
 
 // The BG colors here are FUCKING HARD to figure out. They have somewhere in
@@ -15,8 +16,8 @@ type ChallengeHeadingProps = {
 // than a tiny bit of transparency with the wrong colors.
 export const ChallengeHeading = ({
   className,
+  countdownPeriod,
   title,
-  endDate,
 }: ChallengeHeadingProps) => {
   const css = use4k();
 
@@ -33,16 +34,9 @@ export const ChallengeHeading = ({
       className,
     )}>
       <div>
-        <TextOffset smush top="-1.2vh" className={css``}>{title}</TextOffset>
+        <TextOffset smush top="-1.2vh">{title}</TextOffset>
       </div>
-      {/* temp obviously lol */}
-      <div className={css`
-        @media (orientation: portrait) {
-          display: none;
-        }
-      `}>
-        [clock] {endDate.getHours()}
-      </div>
+      {!!countdownPeriod && <Countdown period={countdownPeriod} />}
     </div>
   );
 };

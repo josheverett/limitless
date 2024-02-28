@@ -2,6 +2,7 @@ import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 
 import _4k from '@material-design-icons/svg/filled/4k.svg';
+import access_time_filled from '@material-design-icons/svg/filled/access_time_filled.svg';
 import arrow_left from '@material-design-icons/svg/filled/arrow_left.svg';
 import arrow_right from '@material-design-icons/svg/filled/arrow_right.svg';
 import comment from '@material-design-icons/svg/filled/comment.svg';
@@ -16,6 +17,7 @@ import settings from '@material-design-icons/svg/filled/settings.svg';
 
 const ICONS = {
   '4k': _4k,
+  access_time_filled,
   arrow_left,
   arrow_right,
   comment,
