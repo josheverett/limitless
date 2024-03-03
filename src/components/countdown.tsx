@@ -23,7 +23,9 @@ const formatDate = (period: CountdownPeriod, date: Moment) => {
 
   if (period === 'weekly') {
     const now = moment();
-    paddedSegments.push(date.diff(now, 'days'));
+    const diff = date.diff(now, 'days');
+    if (diff === 1) return `${diff} Day`;
+    if (diff > 1) return `${diff} Days`;
   }
 
   // So this is... different... because we don't want to pad the first
@@ -57,6 +59,7 @@ export const Countdown = ({
   const css = use4k();
 
   useEffect(() => {
+    setCountdownDate(countdownDate_);
     const intervalId = setInterval(() => {
       setCountdownDate((prev) => prev.clone().subtract(1, 'seconds'));
     }, 1000);

@@ -52,10 +52,10 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     // and weekly. The countdownDates should always match up except for days.
     // The ranges ("x to y") are just to make for better looking numbers. :P
 
-    // Days from now. 3 to 5. Only applies to weekly.
-    const randomDay = Math.floor(Math.random() * 3) + 3;
-    // Hours from now. 6 to 18.
-    const randomHour = Math.floor(Math.random() * 13) + 6;
+    // Days from now. 1 to 3. Only applies to weekly.
+    const randomDay = Math.floor(Math.random() * 2) + 2;
+    // Hours from now. 1 to 12.
+    const randomHour = Math.floor(Math.random() * 11) + 2;
     // Minutes from now. 15 to 45.
     const randomMinute = Math.floor(Math.random() * 31) + 15;
 
