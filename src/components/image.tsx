@@ -2,16 +2,16 @@ import NextImage, { ImageProps as NextImageProps } from 'next/image';
 import { use4k } from '@/hooks/use-4k';
 
 type ImageProps = NextImageProps & {
-  className?: string;
   aspectRatio?: number;
   unoptimized?: boolean;
+  priority?: boolean;
   objectFit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
 };
 
 export const Image = ({
-  className = '',
   aspectRatio,
   unoptimized,
+  priority = true,
   objectFit = 'contain',
   ...props
 }: ImageProps) => {
@@ -34,7 +34,7 @@ export const Image = ({
         left: 0;
         right: 0;
       `}>
-        <NextImage unoptimized={unoptimized} style={{ objectFit }} {...props} />
+        <NextImage unoptimized={unoptimized} priority={priority} style={{ objectFit }} {...props} />
       </div>
     </div>
   );

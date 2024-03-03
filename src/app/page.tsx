@@ -141,8 +141,8 @@ export default function StartScreen() {
             margin-top: 42.176vh;
           `}>
             <Image
-              className={css`width: 100%; height: 100%;`}
               unoptimized
+              priority
               fill
               src="/start-screen/halo.svg"
               alt="Halo"

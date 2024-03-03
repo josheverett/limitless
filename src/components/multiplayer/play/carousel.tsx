@@ -66,7 +66,6 @@ const PlayTabCarouselItem = ({
         */}
         <div className={css`position: relative; height: 25.833vh;`}>
           <Image
-            className={css`height: 100%; width: 100%;`}
             fill
             objectFit="cover"
             src={src}
