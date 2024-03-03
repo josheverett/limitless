@@ -74,8 +74,8 @@ export const Countdown = ({
       `,
     )}>
       <MaterialIcon
-        // scale() is eyeballed.
-        className={css`transform: scale(1.2);`}
+        // transforms are eyeballed.
+        className={css`transform: scale(1.2) translateY(-0.056vh);`}
         icon="access_time_filled"
       />
       <div>
