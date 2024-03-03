@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import moment, { Moment } from 'moment';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
@@ -52,8 +52,16 @@ const formatDate = (period: CountdownPeriod, date: Moment) => {
 export const Countdown = ({
   period,
 }: CountdownProps) => {
-  const { countdown } = useContext(AppContext);
+  const { countdownDate: countdownDate_ } = useContext(AppContext);
+  const [countdownDate, setCountdownDate] = useState(countdownDate_);
   const css = use4k();
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCountdownDate((prev) => prev.clone().subtract(1, 'seconds'));
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [countdownDate_]);
 
   return (
     <div className={cx(
@@ -61,7 +69,7 @@ export const Countdown = ({
       css`
         display: flex;
         align-items: center;
-        gap: 0.7vh;
+        gap: 0.7vh; // Eyeballed, of course, like all text-related things.
         font-size: 1.852vh;
       `,
     )}>
@@ -71,7 +79,7 @@ export const Countdown = ({
         icon="access_time_filled"
       />
       <div>
-        <TextOffset top="-0.093vh">{formatDate(period, countdown)}</TextOffset>
+        <TextOffset top="-0.093vh">{formatDate(period, countdownDate)}</TextOffset>
       </div>
     </div>
   );
