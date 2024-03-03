@@ -5,7 +5,6 @@ import * as THREE from 'three';
 import { Model as ARModel } from '../models/assault-rifle';
 import { Loader } from '../3d-loader';
 
-
 const Camera = () => {
   const ref = useRef<THREE.PerspectiveCamera | null>(null);
 

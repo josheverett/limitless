@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Limitless
 
-## Getting Started
+Limitless is a lovingly faithful recreation of the Halo Infinite menu in Next.js.
 
-First, run the development server:
+Most, but not all, menu screens are included.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+A live [demo is available here](https://limitless-rho.vercel.app/).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## why tho
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The original objectives where:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- To learn new tools and frameworks, such as threejs, emotion css, gamecontroller.js, and framer motion.
+- To satisfy a lifelong dream to make video game menus, as silly as that sounds.
+- To experiment with building a relatively complex app that is obsessively fluid *and* responsive. Unlike the real menu by 343, it can be used on any device, orientation, and screen size.
+- To make something of a portfolio piece that is clean, well structured, and very accessible.
+- To generally get weird and solve unexpected challenges I haven't encountered before.
 
-## Learn More
+Cool things that happened along the way:
 
-To learn more about Next.js, take a look at the following resources:
+- A decent set of hooks for using gamecontroller.js in React, which I would like to improve and open source as `portal-gun`.  It can be used to instrument an existing React app simply by setting a few `tabIndex`s and defining "portals". Portals enable controller focus to `teleport()` to other components as needed.
+- A slightly clever method of wrapping emotion css' `css` template tag with my own, that handles converting all `vh` and `vw` units to pixels when the "Force 4k" option is toggled. This option is necessary to ensure that everything matches up with the real menu, despite being fluid. Meanwhile wrapping emotion css was necessary due to the inherent conflict between `transform: scale(...)` and `vw` and `vh` units, as the app can be scaled, but not the viewport.
+- The only media queries for responsiveness are `orientation` rules. There are no breakpoints
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Controls
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+This app can be controlled with pretty much any input method, including:
 
-## Deploy on Vercel
+- Xbox controllers (other controllers untested)
+- Tabbed keyboard navigation
+- Keyboard arrow keys etc.
+- Mouse
+- Touch
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Acknowledgements
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 343 for making an awesome Halo game and getting multiplayer into a really great spot before ceasing development. ❤️
+- [https://sketchfab.com/joshuawatt811](McCarthy3D) (Spartan), [https://sketchfab.com/Glitch5970](Glitch5970) (AR, BR), and [https://sketchfab.com/caitharper95](Caitlin Harper) (Sniper) for their 3D Halo models.
+
+## Packages Used
+
+- `@emotion/css`
+- `@material-design-icons/svg`
+- `@react-three` `drei` and `fiber`
+- `framer-motion`
+- `gamecontroller.js`

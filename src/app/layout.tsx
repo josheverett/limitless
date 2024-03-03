@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { Metadata } from 'next';
 import Head from 'next/head';
 import { AppContextProvider } from '@/app/context';
 import { Resize } from '@/components/resize';

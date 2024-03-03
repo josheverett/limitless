@@ -9,11 +9,16 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1, "maxBOF": 0 }],
     "quotes": [
       "error",
       "single",
       { "avoidEscape": true, "allowTemplateLiterals": true }
     ],
+    "react/jsx-indent": ["error", 2],
+    // I have been unable to get indendation to work for multiline props. :\
+    "react/jsx-indent-props": ["error", 2],
+    "react/jsx-closing-tag-location": 1,
     "react/no-unescaped-entities": 0,
     "@typescript-eslint/semi": ["error", "always"],
     "@typescript-eslint/no-unused-vars": [
