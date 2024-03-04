@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { TabbedPage } from '@/layouts/tabbed-page';
-import { MultiplayerBackground } from '@/components/multiplayer/multiplayer-background';
 import { Footer } from '@/components/footer/footer';
+import { MultiplayerBackground } from '@/components/multiplayer/multiplayer-background';
 
 type MultiplayerLayoutProps = {
   children: React.ReactNode;

@@ -9,6 +9,31 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "comma-dangle": ["error", "always-multiline"],
+    "import/order": ["error", {
+      "groups": ["builtin", "external", "internal"],
+      "pathGroups": [
+        { "group": "external", "position": "before", "pattern": "react" },
+        { "group": "external", "position": "before", "pattern": "next" },
+        { "group": "external", "position": "before", "pattern": "next/**" },
+        { "group": "external", "position": "before", "pattern": "[a-z]*" },
+        { "group": "external", "position": "before", "pattern": "@**" },
+        { "group": "internal", "position": "before", "pattern": "**/types/**" },
+        { "group": "internal", "position": "before", "pattern": "**/context/**" },
+        { "group": "internal", "position": "before", "pattern": "**/lib/**" },
+        { "group": "internal", "position": "before", "pattern": "**/hooks/**" },
+        { "group": "internal", "position": "before", "pattern": "**/layouts/**" },
+        { "group": "internal", "position": "before", "pattern": "**/components/**" },
+        { "group": "internal", "position": "before", "pattern": "**/3d/**" },
+        // This last pattern isn't working, even with `after`, dunno why.
+        { "group": "internal", "position": "before", "pattern": "**/styles/**" }
+      ],
+      "pathGroupsExcludedImportTypes": ["react"],
+      "alphabetize": {
+        "order": "asc",
+        "caseInsensitive": true
+      }
+    }],
     "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1, "maxBOF": 0 }],
     "quotes": [
       "error",
@@ -16,7 +41,7 @@
       { "avoidEscape": true, "allowTemplateLiterals": true }
     ],
     "react/jsx-indent": ["error", 2],
-    // I have been unable to get indendation to work for multiline props. :\
+    // I have been unable to get this to work for multiline prop *values*. :\
     "react/jsx-indent-props": ["error", 2],
     "react/jsx-closing-tag-location": 1,
     "react/no-unescaped-entities": 0,

@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { Canvas, useThree, useFrame } from '@react-three/fiber';
-import { PerspectiveCamera, useProgress } from '@react-three/drei';
 import * as THREE from 'three';
-import { Model as ARModel } from '../models/assault-rifle';
+import { PerspectiveCamera, useProgress } from '@react-three/drei';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { Loader } from '../3d-loader';
+import { Model as ARModel } from '../models/assault-rifle';
 
 const Camera = () => {
   const ref = useRef<THREE.PerspectiveCamera | null>(null);
@@ -37,7 +37,7 @@ const Model = () => {
       <ARModel position={[-5, -6, 0]} rotation={[
         2.07 * Math.PI,
         0.8 * Math.PI,
-        2.1 * Math.PI
+        2.1 * Math.PI,
       ]} />
     </group>
   );

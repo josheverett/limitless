@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { cx } from '@emotion/css';
 import { motion } from 'framer-motion';
+import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 import { Image } from '@/components/image';
-import { TextOffset } from '@/components/text';
 import { InputButton } from '@/components/input-button';
-import { LineTree, CAP_HEIGHT } from '@/components/start-screen/line';
 import { InfiniteLogo } from '@/components/start-screen/infinite-logo';
+import { LineTree, CAP_HEIGHT } from '@/components/start-screen/line';
+import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
 
 // This shit is exactly as hilarious as it looks.
@@ -39,7 +39,7 @@ const LOGO_LINES: LineTree[] = [
     children: [
       { type: 'horizontal', width: 3.38 },
       { type: 'horizontal', width: 2.824, position: [0, 2.407] },
-    ]
+    ],
   },
 
   // I
@@ -61,7 +61,7 @@ const LOGO_LINES: LineTree[] = [
 
   // I
   {
-    type: 'vertical', position: [26.898, 0], startXY: [-6, -0.25], initialHeight: CAP_HEIGHT/3
+    type: 'vertical', position: [26.898, 0], startXY: [-6, -0.25], initialHeight: CAP_HEIGHT/3,
   },
 
   // T
@@ -73,7 +73,7 @@ const LOGO_LINES: LineTree[] = [
         type: 'horizontal', width: 3.472, position: [-1.528, 0],
         transformOrigin: 'top center', delay: 0.2,
       },
-    ]
+    ],
   },
 
   // E
@@ -84,7 +84,7 @@ const LOGO_LINES: LineTree[] = [
       { type: 'horizontal', width: 3.241, delay: 0.3 },
       { type: 'horizontal', width: 2.824, position: [0, 2.407], delay: 0.6 },
       { type: 'horizontal', width: 3.241, position: [0, 4.769], delay: 0.3 },
-    ]
+    ],
   },
 ];
 

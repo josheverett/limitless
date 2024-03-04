@@ -1,7 +1,7 @@
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
-import { TextOffset } from '@/components/text';
 import { MaterialIcon } from '@/components/icon';
+import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
 
 type ChallengeBattlePassBoxProps = {
@@ -40,7 +40,7 @@ const ChallengeBattlePassBox = ({
           )}
         />
         <TextOffset truncate>
-          Requires <span className={css`color: hsl(190, 90%, 50%)`}>Premium</span> Battle Pass
+          Requires <span className={css`color: var(--halo-highlight-blue);`}>Premium</span> Battle Pass
         </TextOffset>
       </div>
     </div>

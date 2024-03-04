@@ -1,9 +1,9 @@
-import { cx } from '@emotion/css';
 import { motion } from 'framer-motion';
+import { cx } from '@emotion/css';
 import { use4k, TABBED_PAGE_PADDING_X } from '@/hooks/use-4k';
 import { PortalTarget } from '@/hooks/use-gamepad';
-import { Tabs } from '@/components/tabs/tabs';
 import { TabLink } from '@/components/tabs/tab';
+import { Tabs } from '@/components/tabs/tabs';
 import { getFontVariant } from '@/app/styles/fonts';
 
 type TabbedPageProps = {

@@ -10,6 +10,7 @@
 :root {
   --halo-white: #f4f4f4;
   --halo-offwhite: #dedede;
+  --halo-highlight-blue: hsl(190, 90%, 50%);
 }
 
 /* All the emotion css stuff renders on the client, so we need some styles

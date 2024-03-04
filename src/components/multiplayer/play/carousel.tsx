@@ -7,8 +7,8 @@ import { use4k } from '@/hooks/use-4k';
 import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { BrightBox } from '@/layouts/bright-box';
-import { Image } from '@/components/image';
 import { MaterialIcon } from '@/components/icon';
+import { Image } from '@/components/image';
 import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
 
@@ -116,7 +116,7 @@ export const PlayTabCarousel = ({
   const css = use4k();
 
   const { defaultFocusRef, focusContainerRef, teleport } = useInputPortal({
-    name: 'PlayTabCarousel'
+    name: 'PlayTabCarousel',
   });
 
   const nextItem = () => {

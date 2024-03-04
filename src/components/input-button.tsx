@@ -2,8 +2,8 @@ import { cx } from '@emotion/css';
 import { GAMEPAD_INPUT_KEYS } from '@/types/input';
 import { use4k } from '@/hooks/use-4k';
 import { useInput, UseInputState } from '@/hooks/use-gamepad';
-import { Image } from '@/components/image';
 import { MaterialIcon, MaterialIconSvg } from '@/components/icon';
+import { Image } from '@/components/image';
 import { TextOffset } from '@/components/text';
 
 const SHAPE_MAP: { [key in GAMEPAD_INPUT_KEYS]: string } = {
@@ -68,6 +68,8 @@ type InputButtonProps = {
   className?: string;
   input: GAMEPAD_INPUT_KEYS;
   state?: UseInputState;
+  width: number;
+  height: number;
   portal?: string;
   allowMobile?: boolean;
   shadowed?: boolean;
@@ -81,6 +83,8 @@ export const InputButton = ({
   className,
   input,
   state = 'press',
+  width,
+  height,
   portal,
   allowMobile = true,
   shadowed = false,
@@ -105,8 +109,6 @@ export const InputButton = ({
           align-items: center;
           justify-content: center;
           text-align: center;
-          // This is temporary until I have SVGs with cut out letters
-          // that will be used as css mask (allowing bg to bleed through).
           color: ${shadowed ? 'hsl(0, 0%, 20%)' : 'hsl(0, 0%, 40%)'};
           cursor: pointer;
           user-select: none;
@@ -116,29 +118,40 @@ export const InputButton = ({
             display: ${allowMobile ? 'flex' : 'none'};
           }
         `,
-        className
+        !!width && css`width: ${String(width)}vh;`,
+        !!height && css`height: ${String(height)}vh;`,
+        className,
       )}
       onClick={callback}
     >
-      <Image
-        className={css`width: 100%; height: 100%;`}
-        fill
-        unoptimized
-        src={`/input-shapes/${iconBg}.svg`}
-        role="button"
-        alt={input}
-      />
-      {!!icon ? (
-        // pos:relative for stacking context, no explicit z-index needed.
-        <MaterialIcon
-          className={css`position: relative; width: 60%; height: 60%;`}
-          icon={icon}
+      <div className={css`
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      `}>
+        <Image
+          className={css`width: 100%; height: 100%;`}
+          fill
+          unoptimized
+          src={`/input-shapes/${iconBg}.svg`}
+          role="button"
+          alt={input}
         />
-      ) : (
-        <span className={css`font-size: 1.5vh;`}>
-          <TextOffset top="0.139vh">{input}</TextOffset>
-        </span>
-      )}
+        {!!icon ? (
+          // pos:relative for stacking context, no explicit z-index needed.
+          <MaterialIcon
+            className={css`position: relative; width: 60%; height: 60%;`}
+            icon={icon}
+          />
+        ) : (
+          <span className={css`font-size: 1.5vh;`}>
+            <TextOffset top="0.139vh">{input}</TextOffset>
+          </span>
+        )}
+      </div>
     </div>
   );
 };

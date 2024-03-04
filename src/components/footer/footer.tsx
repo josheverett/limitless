@@ -1,19 +1,21 @@
+import { useEffect, useState, useContext, useRef } from 'react';
 import { cx } from '@emotion/css';
-import { useContext } from 'react';
-import { AppContext } from '@/app/context';
 import { use4k } from '@/hooks/use-4k';
 import { useInput } from '@/hooks/use-gamepad';
-import { Image } from '@/components/image';
-import { MetaButton } from '@/components/footer/meta-button';
 import { FooterButton } from '@/components/footer/footer-button';
+import { MetaButton } from '@/components/footer/meta-button';
+import { Image } from '@/components/image';
 import { getFontVariant } from '@/app/styles/fonts';
+import { AppContext } from '@/app/context';
 
 type SeparatorProps = { type?: 'middle' | 'end'; };
 
 const Separator = ({ type = 'middle' }: SeparatorProps) => {
   const css = use4k();
 
-  // TODO: We sure about the hue on this...? lol
+  // Not sure if this is opaque or not in the real thing. But it looks fine
+  // on all pages. Could determine this by testing different backgrounds
+  // but whatevs.
   if (type == 'middle') {
     return (
       <div className={css`
@@ -39,7 +41,7 @@ const Separator = ({ type = 'middle' }: SeparatorProps) => {
   );
 };
 
-const FooterNamelate = () => {
+const FooterNameplate = () => {
   const css = use4k();
 
   return (
@@ -49,7 +51,12 @@ const FooterNamelate = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 1.481vh;
+          // gonna be honest the padding-left is wider than the real thing
+          // and the gap is more narrow that the real thing. but looks so
+          // much better with the avatar I'm using, so yeah. My real cat
+          // avatar is visually misleading because of the whiksers. :)
+          /* gap: 1.481vh; */
+          gap: 1.296vh;
           height: 4.63vh;
           padding-left: 0.741vh;
           padding-right: 1.389vh;
@@ -89,8 +96,13 @@ export const Footer = ({ className }: FooterProps) => {
     force4k,
     setForce4k,
     fullscreen,
-    setFullscreen
+    setFullscreen,
   } = useContext(AppContext);
+
+  const [animate, setAnimate] = useState(false);
+  const [strokeDegrees, setStrokeDegrees] = useState(0);
+  const [startHold, setStartHold] = useState(Date.now());
+  const animateRef = useRef(animate);
 
   const css = use4k();
 
@@ -99,6 +111,19 @@ export const Footer = ({ className }: FooterProps) => {
     state: 'press',
     callback: () => setFullscreen(!fullscreen),
   });
+
+  useEffect(() => {
+    animateRef.current = animate;
+  }, [animate]);
+
+  const animateStroke = () => {
+    requestAnimationFrame(() => {
+      console.log('ref', animateRef.current);
+      if (!animateRef.current) return;
+      setStrokeDegrees((prev) => prev + 0.6);
+      animateStroke();
+    });
+  };
 
   return (
     <div className={cx(
@@ -110,67 +135,90 @@ export const Footer = ({ className }: FooterProps) => {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 3vh;
-        height: 7.315vh;
+        height: 7.269vh;
         padding: 0 4.398vh;
         background: hsla(0, 0%, 0%, 0.4);
       `,
       className,
     )}>
-      <MetaButton
-        icon="4k"
-        label="Force 4k"
-        enabled={force4k}
-        onClick={() => setForce4k(!force4k)}
-      />
-      <MetaButton
-        icon="fullscreen"
-        label="Fullscreen"
-        enabled={fullscreen}
-        onClick={() => setFullscreen(!fullscreen)}
-      />
-      <div className={css`flex-grow: 1`} />
+      {/* TODO: gonna move this anyway */}
+      <div className={css`
+        display: flex;
+        gap: 3vh;
+      `}>
+        <MetaButton
+          icon="4k"
+          label="Force 4k"
+          enabled={force4k}
+          onClick={() => setForce4k(!force4k)}
+        />
+        <MetaButton
+          icon="fullscreen"
+          label="Fullscreen"
+          enabled={fullscreen}
+          onClick={() => setFullscreen(!fullscreen)}
+        />
+      </div>
+      <div className={css`flex-grow: 1;`} />
       <div className={css`
         display: flex;
         flex-shrink: 0;
         align-items: center;
         justify-content: center;
-        gap: 1.389vh;
+        gap: 1.435vh;
         height: 100%;
         background: hsla(0, 0%, 100%, 0.02);
       `}>
         <Separator type="end" />
-        <FooterNamelate />
+        <FooterNameplate />
         <Separator />
         <FooterButton
-          flip
-          icon="comment"
           input="START"
+          icon="comment"
           state="hold"
+          height={1.481}
+          animate={animate}
+          strokeDegrees={strokeDegrees}
           callback={() => {
             console.log('DERP START INPUT BUTTON HELD');
+            // Need app context prop for chat window open.
+            if (strokeDegrees >= 360) {
+              console.log('DERP OPEN CHAT');
+              setAnimate(false);
+              return;
+            }
+            if (!animate) setStartHold(Date.now());
+            setAnimate(true);
+            animateStroke();
           }}
         />
         <Separator />
         <FooterButton
-          icon="group"
-          label={16}
           input="SELECT"
+          icon="group"
+          state="press"
+          height={1.157}
+          label={16}
           callback={() => {
             console.log('DERP SELECT INPUT BUTTON');
           }}
         />
         <Separator />
         <FooterButton
-          icon="settings"
           input="START"
+          icon="settings"
           state="release"
+          height={1.528}
           callback={() => {
             // TODO: Need an app context prop to keep track if chat window
-            // is open. If so, this callback is a no-op. That will gracefully
-            // handle the case where we want holding the button for N ms to
-            // open the chat window but not also open the settings screen.
-            console.log('DERP START INPUT BUTTON RELEASED');
+            // is open. If so, this callback is a no-op.
+            const holdDuration = Date.now() - startHold;
+            setAnimate(false);
+            setStrokeDegrees(0);
+            // 220 is arbitrary, feels right
+            if (holdDuration <= 220) {
+              console.log('DERP OPEN MENU', holdDuration);
+            }
           }}
         />
         <Separator type="end" />

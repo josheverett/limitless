@@ -3,11 +3,11 @@
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { ResponsiveMediumColumn } from '@/layouts/medium-column';
+import { PlayTabBackground } from '@/components/3d/multiplayer/play-bg';
 import { ListBox } from '@/components/list-box/list-box';
-import { OperationsBox } from '@/components/multiplayer/play/operations/operations-box';
 import { PlayTabCarousel } from '@/components/multiplayer/play/carousel';
 import { Challenges } from '@/components/multiplayer/play/challenges/challenges';
-import { PlayTabBackground } from '@/components/3d/multiplayer/play-bg';
+import { OperationsBox } from '@/components/multiplayer/play/operations/operations-box';
 
 const LIST_ITEMS = [
   {

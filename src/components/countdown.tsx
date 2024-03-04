@@ -2,10 +2,10 @@ import { useEffect, useState, useContext } from 'react';
 import moment, { Moment } from 'moment';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
-import { AppContext } from '@/app/context';
 import { MaterialIcon } from '@/components/icon';
 import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
+import { AppContext } from '@/app/context';
 
 export type CountdownPeriod = 'daily' | 'weekly';
 

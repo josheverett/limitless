@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { Canvas, useThree, useFrame } from '@react-three/fiber';
-import { PerspectiveCamera, useProgress } from '@react-three/drei';
 import * as THREE from 'three';
-import { Model as BRModel } from '../models/battle-rifle';
+import { PerspectiveCamera, useProgress } from '@react-three/drei';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { Loader } from '../3d-loader';
+import { Model as BRModel } from '../models/battle-rifle';
 
 const Camera = () => {
   const ref = useRef<THREE.PerspectiveCamera | null>(null);
@@ -38,7 +38,7 @@ const Model = () => {
       <BRModel position={[-5, -6, 0]} rotation={[
         0.05 * Math.PI,
         -0.3 * Math.PI,
-        -0.1 * Math.PI
+        -0.1 * Math.PI,
       ]} />
     </group>
   );

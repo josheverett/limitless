@@ -6,8 +6,8 @@ import { useLinkFocus } from '@/hooks/use-link-focus';
 import { BrightBox } from '@/layouts/bright-box';
 import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
-import { ChallengeHeading } from './challenge-heading';
 import { ChallengeBox } from './challenge-box';
+import { ChallengeHeading } from './challenge-heading';
 
 type ChallengesProps = {
   className?: string;
@@ -19,7 +19,7 @@ export const Challenges = ({
   const css = use4k();
 
   const { defaultFocusRef, focusContainerRef, teleport } = useInputPortal({
-    name: 'PlayTabChallenges'
+    name: 'PlayTabChallenges',
   });
 
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });

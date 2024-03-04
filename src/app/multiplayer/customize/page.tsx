@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
-import { ListBox } from '@/components/list-box/list-box';
 import { AssaultRifleBg } from '@/components/3d/multiplayer/customize-bg-ar';
 import { BattleRifleBg } from '@/components/3d/multiplayer/customize-bg-br';
+import { ListBox } from '@/components/list-box/list-box';
 
 const BG_COMPONENTS = [AssaultRifleBg, BattleRifleBg];
 

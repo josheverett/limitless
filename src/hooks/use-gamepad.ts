@@ -226,7 +226,7 @@ const _useDirectionalInputsHelper = ({
     state: 'press',
     callback: () => {
       if (directions.includes(direction)) callback(direction);
-    }
+    },
   });
 };
 

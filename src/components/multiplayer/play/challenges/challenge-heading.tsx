@@ -1,7 +1,7 @@
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
-import { TextOffset } from '@/components/text';
 import { Countdown, CountdownPeriod } from '@/components/countdown';
+import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
 
 type ChallengeHeadingProps = {

@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { ResponsiveMediumColumn } from '@/layouts/medium-column';
-import { NotchedHeading } from '@/components/notched-heading';
 import { ListBox } from '@/components/list-box/list-box';
+import { NotchedHeading } from '@/components/notched-heading';
 
 const GAP = '3.646vw'; // vw is correct.
 

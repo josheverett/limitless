@@ -34,7 +34,7 @@ export const Tabs = ({
   const css = use4k();
 
   const { defaultFocusRef, focusContainerRef, teleport } = useInputPortal({
-    name: portal
+    name: portal,
   });
 
   const selectNextTab = () => {
@@ -110,8 +110,9 @@ export const Tabs = ({
       <InputButton
         input="LB"
         allowMobile={false}
+        width={3.704}
+        height={1.944}
         callback={selectPreviousTab}
-        className={css`width: 3.704vh; height: 1.944vh;`}
       />
       <ul className={css`
         display: flex;
@@ -135,8 +136,9 @@ export const Tabs = ({
       <InputButton
         input="RB"
         allowMobile={false}
+        width={3.704}
+        height={1.944}
         callback={selectNextTab}
-        className={css`width: 3.704vh; height: 1.944vh;`}
       />
     </div>
   );

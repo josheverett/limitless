@@ -21,8 +21,8 @@ const LIST_VARIANTS: Variants = {
   show: {
     transition: {
       staggerChildren: 0.08,
-    }
-  }
+    },
+  },
 };
 
 export const ITEM_VARIANTS: Variants = {
@@ -74,7 +74,7 @@ export const ListBox = ({
 
   const defaultFocusRef = useNavigationFocus(navigationFocusPathname, portal);
   const { focusContainerRef, teleport } = useInputPortal({
-    name: portal, defaultFocusRef
+    name: portal, defaultFocusRef,
   });
 
   // selectedIndex exists only to determine what description text to display.

@@ -1,5 +1,4 @@
 import { cx } from '@emotion/css';
-import { use4k } from '@/hooks/use-4k';
 
 import _4k from '@material-design-icons/svg/filled/4k.svg';
 import access_time_filled from '@material-design-icons/svg/filled/access_time_filled.svg';
@@ -14,6 +13,7 @@ import menu from '@material-design-icons/svg/filled/menu.svg';
 import radio_button_checked from '@material-design-icons/svg/filled/radio_button_checked.svg';
 import radio_button_unchecked from '@material-design-icons/svg/filled/radio_button_unchecked.svg';
 import settings from '@material-design-icons/svg/filled/settings.svg';
+import { use4k } from '@/hooks/use-4k';
 
 const ICONS = {
   '4k': _4k,
@@ -47,7 +47,11 @@ export const MaterialIcon = ({
 
   return (
     <div className={cx(
-      css`display: flex; align-items: center; justify-content: center;`,
+      css`
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      `,
       className
     )}>
       <IconComponent className="material-icon-svg" />

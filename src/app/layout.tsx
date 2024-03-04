@@ -1,14 +1,19 @@
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import Head from 'next/head';
-import { AppContextProvider } from '@/app/context';
-import { Resize } from '@/components/resize';
 import { Gamepad } from '@/components/gamepad';
+import { Resize } from '@/components/resize';
 import { TekoFont } from '@/app/styles/fonts';
+import { AppContextProvider } from '@/app/context';
 import '@/app/styles/globals.css';
 
 export const metadata: Metadata = {
   title: 'Limitless',
   description: 'A lovingly faithful recreation of the Halo Infinite menu in React.',
+};
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: 'device-width',
 };
 
 export default function RootLayout({

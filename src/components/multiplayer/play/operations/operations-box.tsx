@@ -7,8 +7,8 @@ import {
 } from '@/hooks/use-gamepad';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { BrightBox } from '@/layouts/bright-box';
-import { TextOffset } from '@/components/text';
 import { InputButton } from '@/components/input-button';
+import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
 import { OperationsLevel } from './operations-level';
 
@@ -69,7 +69,7 @@ export const OperationsBox = ({
               background-origin: border-box;
             `}>
               <div className={css`display: flex; align-items: stretch; gap: 1.991vh;`}>
-                <OperationsLevel className={css`flex-grow: 1`} />
+                <OperationsLevel className={css`flex-grow: 1;`} />
                 <div className={css`
                   display: flex;
                   flex-direction: column;
@@ -120,10 +120,10 @@ export const OperationsBox = ({
           position: absolute;
           top: 50%;
           right: -3.565vh;
-          width: 2.037vh;
-          height: 2.037vh;
           margin-top: -1.019vh;
         `}
+        width={2.037}
+        height={2.037}
       />
     </div>
   );

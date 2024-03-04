@@ -24,7 +24,7 @@ export const TextOffset = ({
   truncate = false,
   smush = false,
   italic = false,
-  children
+  children,
 }: TextOffsetProps) => {
   const css = use4k();
 
