@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import { AssaultRifleBg } from '@/components/3d/multiplayer/customize-bg-ar';
 import { BattleRifleBg } from '@/components/3d/multiplayer/customize-bg-br';
+import { SniperBg } from '@/components/3d/multiplayer/customize-bg-sniper';
 import { ListBox } from '@/components/list-box/list-box';
 
-const BG_COMPONENTS = [AssaultRifleBg, BattleRifleBg];
+const BG_COMPONENTS = [AssaultRifleBg, BattleRifleBg, SniperBg];
 
 const Background = () => {
   const [index, setIndex] = useState(0);
@@ -17,8 +18,7 @@ const Background = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // We're only gonna have 2 bgs so whatever lol.
-      setIndex(index === 0 ? 1 : 0);
+      setIndex(index >= BG_COMPONENTS.length - 1 ? 0 : index + 1);
     }, 10000);
 
     return () => clearInterval(intervalId);

@@ -37,7 +37,7 @@ Cool but unplanned things that happened along the way:
 ## Acknowledgements
 
 - 343 for making an awesome Halo game and getting multiplayer into a really great spot before ceasing development. ❤️
-- [McCarthy3D](https://sketchfab.com/joshuawatt811) (Spartan), [Glitch5970](https://sketchfab.com/Glitch5970) (AR, BR), and [Caitlin Harper](https://sketchfab.com/caitharper95) (Sniper) for their 3D Halo models.
+- [McCarthy3D](https://sketchfab.com/joshuawatt811) (Spartan) and [Glitch5970](https://sketchfab.com/Glitch5970) (AR, BR, Sniper) for their 3D Halo models.
 
 ## Packages Used
 
@@ -49,4 +49,4 @@ Cool but unplanned things that happened along the way:
 
 ## License
 
-3D models are CC0, everything else is MIT.
+3D models are CC BY 4.0 DEED (see above), everything else is MIT.
