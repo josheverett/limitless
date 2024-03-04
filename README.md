@@ -46,3 +46,7 @@ Cool but unplanned things that happened along the way:
 - `@react-three` + `drei` + `fiber`
 - `framer-motion`
 - `gamecontroller.js`
+
+## License
+
+3D models are CC0, everything else is MIT.
