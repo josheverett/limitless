@@ -177,7 +177,9 @@ export default function StartScreen() {
           `}>
             <TextOffset className={pressAToPlayClassName} smush top="0.2vh">Press</TextOffset>
             <InputButton
-              className={css`width: 2vh; height: 2vh; margin: 0 1.1vh 0 0.7vh`}
+              className={css`margin: 0 1.1vh 0 0.7vh;`}
+              width={2}
+              height={2}
               shadowed
               input="A"
               callback={() => router.push('/multiplayer/play')}
