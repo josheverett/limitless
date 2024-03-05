@@ -11,10 +11,21 @@ A live [demo is available here](https://limitless-rho.vercel.app/).
 This app can be controlled with pretty much any input method, including:
 
 - Xbox controllers (other controllers untested)
-- Tabbed keyboard navigation
+- Tabbed keyboard navigation + enter key
 - Keyboard arrow keys etc.
 - Mouse
 - Touch
+
+Controller to keyboard mappings:
+
+- D-Pad = Arrow Keys
+- Start = `Enter`
+- Space = `Select`
+- Guide = `[backtick]`
+- A / B / X / Y = `A` / `B` / `X` / `Y`
+- Left and Right Triggers = Left and Right `Shift`
+- Left and Right Bumpers = `[` and `]`
+- L3 and R3 = `,` and `.`
 
 ## why tho
 

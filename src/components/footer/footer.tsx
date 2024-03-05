@@ -118,7 +118,6 @@ export const Footer = ({ className }: FooterProps) => {
 
   const animateStroke = () => {
     requestAnimationFrame(() => {
-      console.log('ref', animateRef.current);
       if (!animateRef.current) return;
       setStrokeDegrees((prev) => prev + 0.6);
       animateStroke();
@@ -126,21 +125,23 @@ export const Footer = ({ className }: FooterProps) => {
   };
 
   return (
-    <div className={cx(
-      css`
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 7.269vh;
-        padding: 0 4.398vh;
-        background: hsla(0, 0%, 0%, 0.4);
-      `,
-      className,
-    )}>
+    <div
+      className={cx(
+        css`
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 7.269vh;
+          padding: 0 4.398vh;
+          background: hsla(0, 0%, 0%, 0.4);
+        `,
+        className,
+      )}
+    >
       {/* TODO: gonna move this anyway */}
       <div className={css`
         display: flex;
@@ -216,7 +217,10 @@ export const Footer = ({ className }: FooterProps) => {
             setAnimate(false);
             setStrokeDegrees(0);
             // 220 is arbitrary, feels right
-            if (holdDuration <= 220) {
+            // Meanwhile for keyboard input, the `hold` callback never runs,
+            // (because I didn't implement it) and so startHold is always a
+            // large number. So if holdDurecton is > 1s we'll assume keyboard.
+            if (holdDuration <= 220 || holdDuration > 1000) {
               console.log('DERP OPEN MENU', holdDuration);
             }
           }}

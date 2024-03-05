@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { GAMEPAD_INPUT_KEYS, GAMEPAD_INPUTS } from '@/types/input';
+import { GAMEPAD_INPUT_KEYS, GAMEPAD_INPUTS, KEYBOARD_INPUTS } from '@/types/input';
 
 // These two types map to each other.
 // I just prefer the terms press/hold/release. :)
@@ -123,6 +123,8 @@ export const useGamepad = () => {
     };
   };
 
+  // Note that it is correct that none of these listeners (including keypress)
+  // get unbound/removed. This gamepad nonsense is an app-lifetime singleton.
   // TODO: Refactor this shit so that calling useInput does the initialization
   // lazily (instead of calling the useGamepad hook at the app level).
   // Oh that actually should enable more things to be rendered on the server,
@@ -136,6 +138,28 @@ export const useGamepad = () => {
       on(eventType, delegateGamepadEvent('on', eventType));
       after(eventType, delegateGamepadEvent('after', eventType));
     }
+
+    // This lets us handle keyboard keys while hitting the same useInput
+    // callbacks you've defined for each button.
+    // TODO: This doesn't handle hold. Can get away with that for this project,
+    // but not for open source version. Needs an event loop like the native
+    // controller APIs. Forking the TS version of gpjs seems like the way to
+    // go, so we can use the same event loop. Forking is only a consideration
+    // because the js version was abandoned and the ts fork author didn't
+    // responsd to a message about pull requests.
+    document.addEventListener('keypress', (e) => {
+      const gamepadInputs = KEYBOARD_INPUTS[e.key];
+      if (!gamepadInputs) return;
+      // e.location only used for shift key in this project but can be used
+      // for any left+right keys such as ctrl/cmd/etc.
+      const gamepadInput = gamepadInputs[e.location];
+      if (!gamepadInput) return;
+      const gcjsGamepadEvent = GAMEPAD_INPUTS[gamepadInput];
+      const pressHandler = delegateGamepadEvent('before', gcjsGamepadEvent);
+      const releaseHandler = delegateGamepadEvent('after', gcjsGamepadEvent);
+      pressHandler();
+      releaseHandler();
+    });
   };
 
   useEffect(() => {
@@ -169,7 +193,7 @@ type UseInputProps = {
   // TODO: Use <T> instead of any. Figure out how to make that optional so it's
   // <any> by default or otherwise inferred from what gets passed.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  callback: (...args: any) => any;
+  callback: (...args: any) => void;
 };
 
 export const useInput = ({
@@ -209,8 +233,7 @@ type UseDirectionalInputsHelperProps = {
   directions: InputDirection[];
   // TODO: Use <T> instead of any. Figure out how to make that optional so it's
   // <any> by default or otherwise inferred from what gets passed.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  callback: (direction: InputDirection) => any;
+  callback: (direction: InputDirection) => void;
 };
 
 const _useDirectionalInputsHelper = ({
@@ -235,24 +258,32 @@ type UseDirectionalInputsProps = {
   directions?: InputDirection[];
   // TODO: Use <T> instead of any. Figure out how to make that optional so it's
   // <any> by default or otherwise inferred from what gets passed.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  callback: (direction: InputDirection) => any;
+  callback: (direction: InputDirection) => void;
 };
+
+type DirectionalInputMap = [InputDirection, GAMEPAD_INPUT_KEYS];
+
+const DIRECTIONAL_INPUTS: DirectionalInputMap[] = [
+  ['U', 'RIGHT_STICK_UP'],
+  ['D', 'RIGHT_STICK_DOWN'],
+  ['L', 'RIGHT_STICK_LEFT'],
+  ['R', 'RIGHT_STICK_RIGHT'],
+  ['U', 'DPAD_UP'],
+  ['D', 'DPAD_DOWN'],
+  ['L', 'DPAD_LEFT'],
+  ['R', 'DPAD_RIGHT'],
+];
 
 export const useDirectionalInputs = ({
   portal,
   directions = ['U', 'D', 'L', 'R'],
   callback,
 }: UseDirectionalInputsProps) => {
-  // TODO: Consider wiring up keyboard arrow keys as well.
-  _useDirectionalInputsHelper({ portal, input: 'DPAD_UP', direction: 'U', directions, callback });
-  _useDirectionalInputsHelper({ portal, input: 'DPAD_DOWN', direction: 'D', directions, callback });
-  _useDirectionalInputsHelper({ portal, input: 'DPAD_LEFT', direction: 'L', directions, callback });
-  _useDirectionalInputsHelper({ portal, input: 'DPAD_RIGHT', direction: 'R', directions, callback });
-  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_UP', direction: 'U', directions, callback });
-  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_DOWN', direction: 'D', directions, callback });
-  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_LEFT', direction: 'L', directions, callback });
-  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_RIGHT', direction: 'R', directions, callback });
+  for (const [direction, input] of DIRECTIONAL_INPUTS) {
+    _useDirectionalInputsHelper(
+      { portal, input, direction, directions, callback }
+    );
+  }
 };
 
 // What are input portals?
@@ -332,7 +363,6 @@ export const useInputPortal = ({
     const setActivePortal = () => document.body.dataset.activePortal = name;
     current.addEventListener('focusin', setActivePortal);
     return () => current.removeEventListener('focusin', setActivePortal);
-  // }, [name, focusContainerRef]);
   }, [name]);
 
   return {

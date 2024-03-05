@@ -1,8 +1,3 @@
-// gamecontroller.js follows the spec (minus indexes), this is just for my own
-// convenience so that I don't have to remember what A vs X vs Start is.
-// If I end up adding keyboard input icons they'll just alias to these.
-// Format is: my name --> gamecontroller.js name (based on spec)
-
 export type GAMEPAD_INPUT_KEYS =
   'A' |
   'B' |
@@ -30,6 +25,9 @@ export type GAMEPAD_INPUT_KEYS =
   'RIGHT_STICK_RIGHT' |
   'RIGHT_STICK_LEFT';
 
+// gamecontroller.js follows the spec (minus indexes), this is just for my own
+// convenience so that I don't have to remember what A vs X vs Start is.
+// Format is: my name --> gamecontroller.js name (based on spec)
 export const GAMEPAD_INPUTS: {
   [key in GAMEPAD_INPUT_KEYS]: GcjsGamepadEvent
 } = {
@@ -58,4 +56,34 @@ export const GAMEPAD_INPUTS: {
   RIGHT_STICK_DOWN: 'down1',
   RIGHT_STICK_RIGHT: 'right1',
   RIGHT_STICK_LEFT: 'left1',
+};
+
+// string is standard e.key value, number is e.location.
+// e.location is the index of the GAMEPAD_INPUT_KEYS array to use.
+// For keys that don't have a a concept left/right, e.location is always 0.
+// For keys that do, you get 1 for left, and 2 for right, hence the Shift
+// array having an undefined 0th index.
+export const KEYBOARD_INPUTS: {
+  [key: string]: (GAMEPAD_INPUT_KEYS | undefined)[]
+} = {
+  'a': ['A'],
+  'b': ['B'],
+  'x': ['X'],
+  'y': ['Y'],
+  '[': ['LB'],
+  ']': ['RB'],
+  'Shift': [undefined, 'LT', 'RT'],
+  // I don't remember how I got under the impression that some browsers might
+  // use Space or Spacebar instead of ' ', but whatevs no harm done.
+  'Spacebar': ['SELECT'],
+  'Space': ['SELECT'],
+  ' ': ['SELECT'],
+  'Enter': ['START'],
+  ',': ['L3'],
+  '.': ['R3'],
+  'ArrowUp': ['DPAD_UP'],
+  'ArrowDown': ['DPAD_DOWN'],
+  'ArrowLeft': ['DPAD_LEFT'],
+  'ArrowRight': ['DPAD_RIGHT'],
+  '`': ['GUIDE'],
 };
