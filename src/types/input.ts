@@ -1,3 +1,4 @@
+// TODO: This is the only actual type in this file... lol.
 export type GAMEPAD_INPUT_KEYS =
   'A' |
   'B' |
@@ -60,7 +61,7 @@ export const GAMEPAD_INPUTS: {
 
 // string is standard e.key value, number is e.location.
 // e.location is the index of the GAMEPAD_INPUT_KEYS array to use.
-// For keys that don't have a a concept left/right, e.location is always 0.
+// For keys that don't have a concept left/right, e.location is always 0.
 // For keys that do, you get 1 for left, and 2 for right, hence the Shift
 // array having an undefined 0th index.
 export const KEYBOARD_INPUTS: {
@@ -73,17 +74,17 @@ export const KEYBOARD_INPUTS: {
   '[': ['LB'],
   ']': ['RB'],
   'Shift': [undefined, 'LT', 'RT'],
-  // I don't remember how I got under the impression that some browsers might
-  // use Space or Spacebar instead of ' ', but whatevs no harm done.
-  'Spacebar': ['SELECT'],
-  'Space': ['SELECT'],
-  ' ': ['SELECT'],
-  'Enter': ['START'],
   ',': ['L3'],
   '.': ['R3'],
+  // I don't remember how I got under the impression that some browsers might
+  // use Space or Spacebar instead of ' ', but whatevs no harm done.
+  'Spacebar': ['START'],
+  'Space': ['START'],
+  ' ': ['START'],
+  'Escape': ['SELECT'],
   'ArrowUp': ['DPAD_UP'],
   'ArrowDown': ['DPAD_DOWN'],
   'ArrowLeft': ['DPAD_LEFT'],
   'ArrowRight': ['DPAD_RIGHT'],
-  '`': ['GUIDE'],
+  'g': ['GUIDE'],
 };

@@ -219,7 +219,7 @@ export const Footer = ({ className }: FooterProps) => {
             // 220 is arbitrary, feels right
             // Meanwhile for keyboard input, the `hold` callback never runs,
             // (because I didn't implement it) and so startHold is always a
-            // large number. So if holdDurecton is > 1s we'll assume keyboard.
+            // large number. So if holdDuration is > 1s we'll assume keyboard.
             if (holdDuration <= 220 || holdDuration > 1000) {
               console.log('DERP OPEN MENU', holdDuration);
             }

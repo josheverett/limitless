@@ -147,7 +147,7 @@ export const useGamepad = () => {
     // go, so we can use the same event loop. Forking is only a consideration
     // because the js version was abandoned and the ts fork author didn't
     // responsd to a message about pull requests.
-    document.addEventListener('keypress', (e) => {
+    document.addEventListener('keydown', (e) => {
       const gamepadInputs = KEYBOARD_INPUTS[e.key];
       if (!gamepadInputs) return;
       // e.location only used for shift key in this project but can be used
