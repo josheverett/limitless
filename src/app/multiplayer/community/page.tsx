@@ -50,8 +50,6 @@ function getEdges <T extends HTMLElement = HTMLElement>(item: T) {
   const offsetBottom = listEl.clientHeight - (offsetTop + item.offsetHeight);
   const offsetRight = listEl.clientWidth - (offsetLeft + item.clientWidth);
 
-  console.log(offsetTop, offsetBottom, offsetLeft, offsetRight);
-
   if (offsetTop === 0) edges.push('U');
   if (offsetBottom === 0) edges.push('D');
   if (offsetLeft === 0) edges.push('L');

@@ -1,12 +1,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
-import {
-  getTargetForRoute,
-  useDirectionalInputs,
-  useInputPortal,
-  PortalTarget,
-} from '@/hooks/use-gamepad';
+import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
 import { InputButton } from '@/components/input-button';
 import { Tab, TabLink } from './tab';
 
@@ -14,11 +9,7 @@ type TabsProps = {
   className?: string;
   tabs: TabLink[];
   portal: string;
-  portalTargets: PortalTarget[];
 };
-
-// TODO: In the real thing the downward tab portal remembers
-// where you were when you focused into the tabs. P3 territory.
 
 // Important reminder: selected and focused are not the same!
 // selected = matches current route
@@ -27,13 +18,12 @@ export const Tabs = ({
   className,
   tabs,
   portal,
-  portalTargets = [],
 }: TabsProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const css = use4k();
 
-  const { defaultFocusRef, focusContainerRef, teleport } = useInputPortal({
+  const { defaultFocusRef, focusContainerRef, back } = useInputPortal({
     name: portal,
   });
 
@@ -57,8 +47,6 @@ export const Tabs = ({
     callback: (direction) => {
       if (!focusContainerRef.current) return;
 
-      let portalTarget: PortalTarget | undefined;
-
       const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
       const focusedIndex = links.findIndex((link) => link === document.activeElement);
       const isAtStart = focusedIndex <= 0;
@@ -67,11 +55,9 @@ export const Tabs = ({
       let indexToFocus = focusedIndex;
 
       switch (direction) {
-        // Going down means teleporting somewhere.
+        // Going down always means going back to the last focused portal.
         case 'D':
-          portalTarget = getTargetForRoute(portalTargets, pathname);
-          if (!!portalTarget) teleport(portalTarget.target);
-          return;
+          return back();
         // Going left or right cycles tabs. Wraps.
         case 'L':
           indexToFocus = isAtStart ? links.length - 1 : focusedIndex - 1;
