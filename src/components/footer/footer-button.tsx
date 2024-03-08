@@ -35,6 +35,8 @@ export const FooterButton = ({
 
   return (
     <div className={css`
+      position: ${isComment ? 'relative': 'static'};
+      top: ${isComment ? '0.463vh': '0'};
       display: flex;
       flex-direction: column;
       align-items: center;
