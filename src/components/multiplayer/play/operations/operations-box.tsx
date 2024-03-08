@@ -1,10 +1,7 @@
 import Link from 'next/link';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
-import {
-  useDirectionalInputs,
-  useInputPortal,
-} from '@/hooks/use-gamepad';
+import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
 import { useLinkFocus } from '@/hooks/use-link-focus';
 import { BrightBox } from '@/layouts/bright-box';
 import { InputButton } from '@/components/input-button';
@@ -51,19 +48,47 @@ export const OperationsBox = ({
         href="/TODO"
       >
         <BrightBox isFocused={isFocused}>
-          <div className={cx(
-            css`
+          {/* The excessive overflow:hidden props below are to help mitigate
+              an overflow:hidden + scale() bug in chrome. When the app is in
+              4k mode (so scale()'d itself), that combo causes flickering on
+              the right edge. Safari and Firefox are fine. This doesn't fix
+              it entirely, but well enough that we can live with it. */}
+          <div className={css`
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+          `}>
+            {/*
+              We need to zoom the bg image 110% on focus. But we also need
+              background-size:cover behavor. So can't use bg size for both,
+              hence these silly empty divs.
+            */}
+            <div className={css`
+              position: absolute;
+              top: 0;
+              left: 0%;
               width: 100%;
               height: 100%;
-              background: url('/operations/spirit-of-fire.jpg') center center;
-              background-size: 100%;
-              transition-property: background-size;
-              transition-duration: 150ms;
-              transition-timing-function: ease-out;
-            `,
-            isFocused && css`background-size: 110%;`,
-          )}>
+              overflow: hidden;
+            `}>
+              <div className={cx(
+                css`
+                  width: 100%;
+                  height: 100%;
+                  background: url('/operations/spirit-of-fire.jpg') center center;
+                  background-size: cover;
+                  overflow: hidden;
+                  transition-property: transform;
+                  transition-duration: 150ms;
+                  transition-timing-function: ease-out;
+                `,
+                isFocused && css`transform: scale(1.1);`,
+              )} />
+            </div>
             <div className={css`
+              // pos:relative for implicit stacking context. No z-index needed.
+              position: relative;
               padding: 2.269vh 1.852vh;
               background: linear-gradient(90deg, hsla(0, 0%, 0%, 0.8) 0%, hsla(0, 0%, 0%, 0.525) 100%);
               background-origin: border-box;
