@@ -221,7 +221,8 @@ export const ListBox = ({
               bottom: 18.935vh;
               // vw is correct.
               left: 5.156vw;
-              height: 1.25vh;
+              /* height: 1.25vh; */
+              height: 1.296vh;
               // vw is correct.
               width: ${String(descriptionWidthLandscape)}vw;
               // Matches padding of list items.
@@ -236,7 +237,6 @@ export const ListBox = ({
             getFontVariant(css, 'shadow_crisp'),
           )}
         >
-          {/* <TextOffset top="-0.741vh"> */}
           <TextOffset top="-0.787vh">
             {description}
           </TextOffset>

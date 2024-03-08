@@ -343,11 +343,11 @@ const PORTAL_TARGET_REGISTRY: { [key: string]: HTMLAnchorElement } = {};
 // a portal gets focus. This is necessary to allow for simultaneous input
 // control schemes. Like you could use keyboard navigation, a mouse, and a
 // controller all at once lmao.
-export const useInputPortal = ({
+export const useInputPortal = <T extends HTMLElement = HTMLDivElement>({
   name = '',
   defaultFocusRef,
 }: UseInputPortalProps) => {
-  const focusContainerRef = useRef<HTMLDivElement>(null);
+  const focusContainerRef = useRef<T>(null);
 
   const defaultFocusRef_ = useRef<HTMLAnchorElement>(null);
   const ref = defaultFocusRef || defaultFocusRef_;

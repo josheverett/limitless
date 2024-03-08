@@ -76,7 +76,7 @@ export default function PlayTab() {
         </ResponsiveMediumColumn>
         <ResponsiveMediumColumn>
           <OperationsBox />
-          <Challenges className={css`margin-top: 3.287vh`} />
+          <Challenges className={css`margin-top: 3.287vh;`} />
         </ResponsiveMediumColumn>
       </div>
     </motion.div>
