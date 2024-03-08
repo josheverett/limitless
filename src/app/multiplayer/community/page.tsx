@@ -204,7 +204,8 @@ export default function CommunityTab() {
             white-space: nowrap;
           }
         `}>
-          {/* This wrapping div is for grid directional input calculations. */}
+          {/* This wrapping div is so grid directional input calculations
+              can ignore margin/padding/border. */}
           <div>
             <NotchedHeading title="Community File Share" />
             <FileShareList portalTargets={[
