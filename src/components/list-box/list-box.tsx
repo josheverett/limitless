@@ -73,6 +73,7 @@ export const ListBox = ({
   const css = use4k();
 
   const defaultFocusRef = useNavigationFocus(navigationFocusPathname, portal);
+
   const { focusContainerRef, teleport } = useInputPortal({
     name: portal, defaultFocusRef,
   });
@@ -88,8 +89,6 @@ export const ListBox = ({
   };
 
   // Can't directly handle focusin via React.
-  // TODO: Consider exposing an onFocusIn in the returned props
-  // from useInputPortal? If only listbox needs it then nah.
   // Reminder: As mentioned above, listbox needs this to set the correct
   // selectedIndex, used for the "detached" description display. That
   // description text isn't part of the <ul> -- hence the need for
@@ -118,6 +117,7 @@ export const ListBox = ({
 
       let indexToFocus = focusedIndex;
 
+      // TODO: This would be cleaner without the switch. U/D can be combined.
       switch (direction) {
         // For any listbox, left and right can ONLY teleport (when available).
         case 'L':
@@ -221,7 +221,6 @@ export const ListBox = ({
               bottom: 18.935vh;
               // vw is correct.
               left: 5.156vw;
-              /* height: 1.25vh; */
               height: 1.296vh;
               // vw is correct.
               width: ${String(descriptionWidthLandscape)}vw;

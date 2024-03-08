@@ -40,9 +40,8 @@ export const NotchedHeading = ({ title }: NotchedHeadingProps) => {
       border-bottom: 0.139vh solid hsl(0,0%,80%);
 
       @media (orientation: portrait) {
-        margin: 0;
-        padding: 0;
-        border-bottom: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     `}>
       <Cap position="left" />

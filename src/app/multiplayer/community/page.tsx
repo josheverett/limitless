@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 import {
   getTargetForDirection,
@@ -9,36 +8,10 @@ import {
   useInputPortal,
   PortalTarget,
 } from '@/hooks/use-gamepad';
-import { useNavigationFocus } from '@/hooks/use-navigation-focus';
 import { BrightBoxListItem } from '@/layouts/bright-box-list-item';
 import { ResponsiveMediumColumn } from '@/layouts/medium-column';
 import { ListBox } from '@/components/list-box/list-box';
 import { NotchedHeading } from '@/components/notched-heading';
-
-const GAP = '3.646vw'; // vw is correct.
-
-const LIST_ITEMS = [
-  {
-    href: '/multiplayer/community/browser',
-    text: 'Customs Browser',
-    description: 'Find and join custom games hosted by other players.',
-  },
-  {
-    href: '/multiplayer/community/theater',
-    text: 'Theater',
-    description: 'View films and post-game results of multiplayer matches.',
-  },
-  {
-    href: '/multiplayer/community/bookmarks',
-    text: 'My Bookmarks',
-    description: 'View your bookmarked files.',
-  },
-  {
-    href: '/multiplayer/community/files',
-    text: 'My Files',
-    description: 'View your files.',
-  },
-];
 
 // TODO: These are the carousel images, just placeholders here.
 const FILE_SHARE_ITEMS = [
@@ -64,69 +37,72 @@ const FILE_SHARE_ITEMS = [
   },
 ];
 
-const PORTAL_NAME = 'CommunityTabGrid';
+// This stuff is gonna have to get abstracted to a hook at some point when
+// we have another grid. Directional inputs, erethang.
+function getEdges <T extends HTMLElement = HTMLElement>(item: T) {
+  const itemEl = item.closest('li');
+  const listEl = item.closest('ul');
+  if (!itemEl || !listEl) return [];
 
-const PORTAL_TARGETS: PortalTarget[] = [
-  { target: 'PlayTabCarousel', direction: 'U' },
-  { target: 'PlayTabOperations', direction: 'R' },
-];
+  const edges = [];
 
-export default function CommunityTab() {
+  const { offsetTop, offsetLeft } = itemEl;
+  const offsetBottom = listEl.clientHeight - (offsetTop + item.offsetHeight);
+  const offsetRight = listEl.clientWidth - (offsetLeft + item.clientWidth);
+
+  console.log(offsetTop, offsetBottom, offsetLeft, offsetRight);
+
+  if (offsetTop === 0) edges.push('U');
+  if (offsetBottom === 0) edges.push('D');
+  if (offsetLeft === 0) edges.push('L');
+  if (offsetRight === 0) edges.push('R');
+
+  return edges;
+};
+
+type FileShareListProps = {
+  portalTargets: PortalTarget[];
+};
+
+const FileShareList = ({ portalTargets }: FileShareListProps) => {
   const css = use4k();
 
-  useNavigationFocus('/multiplayer/community', PORTAL_NAME);
+  const { focusContainerRef, defaultFocusRef, teleport } = useInputPortal<HTMLUListElement>({
+    name: 'CommunityTabGrid',
+  });;
 
-  const { focusContainerRef, teleport } = useInputPortal<HTMLUListElement>({
-    name: PORTAL_NAME,
-  });
-
-  // 1. Are we on an edge?
-  // 2. Left edge --> list box
-  // 3. Right --> nothing
-  // 4. Bottom edge --> Browse All button
-  // 5. Top edge --> tabs
-  //
-  // If L/R and not edge, ez pz just find the next/prev item with the same
-  // offsetTop, then prev()/next()
-  //
-  // If U/D not on each, little harder. See ChatGPT grid chat.
   useDirectionalInputs({
-    portal: PORTAL_NAME,
+    portal: 'CommunityTabGrid',
     callback: (direction) => {
       if (!focusContainerRef.current) return;
 
-      let portalTarget: PortalTarget | undefined;
-
       const links = Array.from(focusContainerRef.current.querySelectorAll('a'));
       const focusedIndex = links.findIndex((link) => link === document.activeElement);
+      const edges = getEdges<HTMLLIElement>(document.activeElement as HTMLLIElement);
+      const portalTarget = getTargetForDirection(portalTargets, direction);
 
-      // TODO: remove these
-      const isAtStart = focusedIndex <= 0;
-      const isAtEnd = focusedIndex >= links.length - 1;
+      // If we're on an edge but we don't have a portal target just bail.
+      // E.g. the right edge of the community file share grid.
+      if (edges.includes(direction) && !portalTarget) return;
+      if (edges.includes(direction) && portalTarget) return teleport(portalTarget.target);
 
+      const computedStyle = window.getComputedStyle(focusContainerRef.current);
+      const columns = computedStyle.gridTemplateColumns.split(' ').length;
       let indexToFocus = focusedIndex;
 
       switch (direction) {
+        case 'U':
+          indexToFocus = Math.max(focusedIndex - columns, 0);
+          break;
+        case 'D':
+          indexToFocus = Math.max(focusedIndex + columns, 0);
+          break;
         case 'L':
-        case 'R': {
-          portalTarget = getTargetForDirection(PORTAL_TARGETS, direction);
-          if (portalTarget) return teleport(portalTarget.target);
+          indexToFocus = Math.max(focusedIndex - 1, 0);
           break;
-        }
-        // Up and down teleport only when the edge is reached (and a
-        // portal is available).
-        case 'U': {
-          portalTarget = getTargetForDirection(PORTAL_TARGETS, 'U');
-          if (!!portalTarget && isAtStart) return teleport(portalTarget.target);
-          indexToFocus = isAtStart ? focusedIndex : focusedIndex - 1;
+        case 'R':
+          indexToFocus = Math.max(focusedIndex + 1, 0);
           break;
-        }
-        case 'D': {
-          portalTarget = getTargetForDirection(PORTAL_TARGETS, 'D');
-          if (!!portalTarget && isAtEnd) return teleport(portalTarget.target);
-          indexToFocus = isAtEnd ? focusedIndex : focusedIndex + 1;
-          break;
-        }
       }
 
       links[indexToFocus]?.focus();
@@ -134,8 +110,78 @@ export default function CommunityTab() {
   });
 
   return (
+    <div className={css`margin: 2.963vh 0;`}>
+      <ul
+        ref={focusContainerRef}
+        className={css`
+          // position:relative required for correct 'edges' calculations.
+          position: relative;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          column-gap: 2.969vw; // vw is correct.
+          row-gap: 2.963vh;
+
+          @media (orientation: portrait) {
+            display: block;
+
+            li {
+              margin: inherit;
+            }
+          }
+        `}
+        >
+        {FILE_SHARE_ITEMS.map((item, i) => {
+          return (
+            <li key={item.href}>
+              <BrightBoxListItem
+                // This is how we make sure the first item is selected by default.
+                defaultFocusRef={i === 0 ? defaultFocusRef : undefined}
+                src={item.src}
+                href={item.href}
+                text={item.text}
+                height={24.537}
+                portraitHeight={10}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+
+const LIST_ITEMS = [
+  {
+    href: '/multiplayer/community/browser',
+    text: 'Customs Browser',
+    description: 'Find and join custom games hosted by other players.',
+  },
+  {
+    href: '/multiplayer/community/theater',
+    text: 'Theater',
+    description: 'View films and post-game results of multiplayer matches.',
+  },
+  {
+    href: '/multiplayer/community/bookmarks',
+    text: 'My Bookmarks',
+    description: 'View your bookmarked files.',
+  },
+  {
+    href: '/multiplayer/community/files',
+    text: 'My Files',
+    description: 'View your files.',
+  },
+];
+
+export default function CommunityTab() {
+  const css = use4k();
+
+  return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className={css`display: flex; gap: ${GAP};`}>
+      <div className={css`
+        display: flex;
+        gap: 3.646vw; // vw is correct.
+      `}>
         <div className={css`flex-shrink: 0;`}>
           <ResponsiveMediumColumn>
             <ListBox
@@ -145,48 +191,31 @@ export default function CommunityTab() {
               navigationFocusPathname="/multiplayer/community"
               portal="CommunityTabListBox"
               portalTargets={[
-              { target: 'MultiplayerAppTabs', direction: 'U' },
-            ]}
-          />
+                { target: 'MultiplayerAppTabs', direction: 'U' },
+                { target: 'CommunityTabGrid', direction: 'R' },
+              ]}
+            />
           </ResponsiveMediumColumn>
         </div>
-        <div className={cx(
-          css`flex-grow: 1; margin-top: 4.444vh;`,
-          'truncate'
-        )}>
-          <NotchedHeading title="Community File Share" />
-          <ul
-            ref={focusContainerRef}
-            className={css`
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              column-gap: 2.969vw; // vw is correct.
-              row-gap: 2.963vh;
-              margin: 2.963vh 0;
+        <div className={css`
+          flex-grow: 1; margin-top: 4.444vh;
 
-              @media (orientation: portrait) {
-                display: block;
-
-                li {
-                  margin: inherit;
-                }
-              }
-            `}
-            >
-            {FILE_SHARE_ITEMS.map((item) => {
-              return (
-                <li key={item.href}>
-                  <BrightBoxListItem
-                    src={item.src}
-                    href={item.href}
-                    text={item.text}
-                    height={24.537}
-                    portraitHeight={10}
-                  />
-                </li>
-              );
-            })}
-          </ul>
+          @media (orientation: portrait) {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        `}>
+          {/* This wrapping div is for grid directional input calculations. */}
+          <div>
+            <NotchedHeading title="Community File Share" />
+            <FileShareList portalTargets={[
+              { target: 'MultiplayerAppTabs', direction: 'U' },
+              // TODO: teleport to button
+              // { target: '...', direction: 'D' },
+              { target: 'CommunityTabListBox', direction: 'L' },
+            ]} />
+          </div>
         </div>
       </div>
     </motion.div>
