@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
+import { portalRouter } from '@/hooks/use-gamepad';
 
 type UseLinkFocusProps = {
   ref?: React.RefObject<HTMLAnchorElement>;
+  portal?: string
 };
 
 // This hook:
@@ -22,7 +24,8 @@ type UseLinkFocusProps = {
 
 export const useLinkFocus = ({
   ref,
-}: UseLinkFocusProps = {}) => {
+  portal,
+}: UseLinkFocusProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const ref_ = useRef<HTMLAnchorElement>(null);
   const linkRef = ref || ref_;
@@ -32,7 +35,12 @@ export const useLinkFocus = ({
 
     const current = linkRef.current;
 
-    const handleFocus = () => setIsFocused(true);
+    const handleFocus = () => {
+      // The replace() ensures that `defaultFocusRef`s always bootstrap the
+      // portal history stack no matter how the focus ref receives focus.
+      if (portal) portalRouter.replace(portal);
+      setIsFocused(true);
+    };
     const handleBlur = () => setIsFocused(false);
     const handleMouseEnter = (e: MouseEvent) => {
       const el = e.currentTarget as HTMLAnchorElement; // :\
@@ -48,7 +56,7 @@ export const useLinkFocus = ({
       current.removeEventListener('blur', handleBlur);
       current.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [linkRef]);
+  }, [linkRef, portal]);
 
   return {
     ref: linkRef,

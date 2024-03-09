@@ -3,6 +3,9 @@
 import { useEffect, useRef } from 'react';
 import { GAMEPAD_INPUT_KEYS, GAMEPAD_INPUTS, KEYBOARD_INPUTS } from '@/types/input';
 
+// TODO: This whole file has become a monolith and needs to be refactored in
+// a number of ways lol.
+
 // These two types map to each other.
 // I just prefer the terms press/hold/release. :)
 type GcjsStateMethod = 'before' | 'on' | 'after';
@@ -332,8 +335,19 @@ type UseInputPortalProps = {
 
 // portal name --> teleport target ("landing zone")
 const PORTAL_TARGET_REGISTRY: { [key: string]: HTMLAnchorElement } = {};
-
 const PORTAL_HISTORY: string[] = [];
+
+// lol "router"
+export const portalRouter = {
+  push: (portal: string) => {
+    document.body.dataset.activePortal = portal;
+    PORTAL_HISTORY.unshift(portal);
+  },
+  replace: (portal: string) => {
+    document.body.dataset.activePortal = portal;
+    PORTAL_HISTORY[0] = portal;
+  },
+};
 
 // name = portal name
 //
@@ -362,6 +376,7 @@ export const useInputPortal = <T extends HTMLElement = HTMLDivElement>({
   useEffect(() => {
     if (!focusContainerRef.current) return;
     const current = focusContainerRef.current;
+    // TODO: Refactor this bit to use the history stack.
     const setActivePortal = () => document.body.dataset.activePortal = name;
     current.addEventListener('focusin', setActivePortal);
     return () => current.removeEventListener('focusin', setActivePortal);
@@ -370,19 +385,7 @@ export const useInputPortal = <T extends HTMLElement = HTMLDivElement>({
   const teleport = (portal: string) => {
     const el = PORTAL_TARGET_REGISTRY[portal];
     if (!el) return;
-    // TODO: I'm 87% I did this because some CSS depended on it before the
-    // animated/3d backgrounds got implemented. This needs to be refactored to
-    // use a history stack instead. That will handle e.g. this play tab case:
-    // 1. User has operations box focused.
-    // 2. User presses up, now the tabs are focused.
-    // 3. User presses down, but now the carousel is focused! Oh noes.
-    // In the real thing, pressing down from the tabs goes back to whatever
-    // you had focused before you pressed up. A history stack solves that.
-    // In addition to teleport(), just expose back() and forward() methods.
-    // I can't think of a use case for forward(), but just add it for
-    // completeness, since these hooks will get open sourced.
-    document.body.dataset.activePortal = portal;
-    PORTAL_HISTORY.unshift(portal);
+    portalRouter.push(portal);
     el.focus();
   };
 

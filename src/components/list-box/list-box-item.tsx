@@ -17,6 +17,7 @@ export type ListBoxItemProps = {
   // Not used in list items themselves. When a list has descriptions for its
   // items, they show up somewhere adjacent to the list, usually below.
   description?: string;
+  portal?: string;
 };
 
 export const ListBoxItem = ({
@@ -24,8 +25,9 @@ export const ListBoxItem = ({
   defaultFocusRef,
   href,
   text,
+  portal,
 }: ListBoxItemProps) => {
-  const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
+  const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef, portal });
   const css = use4k();
 
   const transparentEnd = '0.324vh';

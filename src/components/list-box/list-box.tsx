@@ -205,6 +205,7 @@ export const ListBox = ({
                   defaultFocusRef={i === 0 ? defaultFocusRef : undefined}
                   href={item.href}
                   text={item.text}
+                  portal={portal}
                 />
               );
             })}
