@@ -1,0 +1,15 @@
+./pre-commit
+
+if [ $? -ne 0 ]; then
+   echo "Pre-commit hook failed. Cannot push."
+   exit 1
+fi
+
+yarn test
+
+grep -r "DO NOT SUBMIT" src/ && echo "Error: Found 'DO NOT SUBMIT' comments. Cannot push." && exit 1 || true
+
+if [ -n "$(git diff --name-only --cached)" ] || [ -n "$(git diff --name-only)" ]; then
+  echo "Error: Found new or modified files. Cannot push."
+  exit 1
+fi
