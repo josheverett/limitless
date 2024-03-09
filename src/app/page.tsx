@@ -1,19 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { LoadingManager } from 'three';
 import { cx } from '@emotion/css';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { use4k } from '@/hooks/use-4k';
 import { Image } from '@/components/image';
 import { InputButton } from '@/components/input-button';
+import { LoadingSpinner } from '@/components/loading-spinner';
 import { InfiniteLogo } from '@/components/start-screen/infinite-logo';
 import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
 
-const PressAToPlay = () => {
-  const router = useRouter();
+type PressAToPlayProps = { callback: () => void; };
+
+const PressAToPlay = ({ callback }: PressAToPlayProps) => {
   const css = use4k();
 
   const pressAToPlayClassName = cx(
@@ -26,6 +29,9 @@ const PressAToPlay = () => {
     `,
   );
 
+  // This needs to be a focusable link, but not trigger a router push. So we
+  // use a plain <a> tag with tabIndex=0. This is an interesting case. If it
+  // pops up again I'll need to provide an idomatic way to do this.
   return (
     <AnimatePresence>
       <motion.div
@@ -34,13 +40,12 @@ const PressAToPlay = () => {
         exit={{ opacity: 0 }}
         transition={{ ease: 'easeIn', duration: 0.5 }}
       >
-        <Link
-          href="/multiplayer/play"
+        <a
+          tabIndex={0}
           className={css`
             display: flex;
             align-items: center;
             height: 1.759vh;
-            margin-top: 5.509vh;
             margin-right: -0.7vh;
           `}
         >
@@ -51,149 +56,113 @@ const PressAToPlay = () => {
             height={2}
             shadowed
             input="A"
-            callback={() => router.push('/multiplayer/play')}
+            callback={callback}
           />
           <TextOffset className={pressAToPlayClassName} smush top="0.2vh">to play</TextOffset>
-        </Link>
+        </a>
       </motion.div>
     </AnimatePresence>
   );
 };
 
-const SpinnerCorners = () => {
+const LoadingMessage = () => {
   const css = use4k();
 
   return (
-    <div className={css`
-      height: 0.185vh;
-      border: solid var(--halo-lightgray);
-      border-width: 0 0.185vh;
-    `} />
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ ease: 'easeOut', duration: 0.25 }}
+        className={css`
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3.75vh;
+        `}
+      >
+        <LoadingSpinner />
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ease: 'easeOut', duration: 0.3 }}
+        >
+          <div className={cx(
+            css`
+              height: 1.343vh;
+              font-size: 1.852vh;
+              text-align: center;
+              // TODO: This should be a variant, shares some stuff with description variant.
+              letter-spacing: 0.15vh;
+            `,
+            getFontVariant(css, 'titillium'),
+            getFontVariant(css, 'shadow_crisp')
+          )}>
+            <TextOffset top="-0.741vh">Initializing data</TextOffset>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 
-type SpinnerCircleProps = {
-  position: 'inner' | 'outer';
-  diameter: number; // vh units
-  duration: number; // seconds
+const preloadModel = (path: string): Promise<string> => {
+  const manager = new LoadingManager();
+  const gltfLoader = new GLTFLoader(manager);
+
+  return new Promise((resolve) => {
+    manager.onLoad = () => resolve(path);
+    gltfLoader.load(path, () => {}); // second arg is required
+  });
 };
 
-// All the gradients below are eyeballed.
-const SpinnerCircle = ({
-  position,
-  diameter,
-  duration,
-}: SpinnerCircleProps) => {
-  const css = use4k();
+const LOGO_ANIMATION_DELAY = 1500; // ms. delay before the whole thing kicks off.
+const MIN_LOADING_TIME = 2000; // ms. minimum loading animation time, for ux.
 
-  const maskStop = position === 'inner' ? 50 : 60;
-
-  const conicGradient = position === 'inner'
-    ? `
-      conic-gradient(
-        from 0deg at center,
-        transparent 5deg,
-        var(--halo-offwhite) 180deg
-      );
-    `
-    : `
-      conic-gradient(
-        from 0deg at center,
-        transparent 5deg,
-        var(--halo-offwhite) 5deg,
-        var(--halo-offwhite) 90deg,
-        transparent 90deg,
-        transparent 95deg,
-        var(--halo-mediumgray) 95deg,
-        var(--halo-mediumgray) 180deg,
-        transparent 180deg,
-        transparent 185deg,
-        var(--halo-offwhite) 185deg,
-        var(--halo-offwhite) 270deg,
-        transparent 270deg,
-        transparent 275deg,
-        var(--halo-mediumgray) 275deg,
-        var(--halo-mediumgray) 360deg
-      );
-    `;
-
-  return (
-    <div className={css`
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-    `}>
-      <div className={css`
-        @keyframes rotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
-        width: ${String(diameter)}vh;
-        height: ${String(diameter)}vh;
-
-        background: ${conicGradient};
-
-        clip-path: circle(50% at center);
-
-        mask-image: radial-gradient(
-          circle at center,
-          transparent ${String(maskStop)}%,
-          black ${String(maskStop)}%
-        );
-        animation: rotate ${String(duration)}s linear infinite;
-      `} />
-    </div>
-  );
-};
-
-const LoadingSpinner = () => {
-  const css = use4k();
-
-  // TODO: slide up animation thingy. just use pos:relative
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ ease: 'easeIn', duration: 0.5 }}
-    >
-      <div className={css`width: 2.778vh;`}>
-        <SpinnerCorners />
-        <div className={css`
-          position: relative;
-          height: 2.407vh;
-        `}>
-          <SpinnerCircle position='outer' diameter={2.315} duration={10} />
-          <SpinnerCircle position='inner' diameter={1.574} duration={4} />
-        </div>
-        <SpinnerCorners />
-      </div>
-      <div className={css`text-align: center;`}>
-        Initializing data
-      </div>
-    </motion.div>
-  );
-};
-
-const LOGO_ANIMATION_DELAY = 1.5; // seconds. delay before the whole thing kicks off.
+const MODEL_PATHS = [
+  '/3d/glb/spartan.glb',
+  '/3d/glb/assault_rifle.glb',
+  '/3d/glb/battle_rifle.glb',
+  '/3d/glb/sniper.glb',
+];
 
 export default function StartScreen() {
-  const css = use4k();
+  const router = useRouter();
   const [shouldRenderLogo, setShouldRenderLogo] = useState(false);
-  // TODO: We wanna start preloading right away. But make sure it doesn't impact
-  // UI perf, and if so just load it after the logo animation completes
-  // or A gets pressed, whichever comes first.
+  // isLoading is for ux state. It does not track any actual loading progress.
+  // It's only set to true once the A button is pressed. But the 3D models are
+  // still preloading in the background at page load.
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingStartTime, setLoadingStartTime] = useState(0);
+  const [areModelsPreloaded, setAreModelsPreloaded] = useState(false);
+  const css = use4k();
 
   // stupid workaround for 4k mode bug
   useEffect(() => {
-    setTimeout(() => setShouldRenderLogo(true), LOGO_ANIMATION_DELAY * 1000);
+    setTimeout(() => setShouldRenderLogo(true), LOGO_ANIMATION_DELAY);
   });
+
+  const modelPaths = useMemo(() => MODEL_PATHS, []);
+
+  useMemo(() => {
+    const preloadModels = async () => {
+      for (const path of modelPaths) await preloadModel(path);
+      setAreModelsPreloaded(true);
+    };
+    preloadModels();
+  }, [modelPaths]);
+
+  const route = '/multiplayer/play';
+
+  useEffect(() => {
+    if (!isLoading || !areModelsPreloaded) return;
+    const elapsedTime = Date.now() - loadingStartTime;
+    // If we've already waited MIN_LOADING_TIME, we good.
+    if (elapsedTime >= MIN_LOADING_TIME) return router.push(route);
+    // Otherwise we gotta wait for the remaining MIN_LOADING_TIME.
+    setTimeout(() => router.push(route), MIN_LOADING_TIME - elapsedTime);
+  }, [router, isLoading, areModelsPreloaded, loadingStartTime]);
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -203,10 +172,6 @@ export default function StartScreen() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          // oh, this stuff isn't actually centered. derpy doo.
-          // Minus the "Press A" bit, the "Halo" and "Infinite" *look*
-          // centered, but they ain't. Dumb margins it is!
-          // justify-content: center;
           position: fixed;
           top: 0;
           left: 0;
@@ -240,6 +205,7 @@ export default function StartScreen() {
             width: 39.259vh;
             height: 5.185vh;
             margin-top: 2.13vh;
+            margin-bottom: 5.509vh;
           `}
           role="img"
           aria-label="Infinite"
@@ -248,8 +214,11 @@ export default function StartScreen() {
               around a tricky bug with scaled transitions. */}
           {shouldRenderLogo ? <InfiniteLogo /> : null }
         </div>
-        <PressAToPlay />
-        <LoadingSpinner />
+        {!isLoading && <PressAToPlay callback={() => {
+          setLoadingStartTime(Date.now());
+          setIsLoading(true);
+        }} />}
+        {isLoading && <LoadingMessage />}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

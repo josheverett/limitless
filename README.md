@@ -43,7 +43,7 @@ Cool but unplanned things that happened along the way:
 - *Everything* is defined primarily with `vh` units, some `%` units, and the occasional `vw` units. The couple of instances of `px` units are for enforcing `min-*` properties that can otherwise fail to render sanely at certain viewpoint sizes (due to being <0.05px when rendered via `vh` or `vw` units).
 - A slightly clever method of wrapping emotion css' `css` template tag with my own, that handles converting all `vh` and `vw` units to pixels when the "Force 4k" option is toggled. This option is necessary to ensure that everything matches up with the real menu, despite being fluid. Meanwhile wrapping emotion css was necessary due to the inherent conflict between `transform: scale(...)` and `vw` and `vh` units, as the app can be scaled, but not necessarily the viewport.
 - The only media queries for responsiveness are `orientation` rules. There are no breakpoints.
-- Lots of fun CSS tricks. The only jpegs in this app are the obvious ones, and the only icons use svgs. Everything else is pure CSS.
+- Lots of fun and weird CSS tricks. Other than the obvious jpegs and some svgs for the buttons, everything is pure CSS.
 
 ## Acknowledgements
 
