@@ -76,8 +76,7 @@ type InputButtonProps = {
   callback: () => void;
 };
 
-// TODO: Animated circle ring for chat view button where you
-// hold down the button or whatever?
+// TOOD: These buttons need to be wrapped in <Link /> for tabbed navigation.
 
 export const InputButton = ({
   className,

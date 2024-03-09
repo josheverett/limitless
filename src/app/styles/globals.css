@@ -10,6 +10,8 @@
 :root {
   --halo-white: #f4f4f4;
   --halo-offwhite: #dedede;
+  --halo-lightgray: #cccccc;
+  --halo-mediumgray: #b3b3b3;
   --halo-highlight-blue: hsl(190, 90%, 50%);
 }
 

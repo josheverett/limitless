@@ -115,12 +115,13 @@ export const FooterButton = ({
             // There's a very narrow set of solutions to make an animated ring
             // that fills in clockwise. Apparently using border-radius and
             // border-image (which can be animated these days, as evidenced by
-            // BrightBox and ListBox) used to work, but it doesn't animore.
+            // BrightBox and ListBox) used to work, but it doesn't anymore.
             // Old tutorial codepens with screenshots don't render the same
             // anymore in at least blink and firefox. Bizarre. So anyway gotta
             // just use requestAnimationFrame and animate it that way. Whatevs.
             // strokeDegress comes from parent and handles this.
-            background: conic-gradient(from 0deg at center,
+            background: conic-gradient(
+              from 0deg at center,
               var(--halo-highlight-blue) ${String(strokeDegrees)}deg,
               hsla(0, 0%, 0%, 0.25) ${String(strokeDegrees)}deg,
               hsla(0, 0%, 0%, 0.25) 360deg
