@@ -143,7 +143,10 @@ export default function StartScreen() {
     setTimeout(() => setShouldRenderLogo(true), LOGO_ANIMATION_DELAY);
   });
 
-  const modelPaths = useMemo(() => MODEL_PATHS, []);
+  const modelPaths = useMemo(() => {
+    const isClient = typeof window !== 'undefined';
+    return isClient ? MODEL_PATHS : [];
+  }, []);
 
   useMemo(() => {
     const preloadModels = async () => {
