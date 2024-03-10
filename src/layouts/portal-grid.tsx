@@ -10,7 +10,7 @@ import {
 import { useNavigationFocus } from '@/hooks/use-navigation-focus';
 import { BrightBoxListItem, BrightBoxListItemProps } from '@/components/list-box/bright-box-list-item';
 
-type PortalGridItemProps = Omit<BrightBoxListItemProps, 'height' | 'portraitHeight'>;
+type PortalGridItemProps = Omit<BrightBoxListItemProps, 'height' | 'padding' | 'textHeight' | 'portraitHeight'>;
 
 function getEdges <T extends HTMLElement = HTMLElement>(item: T) {
   const itemEl = item.closest('li');
@@ -36,6 +36,8 @@ type PortalGridProps = {
   portalTargets: PortalTarget[];
   items: PortalGridItemProps[];
   itemHeight: number;
+  itemPadding: number;
+  itemTextHeight: number;
   itemPortraitHeight: number;
   navigationFocusPathname?: string;
 };
@@ -45,6 +47,8 @@ export const PortalGrid = ({
   portalTargets,
   items,
   itemHeight,
+  itemPadding,
+  itemTextHeight,
   itemPortraitHeight,
   navigationFocusPathname,
 }: PortalGridProps) => {
@@ -126,7 +130,9 @@ export const PortalGrid = ({
             src={item.src}
             href={item.href}
             text={item.text}
+            textHeight={itemTextHeight}
             height={itemHeight}
+            padding={itemPadding}
             portraitHeight={itemPortraitHeight}
           />
         );

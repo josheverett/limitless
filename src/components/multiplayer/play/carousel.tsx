@@ -99,7 +99,9 @@ export const PlayTabCarousel = ({
               src={item.src}
               href={item.href}
               text={item.text}
+              textHeight={4.537}
               height={25.833}
+              padding={1.435}
             />
           );
         })}

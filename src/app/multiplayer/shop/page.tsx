@@ -37,6 +37,8 @@ export default function ShopTab() {
         ]}
         items={FILE_SHARE_ITEMS}
         itemHeight={24.537}
+        itemPadding={2.778}
+        itemTextHeight={5.556}
         itemPortraitHeight={10}
         navigationFocusPathname="/multiplayer/shop"
       />

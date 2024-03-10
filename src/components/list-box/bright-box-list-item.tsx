@@ -14,7 +14,9 @@ export type BrightBoxListItemProps = {
   src: string;
   href: string;
   text: string;
+  textHeight: number; // vh units
   height: number; // vh units
+  padding: number; // vh units
   portraitHeight?: number; // vh units
 };
 
@@ -25,7 +27,9 @@ export const BrightBoxListItem = ({
   src,
   href,
   text,
+  textHeight,
   height,
+  padding,
   portraitHeight,
 }: BrightBoxListItemProps) => {
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
@@ -61,14 +65,15 @@ export const BrightBoxListItem = ({
               src={src}
               alt={text}
             />
-            <div className={css`
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              background: linear-gradient(0deg, hsla(0,0%,0%,0.9) 0%, hsla(0,0%,0%,0) 25%);
-            `}
+            <div
+              className={css`
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(0deg, hsla(0,0%,0%,0.9) 0%, hsla(0,0%,0%,0) 25%);
+              `}
             />
             <div className={cx(
               css`
@@ -78,17 +83,16 @@ export const BrightBoxListItem = ({
                 right: 0;
                 display: flex;
                 align-items: center;
-                height: 4.537vh;
-                padding: 0 1.435vh;
-                color: ${isFocused ? 'black' : 'inheret'};
+                height: ${String(textHeight)}vh; // config here
+                padding: 0 ${String(padding)}vh;
+                color: ${isFocused ? 'black' : 'inherit'};
                 background: ${isFocused ? 'var(--halo-white)' : 'transparent'};
               `,
               getFontVariant(css, 'teko_2_3_wide_light'),
               // One-off (for now?) letter-spacing override for this variant.
               // If like, 2 more components need this it'll become a variant.
               css`letter-spacing: 0.4vh;`,
-            )}
-            >
+            )}>
               <TextOffset truncate smush top="0.25vh">{text}</TextOffset>
             </div>
           </div>
