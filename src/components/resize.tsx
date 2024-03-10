@@ -82,3 +82,17 @@ export const Resize = ({ children }: ResizeProps) => {
     </div>
   );
 };
+
+// I don't have a use case for width/height, and even if I did you can just
+// use the window props directly. Just here for competeness I guess.
+type UseOnResizeCallback = (width: number, height: number) => void;
+
+export const useOnResize = (callback: UseOnResizeCallback) => {
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      callback(window.innerWidth, window.innerHeight);
+    });
+    resizeObserver.observe(document.body);
+    return () => resizeObserver.unobserve(document.body);
+  }, [callback]);
+};

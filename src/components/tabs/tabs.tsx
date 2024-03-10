@@ -1,10 +1,11 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSwipeable } from 'react-swipeable';
 import { cx } from '@emotion/css';
 import { use4k, TABBED_PAGE_PADDING_X } from '@/hooks/use-4k';
 import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
 import { InputButton } from '@/components/input-button';
+import { useOnResize } from '@/components/resize';
 import { Tab, TabLink } from './tab';
 
 type TabsProps = {
@@ -96,6 +97,20 @@ export const Tabs = ({
       swipeRef.current.style.transform = `translateX(${clampedTranslateX}px)`;
     },
     trackMouse: false,
+  });
+
+  useEffect(() => {
+    if (!swipeRef.current) return;
+    swipeRef.current.dataset.viewportSize = JSON.stringify(
+      [window.innerWidth, window.innerHeight]
+    );
+  });
+
+  useOnResize((width, height) => {
+    if (!swipeRef.current) return;
+    const newViewportSize = JSON.stringify([width, height]);
+    if (newViewportSize === swipeRef.current.dataset.viewportSize ) return;
+    swipeRef.current.style.transform = `translateX(0px)`;
   });
 
   return (
