@@ -40,23 +40,29 @@ export const NotchedHeading = ({ title }: NotchedHeadingProps) => {
       margin: 0 -2.315vh;
       padding: 0 2.315vh;
       border-bottom: 0.139vh solid hsl(0,0%,80%);
-
-      @media (orientation: portrait) {
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
     `}>
       <Cap position="left" />
       <div className={css`
         display: inline-block;
-        width: 100%;
+        max-width: 100%;
         height: 2.639vh;
         padding-bottom: 1.065vh;
         border-bottom: 0.324vh solid hsl(0,0%,80%);
         font-size: 2.361vh;
         letter-spacing: 0.3vh;
       `}>
-        <TextOffset smush truncate top="-1.25vh">{title}</TextOffset>
+        <TextOffset
+          smush
+          top="-1.25vh"
+          className={css`
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          `}
+        >
+          {title}
+        </TextOffset>
       </div>
       <Cap position="right" />
     </div>
