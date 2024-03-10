@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useSwipeable } from 'react-swipeable';
 import { cx } from '@emotion/css';
-import { use4k } from '@/hooks/use-4k';
+import { use4k, TABBED_PAGE_PADDING_X } from '@/hooks/use-4k';
 import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
 import { InputButton } from '@/components/input-button';
 import { Tab, TabLink } from './tab';
@@ -11,6 +12,8 @@ type TabsProps = {
   tabs: TabLink[];
   portal: string;
 };
+
+// TODO: Swiping stuff needs to be abstracted when we have more swipeable things.
 
 // Important reminder: selected and focused are not the same!
 // selected = matches current route
@@ -22,7 +25,6 @@ export const Tabs = ({
 }: TabsProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const lastTouchX = useRef(0);
   const css = use4k();
 
   const { defaultFocusRef, focusContainerRef, back } = useInputPortal({
@@ -43,7 +45,7 @@ export const Tabs = ({
     router.push(href);
   };
 
-  const { touchRef } = useDirectionalInputs<HTMLUListElement>({
+  useDirectionalInputs({
     portal,
     directions: ['D', 'L', 'R'],
     callback: (direction) => {
@@ -71,35 +73,45 @@ export const Tabs = ({
 
       links[indexToFocus]?.focus();
     },
-    touchCallback: (direction, deltas) => {
-      const touchEl = touchRef.current;
-      if (!touchEl) return;
+  });
 
-      const delta = deltas.x - lastTouchX.current;
-      const matches = touchEl.style.transform.match(/translateX\((.*)px\)/);
-      const translateX = Number(matches?.[1] || 0) + delta;
+  const startPosRef = useRef(0);
+  const swipeRef = useRef<HTMLDivElement>(null);
 
-      requestAnimationFrame(() => {
-        touchEl.style.transform = `translateX(${String(translateX)}px)`;
-        lastTouchX.current = deltas.x;
-      });
+  // This uses native DOM APIs and a <number> ref for perf, so we dont rerender
+  // the component when swiping.
+  const handlers = useSwipeable({
+    onSwipeStart: () => {
+      if (!swipeRef.current) return;
+      // This can be perfed up with data-attrs, regex is probably more expensive.
+      const transform = swipeRef.current.style.transform;
+      const matches = transform.match(/translateX\((-?\d+\.?\d*)px\)/);
+      startPosRef.current = matches ? Number(matches[1]) : startPosRef.current;
     },
+    onSwiping: (eventData) => {
+      if (!swipeRef.current) return;
+      const newPos = startPosRef.current + eventData.deltaX;
+      const maxTranslateX = window.innerWidth - (swipeRef.current?.offsetWidth || 0);
+      const clampedTranslateX = Math.min(Math.max(newPos, maxTranslateX), 0);
+      swipeRef.current.style.transform = `translateX(${clampedTranslateX}px)`;
+    },
+    trackMouse: false,
   });
 
   return (
     <div
       ref={focusContainerRef}
-      // TODO: In the end, I may be eyeballing the margin-left down 0.1-0.2vh.
-      // We'll wait for the screenshot overlay tests at the very end of the
-      // project, if I do those.
       className={cx(
         css`
+          --tabs-x-gap: 1.991vh;
+          --tab-x-padding: 1.481vh;
+
           position: relative;
           display: flex;
           align-items: center;
-          gap: 1.991vh;
+          gap: var(--tabs-x-gap);
           height: 3.704vh;
-          margin-left: -5.695vh; /* button width + gap */
+          margin-left: calc(-1 * (var(--tab-x-padding) + (var(--tabs-x-gap) * 2)));
 
           @media (orientation: portrait) {
             margin-left: 0;
@@ -115,34 +127,51 @@ export const Tabs = ({
         height={1.944}
         callback={selectPreviousTab}
       />
-      <ul
-        ref={touchRef}
+      {/* This div exists purely for swipe UX, because handlers.ref isn't
+          a normal react ref and we need to measure the width of the <ul>. */}
+      <div
+        ref={swipeRef}
         className={css`
-          display: flex;
-          align-items: center;
-          gap: 1.481vh;
           height: 100%;
-          touch-action: pan-x;
-          pointer-events: none;
-
-          li {
-            pointer-events: all;
-          }
+          transition: transform 0.1s ease-out; // prevents jank
+          touch-action: pan-y;
         `}
       >
-        {tabs.map((tab) => {
-          const isSelected = tab.href === pathname;
-          return (
-            <li key={tab.href} className={css`height: 100%;`}>
-              <Tab
-                defaultFocusRef={isSelected ? defaultFocusRef : undefined}
-                tab={tab}
-                isSelected={isSelected}
-              />
-            </li>
-          );
-        })}
-      </ul>
+        <ul
+          {...handlers}
+          className={css`
+            display: flex;
+            align-items: center;
+            gap: 1.481vh;
+            height: 100%;
+            touch-action: pan-x;
+            pointer-events: none;
+
+            li {
+              pointer-events: all;
+            }
+
+            @media (orientation: portrait) {
+              // This is necessary to clip the max scroll position at the
+              // horizontal padding width rather than the viewport width.
+              padding-right: calc(${TABBED_PAGE_PADDING_X} * 2);
+            }
+          `}
+        >
+          {tabs.map((tab) => {
+            const isSelected = tab.href === pathname;
+            return (
+              <li key={tab.href} className={css`height: 100%;`}>
+                <Tab
+                  defaultFocusRef={isSelected ? defaultFocusRef : undefined}
+                  tab={tab}
+                  isSelected={isSelected}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
       <InputButton
         input="RB"
         allowMobile={false}

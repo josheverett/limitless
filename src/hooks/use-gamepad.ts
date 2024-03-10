@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, Touch } from 'react';
+import { useEffect, useRef } from 'react';
 import { GAMEPAD_INPUT_KEYS, GAMEPAD_INPUTS, KEYBOARD_INPUTS } from '@/types/input';
 
 // TODO: This whole file has become a monolith and needs to be refactored in
@@ -217,7 +217,6 @@ export const useInput = ({
 };
 
 export type InputDirection = 'U' | 'D' | 'L' | 'R';
-export type TouchDirection = InputDirection | 'MOVE';
 
 type UseDirectionalInputsHelperProps = {
   portal?: string;
@@ -244,18 +243,10 @@ const _useDirectionalInputsHelper = ({
   });
 };
 
-type TouchDeltas = {
-  x: number;
-  y: number;
-};
-
 type UseDirectionalInputsProps = {
   portal?: string;
   directions?: InputDirection[];
   callback: (direction: InputDirection) => void;
-  // touch controls should only be used for components that overflow.
-  // Only supports one finger. :P
-  touchCallback?: (direction: TouchDirection, deltas: TouchDeltas, touch: Touch) => void;
 };
 
 type DirectionalInputMap = [InputDirection, GAMEPAD_INPUT_KEYS];
@@ -272,73 +263,18 @@ const DIRECTIONAL_INPUTS: DirectionalInputMap[] = [
 ];
 
 // useDirectionalInputs is a convenience hook for up/down/left/right inputs
-// for both the left analog stick and the dpad, and optionally touch.
+// for both the left analog stick and the dpad.
 
-export const useDirectionalInputs = <T extends HTMLElement = HTMLElement>({
+export const useDirectionalInputs = ({
   portal,
   directions = ['U', 'D', 'L', 'R'],
   callback,
-  touchCallback,
 }: UseDirectionalInputsProps) => {
   for (const [direction, input] of DIRECTIONAL_INPUTS) {
     _useDirectionalInputsHelper(
       { portal, input, direction, directions, callback }
     );
   }
-
-  const touchRef = useRef<T>(null);
-  // These use refs for perf.
-  const startTouchX = useRef(0);
-  const startTouchY = useRef(0);
-
-  // TODO: There is a major bug here where startTouchX and startTouchY always
-  // reset to 0 when a a new touch starts/moves. For the life of me I can't
-  // figure it out where it comes from. :(
-  useEffect(() => {
-    const touchEl = touchRef.current;
-    if (!touchEl || !touchCallback) return;
-    // This line is suuuper important for perf. :)
-    touchRef.current.style.willChange = 'transform';
-
-    const handleTouchStart = (e: TouchEvent) => {
-      startTouchX.current = e.touches[0].clientX;
-      startTouchY.current = e.touches[0].clientY;
-    };
-
-    // const handleTouchEnd = (e: TouchEvent) => {
-    //   console.log('DERP TOUCH END');
-    // };
-
-    // if it's stupid and it works...
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!startTouchX.current || !startTouchY.current) return;
-
-      const endTouch = e.changedTouches[0];
-      const deltas = {
-        x: endTouch.clientX - startTouchX.current,
-        y: endTouch.clientY - startTouchY.current,
-      };
-
-      let direction: TouchDirection;
-      const isHorizonal = Math.abs(deltas.x) > Math.abs(deltas.y);
-      if (isHorizonal) direction = deltas.x < 0 ? 'L' : 'R';
-      else direction = deltas.y < 0 ? 'U' : 'D';
-
-      touchCallback(direction, deltas, endTouch);
-    };
-
-    touchEl.addEventListener('touchstart', handleTouchStart);
-    // touchEl.addEventListener('touchend', handleTouchEnd);
-    touchEl.addEventListener('touchmove', handleTouchMove);
-
-    return () => {
-      touchEl.removeEventListener('touchstart', handleTouchStart);
-      // touchEl.removeEventListener('touchend', handleTouchEnd);
-      touchEl.removeEventListener('touchmove', handleTouchMove);
-    };
-  }, [touchCallback]);
-
-  return { touchRef };
 };
 
 // What are input portals?

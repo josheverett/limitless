@@ -57,6 +57,7 @@ Cool but unplanned things that happened along the way:
 - `@react-three` + `drei` + `fiber`
 - `framer-motion`
 - `gamecontroller.js`
+- `react-swipeable`
 
 ## License
 

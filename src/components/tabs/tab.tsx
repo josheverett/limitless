@@ -47,10 +47,6 @@ export const Tab = ({
             outline-color: var(--halo-${isSelected ? 'white' : 'offwhite'});
             color: var(--halo-${isSelected ? 'white' : 'offwhite'});
           }
-
-          @media (orientation: portrait) {
-            min-width: 0;
-          }
         `,
         ...getFontVariant(css, 'teko_2_3_wide_light'),
       )}
@@ -64,7 +60,7 @@ export const Tab = ({
           css`
             display: flex;
             height: 100%;
-            padding: 0 1.481vh;
+            padding: 0 var(--tab-x-padding);
           `,
           isFocused && css`
             color: black;
