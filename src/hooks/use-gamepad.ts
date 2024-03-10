@@ -20,8 +20,7 @@ const STATE_MAP: { [key in UseInputState]: GcjsStateMethod } = {
 // {
 //   'before': () => { ... } // GcjsStateMethod --> callback
 // }
-// TODO: Use <T> instead of any. Figure out how to make that optional so it's
-// <any> by default or otherwise inferred from what gets passed.
+// TODO: Use <T>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type InputEventStateHandlers = { [key in GcjsStateMethod]?: (...args: any) => any };
 
@@ -126,15 +125,9 @@ export const useGamepad = () => {
     };
   };
 
-  // Note that it is correct that none of these listeners (including keypress)
+  // Note that it is correct that none of these listeners (including keydown)
   // get unbound/removed. This gamepad nonsense is an app-lifetime singleton.
-  // TODO: Refactor this shit so that calling useInput does the initialization
-  // lazily (instead of calling the useGamepad hook at the app level).
-  // Oh that actually should enable more things to be rendered on the server,
-  // I hadn't considered that at all. But the important thing here is that
-  // for an open source version, initialization MUST be lazy and triggered by
-  // useInput, otherwise it's not a one-size-fits-all implementation for
-  // every use case / framework / app.
+  // TODO: Refactor this shit so that calling useInput does the lazy init.
   const init = async () => {
     for (const eventType of Object.values(GAMEPAD_INPUTS)) {
       before(eventType, delegateGamepadEvent('before', eventType));
@@ -193,8 +186,7 @@ type UseInputProps = {
   input: GAMEPAD_INPUT_KEYS;
   state: UseInputState;
   portal?: string; // name of input portal this input belongs to
-  // TODO: Use <T> instead of any. Figure out how to make that optional so it's
-  // <any> by default or otherwise inferred from what gets passed.
+  // TODO: Use <T>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   callback: (...args: any) => void;
 };
@@ -224,9 +216,6 @@ export const useInput = ({
   stateHandlers[method] = callback;
 };
 
-// useDirectionalInputs is a convenience hook for up/down/left/right inputs
-// for both the left analog stick and the dpad.
-
 export type InputDirection = 'U' | 'D' | 'L' | 'R';
 
 type UseDirectionalInputsHelperProps = {
@@ -234,8 +223,7 @@ type UseDirectionalInputsHelperProps = {
   input: GAMEPAD_INPUT_KEYS;
   direction: InputDirection;
   directions: InputDirection[];
-  // TODO: Use <T> instead of any. Figure out how to make that optional so it's
-  // <any> by default or otherwise inferred from what gets passed.
+  // TODO: Use <T>
   callback: (direction: InputDirection) => void;
 };
 
@@ -259,8 +247,7 @@ const _useDirectionalInputsHelper = ({
 type UseDirectionalInputsProps = {
   portal?: string;
   directions?: InputDirection[];
-  // TODO: Use <T> instead of any. Figure out how to make that optional so it's
-  // <any> by default or otherwise inferred from what gets passed.
+  // TODO: Use <T>
   callback: (direction: InputDirection) => void;
 };
 
@@ -276,6 +263,9 @@ const DIRECTIONAL_INPUTS: DirectionalInputMap[] = [
   ['L', 'DPAD_LEFT'],
   ['R', 'DPAD_RIGHT'],
 ];
+
+// useDirectionalInputs is a convenience hook for up/down/left/right inputs
+// for both the left analog stick and the dpad.
 
 export const useDirectionalInputs = ({
   portal,

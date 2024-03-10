@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { portalRouter } from '@/hooks/use-gamepad';
 
 // This hooks allows you to choose an element that should be focused by
 // default when navigating to a given route. There should only ever be
@@ -23,8 +24,7 @@ export const useNavigationFocus = (
     if (!pathname || !portal) return;
     if (!ref.current) return;
     if (nextPathname !== pathname) return;
-    // There's an argument for this to be in use-gamepad just because of this.
-    document.body.dataset.activePortal = portal;
+    portalRouter.replace(portal);
     ref.current.focus();
   }, [portal, pathname, nextPathname, ref]);
 

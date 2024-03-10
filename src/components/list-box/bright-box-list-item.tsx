@@ -7,7 +7,7 @@ import { Image } from '@/components/image';
 import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
 
-type BrightBoxListItemProps = {
+export type BrightBoxListItemProps = {
   defaultFocusRef?: React.RefObject<HTMLAnchorElement>;
   src: string;
   href: string;

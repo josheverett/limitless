@@ -76,7 +76,7 @@ type InputButtonProps = {
   callback: () => void;
 };
 
-// TOOD: These buttons need to be wrapped in <Link /> for tabbed navigation.
+// TOOD: These buttons need to be wrapped in <Link /> for full tabbed navigation.
 
 export const InputButton = ({
   className,

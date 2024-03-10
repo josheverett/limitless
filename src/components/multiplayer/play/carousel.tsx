@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { use4k } from '@/hooks/use-4k';
 import { useDirectionalInputs, useInputPortal } from '@/hooks/use-gamepad';
-import { BrightBoxListItem } from '@/layouts/bright-box-list-item';
 import { MaterialIcon } from '@/components/icon';
+import { BrightBoxListItem } from '@/components/list-box/bright-box-list-item';
 
 const CAROUSEL_ITEMS = [
   {
