@@ -1,5 +1,6 @@
 'use client';
 
+import { motion, Variants } from 'framer-motion';
 import { use4k } from '@/hooks/use-4k';
 import {
   getTargetForDirection,
@@ -9,6 +10,28 @@ import {
 } from '@/hooks/use-gamepad';
 import { useNavigationFocus } from '@/hooks/use-navigation-focus';
 import { BrightBoxListItem, BrightBoxListItemProps } from '@/components/list-box/bright-box-list-item';
+
+const LIST_VARIANTS: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.04,
+    },
+  },
+};
+
+export const ITEM_VARIANTS: Variants = {
+  hidden: { opacity: 0, y: '2.5%', scale: 0.975 },
+  show: {
+    opacity: 1,
+    y: '0%',
+    scale: 1,
+    transition: {
+      duration: 0.2,
+      ease: 'easeOut',
+    },
+  },
+};
 
 type PortalGridItemProps = Omit<BrightBoxListItemProps, 'height' | 'padding' | 'textHeight' | 'portraitHeight'>;
 
@@ -99,7 +122,7 @@ export const PortalGrid = ({
   });
 
   return (
-    <ul
+    <motion.ul
       ref={focusContainerRef}
       className={css`
         // position:relative required for correct 'edges' calculations.
@@ -120,6 +143,9 @@ export const PortalGrid = ({
           }
         }
       `}
+      variants={LIST_VARIANTS}
+      initial="hidden"
+      animate="show"
     >
       {items.map((item, i) => {
         return (
@@ -134,9 +160,10 @@ export const PortalGrid = ({
             height={itemHeight}
             padding={itemPadding}
             portraitHeight={itemPortraitHeight}
+            motionVariants={ITEM_VARIANTS}
           />
         );
       })}
-    </ul>
+    </motion.ul>
   );
 };

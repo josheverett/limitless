@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { motion, Variants } from 'framer-motion';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
 import { useLinkFocus } from '@/hooks/use-link-focus';
@@ -18,6 +19,7 @@ export type BrightBoxListItemProps = {
   height: number; // vh units
   padding: number; // vh units
   portraitHeight?: number; // vh units
+  motionVariants?: Variants;
 };
 
 export const BrightBoxListItem = ({
@@ -31,6 +33,7 @@ export const BrightBoxListItem = ({
   height,
   padding,
   portraitHeight,
+  motionVariants,
 }: BrightBoxListItemProps) => {
   const { ref, isFocused } = useLinkFocus({ ref: defaultFocusRef });
   const css = use4k();
@@ -38,7 +41,7 @@ export const BrightBoxListItem = ({
   const portraitHeight_ = portraitHeight || height;
 
   return (
-    <li className={className} hidden={hidden}>
+    <motion.li className={className} hidden={hidden} variants={motionVariants}>
       <Link
         ref={ref}
         href={href}
@@ -98,6 +101,6 @@ export const BrightBoxListItem = ({
           </div>
         </BrightBox>
       </Link>
-    </li>
+    </motion.li>
   );
 };
