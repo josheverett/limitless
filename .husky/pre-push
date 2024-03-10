@@ -1,4 +1,4 @@
-./pre-commit
+./.husky/pre-commit
 
 if [ $? -ne 0 ]; then
    echo "Pre-commit hook failed. Cannot push."
