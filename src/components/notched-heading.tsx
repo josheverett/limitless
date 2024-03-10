@@ -9,18 +9,20 @@ const Cap = ({ position }: CapProps) => {
   const css = use4k();
 
   return (
-    <div className={css`
-      position: absolute;
-      ${position}: 0;
-      bottom: -0.231vh;
-      width: 0.324vh;
-      height: 0.324vh;
-      background: hsl(0,0%,80%);
+    <div
+      className={css`
+        position: absolute;
+        ${position}: 0;
+        bottom: -0.231vh;
+        width: 0.324vh;
+        height: 0.324vh;
+        background: hsl(0,0%,80%);
 
-      @media (orientation: portrait) {
-        display: none;
-      }
-    `} />
+        @media (orientation: portrait) {
+          display: none;
+        }
+      `}
+    />
   );
 };
 

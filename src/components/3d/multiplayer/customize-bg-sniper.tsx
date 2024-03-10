@@ -34,11 +34,14 @@ const Model = () => {
 
   return (
     <group ref={ref}>
-      <SniperModel position={[-3.5, -4.5, 9]} rotation={[
-        -0.525 * Math.PI,  // you might need to adjust this to tilt the model up or down
-        (-0.05 * Math.PI) + (Math.PI / 8), // adjust this value to rotate clockwise/anticlockwise
-        -0.325 * Math.PI,  // you might need to adjust this to tilt the model left or right
-      ]} />
+      <SniperModel
+        position={[-3.5, -4.5, 9]}
+        rotation={[
+          -0.525 * Math.PI,  // adjust this to tilt the model up or down
+          (-0.05 * Math.PI) + (Math.PI / 8), // adjust this value to rotate clockwise/anticlockwise
+          -0.325 * Math.PI,  // adjust this to tilt the model left or right
+        ]}
+      />
     </group>
   );
 };

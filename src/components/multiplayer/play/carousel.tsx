@@ -90,20 +90,17 @@ export const PlayTabCarousel = ({
       <ul>
         {CAROUSEL_ITEMS.map((item, i) => {
           return (
-            <li
-              key={item.src}
+            <BrightBoxListItem
+              key={item.href}
               className={css`position: relative;`}
               hidden={i !== selectedIndex}
-            >
-              <BrightBoxListItem
                 // defaultFocusRef should always be the current active item
-                defaultFocusRef={i === selectedIndex ? defaultFocusRef : undefined}
-                src={item.src}
-                href={item.href}
-                text={item.text}
-                height={25.833}
-              />
-            </li>
+              defaultFocusRef={i === selectedIndex ? defaultFocusRef : undefined}
+              src={item.src}
+              href={item.href}
+              text={item.text}
+              height={25.833}
+            />
           );
         })}
       </ul>

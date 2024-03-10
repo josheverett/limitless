@@ -169,15 +169,17 @@ export const ListBox = ({
               The `left` below is eyeballed, but I'm confused why that was needed.
               Perhaps natural jank from the very (and variably) thin borders?
             */}
-            <div className={css`
-              position: absolute;
-              top: 50%;
-              left: -0.175vh;
-              width: 0.278vh;
-              height: 7.222vh;
-              margin-top: -3.611vh;
-              background: hsl(0, 0%, 50%);
-            `}/>
+            <div
+              className={css`
+                position: absolute;
+                top: 50%;
+                left: -0.175vh;
+                width: 0.278vh;
+                height: 7.222vh;
+                margin-top: -3.611vh;
+                background: hsl(0, 0%, 50%);
+              `}
+            />
             <ListBoxNotch type="top" />
           </>
         )}

@@ -32,15 +32,17 @@ const BackgroundImage = ({ bg }: BackgroundImageProps) => {
   const bgCss = bg.src ? `url("${bg.src}")` : 'none';
 
   return (
-    <div className={css`
-      width: 100%;
-      height: 100%;
-      background: black center / cover no-repeat;
-      background-image: ${bgCss};
-      // This single rule grinds Safari to a halt. So BGs that need to
-      // be blurred will need to do it manually as part of the image.
-      // filter: blur(0.15vh);
-    `} />
+    <div
+      className={css`
+        width: 100%;
+        height: 100%;
+        background: black center / cover no-repeat;
+        background-image: ${bgCss};
+        // This single rule grinds Safari to a halt. So BGs that need to
+        // be blurred will need to do it manually as part of the image.
+        // filter: blur(0.15vh);
+      `}
+    />
   );
 };
 

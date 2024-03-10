@@ -10,7 +10,8 @@ const SpinnerCorners = () => {
       height: 0.185vh;
       border: solid var(--halo-lightgray);
       border-width: 0 0.185vh;
-    `} />
+    `}
+    />
   );
 };
 
@@ -68,26 +69,28 @@ const SpinnerCircle = ({
       width: 100%;
       height: 100%;
     `}>
-      <div className={css`
-        @keyframes rotate {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
+      <div
+        className={css`
+          @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
 
-        width: ${String(diameter)}vh;
-        height: ${String(diameter)}vh;
+          width: ${String(diameter)}vh;
+          height: ${String(diameter)}vh;
 
-        background: ${conicGradient};
+          background: ${conicGradient};
 
-        clip-path: circle(50% at center);
+          clip-path: circle(50% at center);
 
-        mask-image: radial-gradient(
-          circle at center,
-          transparent ${String(maskStop)}%,
-          black ${String(maskStop)}%
-        );
-        animation: rotate ${String(duration)}s linear infinite;
-      `} />
+          mask-image: radial-gradient(
+            circle at center,
+            transparent ${String(maskStop)}%,
+            black ${String(maskStop)}%
+          );
+          animation: rotate ${String(duration)}s linear infinite;
+        `}
+      />
     </div>
   );
 };

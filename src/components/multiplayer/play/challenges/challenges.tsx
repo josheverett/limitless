@@ -81,7 +81,7 @@ export const Challenges = ({
               className={css`margin-top: 1.806vh;`}
               countdownPeriod="weekly"
               title="Weekly"
-              />
+            />
             <ChallengeBox
               className={css`margin-top: 1.944vh;`}
               size="medium"

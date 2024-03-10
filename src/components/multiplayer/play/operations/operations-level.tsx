@@ -32,19 +32,21 @@ export const OperationsLevel = ({
         overflow: hidden;
       `}>
         {/* This is that 45deg rotated square in the background. */}
-        <div className={css`
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          /* This width is a real number it's not eyeballed lmao.
-             It's absolutely stupid how well this CSS works.
-             I never knew you could use translate to simplify
-             centering rotated elements. Thanks ChatGPT! */
-          width: 66.857%;
-          aspect-ratio: 1;
-          border: 0.093vh solid hsl(0, 0%, 31%);
-          transform: translate(-50%, -50%) rotate(45deg);
-        `} />
+        <div
+          className={css`
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* This width is a real number it's not eyeballed lmao.
+              It's absolutely stupid how well this CSS works.
+              I never knew you could use translate to simplify
+              centering rotated elements. Thanks ChatGPT! */
+            width: 66.857%;
+            aspect-ratio: 1;
+            border: 0.093vh solid hsl(0, 0%, 31%);
+            transform: translate(-50%, -50%) rotate(45deg);
+          `}
+        />
         <div className={css`
           display: flex;
           flex-direction: column;

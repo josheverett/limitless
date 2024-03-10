@@ -217,10 +217,14 @@ export default function StartScreen() {
               around a tricky bug with scaled transitions. */}
           {shouldRenderLogo ? <InfiniteLogo /> : null }
         </div>
-        {!isLoading && <PressAToPlay callback={() => {
-          setLoadingStartTime(Date.now());
-          setIsLoading(true);
-        }} />}
+        {!isLoading && (
+          <PressAToPlay
+            callback={() => {
+              setLoadingStartTime(Date.now());
+              setIsLoading(true);
+            }}
+          />
+        )}
         {isLoading && <LoadingMessage />}
         <motion.div
           initial={{ opacity: 0 }}

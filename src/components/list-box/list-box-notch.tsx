@@ -15,11 +15,13 @@ export const ListBoxNotch = ({ type }: ListBoxNotchProps) => {
   // The zero width/height divs below are CSS triangles.
   return (
     <div className={css`display: flex; height: 0.556vh;`}>
-      <div className={css`
-        width: 37.452%;
-        height: 100%;
-        background: hsla(0, 0%, 0%, 0.5);
-      `} />
+      <div
+        className={css`
+          width: 37.452%;
+          height: 100%;
+          background: hsla(0, 0%, 0%, 0.5);
+        `}
+      />
       <div className={cx(css`
           width: 0;
           height: 0;
@@ -33,7 +35,8 @@ export const ListBoxNotch = ({ type }: ListBoxNotchProps) => {
           border-top-width: 0;
           border-bottom-width: 0.6vh; /* eyeballed */
         `
-      )}/>
+      )}
+      />
       <div className={css`flex-grow: 1;`} />
       <div className={cx(
         css`
@@ -49,12 +52,14 @@ export const ListBoxNotch = ({ type }: ListBoxNotchProps) => {
           border-top-width: 0;
           border-bottom-width: 0.6vh; /* eyeballed */
         `
-      )}/>
+      )}
+      />
       <div className={css`
         width: 37.452%;
         height: 100%;
         background: hsla(0, 0%, 0%, 0.5);
-      `}/>
+      `}
+      />
     </div>
   );
 };

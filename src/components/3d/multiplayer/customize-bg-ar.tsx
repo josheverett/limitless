@@ -34,11 +34,14 @@ const Model = () => {
 
   return (
     <group ref={ref}>
-      <ARModel position={[-5, -6, 0]} rotation={[
-        2.07 * Math.PI,
-        0.8 * Math.PI,
-        2.1 * Math.PI,
-      ]} />
+      <ARModel
+        position={[-5, -6, 0]}
+        rotation={[
+          2.07 * Math.PI,
+          0.8 * Math.PI,
+          2.1 * Math.PI,
+        ]}
+      />
     </group>
   );
 };

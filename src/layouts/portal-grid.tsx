@@ -116,22 +116,19 @@ export const PortalGrid = ({
           }
         }
       `}
-      >
+    >
       {items.map((item, i) => {
         return (
-          <li key={item.href}>
-            <BrightBoxListItem
-              // // This is how we make sure the first item is selected by default.
-              defaultFocusRef={i === 0 ? defaultFocusRef : undefined}
-                // defaultFocusRef should always be the current active item
-                // defaultFocusRef={i === selectedIndex ? defaultFocusRef : undefined}
-              src={item.src}
-              href={item.href}
-              text={item.text}
-              height={itemHeight}
-              portraitHeight={itemPortraitHeight}
-            />
-          </li>
+          <BrightBoxListItem
+            key={item.href}
+            // This is how we make sure the first item is selected by default.
+            defaultFocusRef={i === 0 ? defaultFocusRef : undefined}
+            src={item.src}
+            href={item.href}
+            text={item.text}
+            height={itemHeight}
+            portraitHeight={itemPortraitHeight}
+          />
         );
       })}
     </ul>

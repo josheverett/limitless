@@ -128,8 +128,8 @@ export const FooterButton = ({
             );
             clip-path: circle(50% at center);
             mask-image: radial-gradient(circle at center, transparent 62.5%, black 57%);
-          `
-        )} />
+          `)}
+        />
         <InputButton
           input={input}
           state={state}

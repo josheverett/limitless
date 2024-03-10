@@ -72,19 +72,21 @@ export const OperationsBox = ({
               height: 100%;
               overflow: hidden;
             `}>
-              <div className={cx(
-                css`
-                  width: 100%;
-                  height: 100%;
-                  background: url('/operations/spirit-of-fire.jpg') center center;
-                  background-size: cover;
-                  overflow: hidden;
-                  transition-property: transform;
-                  transition-duration: 150ms;
-                  transition-timing-function: ease-out;
-                `,
-                isFocused && css`transform: scale(1.1);`,
-              )} />
+              <div
+                className={cx(
+                  css`
+                    width: 100%;
+                    height: 100%;
+                    background: url('/operations/spirit-of-fire.jpg') center center;
+                    background-size: cover;
+                    overflow: hidden;
+                    transition-property: transform;
+                    transition-duration: 150ms;
+                    transition-timing-function: ease-out;
+                  `,
+                  isFocused && css`transform: scale(1.1);`,
+                )}
+              />
             </div>
             <div className={css`
               // pos:relative for implicit stacking context. No z-index needed.

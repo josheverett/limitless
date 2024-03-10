@@ -35,11 +35,14 @@ const Model = () => {
 
   return (
     <group ref={ref}>
-      <BRModel position={[-5, -6, 0]} rotation={[
-        0.05 * Math.PI,
-        -0.3 * Math.PI,
-        -0.1 * Math.PI,
-      ]} />
+      <BRModel
+        position={[-5, -6, 0]}
+        rotation={[
+          0.05 * Math.PI,
+          -0.3 * Math.PI,
+          -0.1 * Math.PI,
+        ]}
+      />
     </group>
   );
 };

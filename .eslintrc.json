@@ -41,10 +41,13 @@
       { "avoidEscape": true, "allowTemplateLiterals": true }
     ],
     "react/jsx-indent": ["error", 2],
-    // I have been unable to get this to work for multiline prop *values*. :\
     "react/jsx-indent-props": ["error", 2],
-    "react/jsx-closing-tag-location": 1,
-    "react/no-unescaped-entities": 0,
+    "react/jsx-closing-bracket-location": ["error", {
+      "nonEmpty": false,
+      "selfClosing": "tag-aligned"
+    }],
+    "react/jsx-closing-tag-location": "error",
+    "react/no-unescaped-entities": "error",
     "@typescript-eslint/semi": ["error", "always"],
     "@typescript-eslint/no-unused-vars": [
       "error",

@@ -25,7 +25,8 @@ const Separator = ({ type = 'middle' }: SeparatorProps) => {
         width: 0.093vh;
         height: 5.556vh;
         background: hsla(216, 7%, 71%, 70%);
-      `} />
+      `}
+      />
     );
   }
 
@@ -37,7 +38,8 @@ const Separator = ({ type = 'middle' }: SeparatorProps) => {
       width: 0.185vh;
       height: 100%;
       background: hsla(0, 0%, 100%, 15%);
-    `} />
+    `}
+    />
   );
 };
 
@@ -125,8 +127,7 @@ export const Footer = ({ className }: FooterProps) => {
   };
 
   return (
-    <div
-      className={cx(
+    <div className={cx(
         css`
           position: fixed;
           bottom: 0;
@@ -140,8 +141,7 @@ export const Footer = ({ className }: FooterProps) => {
           background: hsla(0, 0%, 0%, 0.4);
         `,
         className,
-      )}
-    >
+      )}>
       {/* TODO: gonna move this anyway */}
       <div className={css`
         display: flex;
