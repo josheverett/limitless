@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { cx } from '@emotion/css';
 import { use4k } from '@/hooks/use-4k';
@@ -21,6 +22,7 @@ export const Tabs = ({
 }: TabsProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const lastTouchX = useRef(0);
   const css = use4k();
 
   const { defaultFocusRef, focusContainerRef, back } = useInputPortal({
@@ -41,7 +43,7 @@ export const Tabs = ({
     router.push(href);
   };
 
-  useDirectionalInputs({
+  const { touchRef } = useDirectionalInputs<HTMLUListElement>({
     portal,
     directions: ['D', 'L', 'R'],
     callback: (direction) => {
@@ -68,6 +70,19 @@ export const Tabs = ({
       }
 
       links[indexToFocus]?.focus();
+    },
+    touchCallback: (direction, deltas) => {
+      const touchEl = touchRef.current;
+      if (!touchEl) return;
+
+      const delta = deltas.x - lastTouchX.current;
+      const matches = touchEl.style.transform.match(/translateX\((.*)px\)/);
+      const translateX = Number(matches?.[1] || 0) + delta;
+
+      requestAnimationFrame(() => {
+        touchEl.style.transform = `translateX(${String(translateX)}px)`;
+        lastTouchX.current = deltas.x;
+      });
     },
   });
 
@@ -100,12 +115,21 @@ export const Tabs = ({
         height={1.944}
         callback={selectPreviousTab}
       />
-      <ul className={css`
-        display: flex;
-        align-items: center;
-        gap: 1.481vh;
-        height: 100%;
-      `}>
+      <ul
+        ref={touchRef}
+        className={css`
+          display: flex;
+          align-items: center;
+          gap: 1.481vh;
+          height: 100%;
+          touch-action: pan-x;
+          pointer-events: none;
+
+          li {
+            pointer-events: all;
+          }
+        `}
+      >
         {tabs.map((tab) => {
           const isSelected = tab.href === pathname;
           return (
