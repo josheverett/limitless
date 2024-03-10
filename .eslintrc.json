@@ -25,6 +25,7 @@
         { "group": "internal", "position": "before", "pattern": "**/layouts/**" },
         { "group": "internal", "position": "before", "pattern": "**/components/**" },
         { "group": "internal", "position": "before", "pattern": "**/3d/**" },
+        { "group": "internal", "position": "before", "pattern": "**/public/**" },
         // This last pattern isn't working, even with `after`, dunno why.
         { "group": "internal", "position": "before", "pattern": "**/styles/**" }
       ],

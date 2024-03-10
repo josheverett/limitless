@@ -2,110 +2,17 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { LoadingManager } from 'three';
 import { cx } from '@emotion/css';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { use4k } from '@/hooks/use-4k';
 import { Image } from '@/components/image';
-import { InputButton } from '@/components/input-button';
-import { LoadingSpinner } from '@/components/loading-spinner';
 import { InfiniteLogo } from '@/components/start-screen/infinite-logo';
+import { LoadingMessage } from '@/components/start-screen/loading-message';
+import { PressAToPlay } from '@/components/start-screen/press-a-to-play';
 import { TextOffset } from '@/components/text';
 import { getFontVariant } from '@/app/styles/fonts';
-
-type PressAToPlayProps = { callback: () => void; };
-
-const PressAToPlay = ({ callback }: PressAToPlayProps) => {
-  const css = use4k();
-
-  const pressAToPlayClassName = cx(
-    getFontVariant(css, 'teko_2_3_extra_wide_light'),
-    // getFontVariant(css, 'shadow_crisp'),
-    css`
-      font-size: 3.5vh;
-      // This is a one-off shadow.
-      text-shadow: 0.1vh 0.15vh hsla(0, 0%, 0%, 0.8);
-    `,
-  );
-
-  // This needs to be a focusable link, but not trigger a router push. So we
-  // use a plain <a> tag with tabIndex=0. This is an interesting case. If it
-  // pops up again I'll need to provide an idomatic way to do this.
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ ease: 'easeIn', duration: 0.5 }}
-      >
-        <a
-          tabIndex={0}
-          className={css`
-            display: flex;
-            align-items: center;
-            height: 1.759vh;
-            margin-right: -0.7vh;
-          `}
-        >
-          <TextOffset className={pressAToPlayClassName} smush top="0.2vh">Press</TextOffset>
-          <InputButton
-            className={css`margin: 0 1.1vh 0 0.7vh;`}
-            width={2}
-            height={2}
-            shadowed
-            input="A"
-            callback={callback}
-          />
-          <TextOffset className={pressAToPlayClassName} smush top="0.2vh">to play</TextOffset>
-        </a>
-      </motion.div>
-    </AnimatePresence>
-  );
-};
-
-const LoadingMessage = () => {
-  const css = use4k();
-
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0 }}
-        transition={{ ease: 'easeOut', duration: 0.25 }}
-        className={css`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 3.75vh;
-        `}
-      >
-        <LoadingSpinner />
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ ease: 'easeOut', duration: 0.3 }}
-        >
-          <div className={cx(
-            css`
-              height: 1.343vh;
-              font-size: 1.852vh;
-              text-align: center;
-              // TODO: This should be a variant, shares some stuff with description variant.
-              letter-spacing: 0.15vh;
-            `,
-            getFontVariant(css, 'titillium'),
-            getFontVariant(css, 'shadow_crisp')
-          )}>
-            <TextOffset top="-0.741vh">Initializing data</TextOffset>
-          </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  );
-};
 
 const preloadModel = (path: string): Promise<string> => {
   const manager = new LoadingManager();
