@@ -27,6 +27,16 @@ Controller to keyboard mappings:
 - Left and Right Bumpers = `[` and `]`
 - L3 and R3 = `,` and `.`
 
+## Demo Video
+
+### Real Game
+
+[![Halo Infinite Menu - Real Game](https://img.youtube.com/vi/sfrTM30ZL_c/hqdefault.jpg)](https://www.youtube.com/watch?v=sfrTM30ZL_c)
+
+### `limitless` Recreation
+
+[![Halo Infinite Menu - limitless Recreation](https://img.youtube.com/vi/YgRWJ0OIQFY/hqdefault.jpg)](https://www.youtube.com/watch?v=YgRWJ0OIQFY)
+
 ## why tho
 
 The original objectives where:
