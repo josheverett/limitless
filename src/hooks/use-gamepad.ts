@@ -249,19 +249,6 @@ type UseDirectionalInputsProps = {
   callback: (direction: InputDirection) => void;
 };
 
-type DirectionalInputMap = [InputDirection, GAMEPAD_INPUT_KEYS];
-
-const DIRECTIONAL_INPUTS: DirectionalInputMap[] = [
-  ['U', 'RIGHT_STICK_UP'],
-  ['D', 'RIGHT_STICK_DOWN'],
-  ['L', 'RIGHT_STICK_LEFT'],
-  ['R', 'RIGHT_STICK_RIGHT'],
-  ['U', 'DPAD_UP'],
-  ['D', 'DPAD_DOWN'],
-  ['L', 'DPAD_LEFT'],
-  ['R', 'DPAD_RIGHT'],
-];
-
 // useDirectionalInputs is a convenience hook for up/down/left/right inputs
 // for both the left analog stick and the dpad.
 
@@ -270,11 +257,14 @@ export const useDirectionalInputs = ({
   directions = ['U', 'D', 'L', 'R'],
   callback,
 }: UseDirectionalInputsProps) => {
-  for (const [direction, input] of DIRECTIONAL_INPUTS) {
-    _useDirectionalInputsHelper(
-      { portal, input, direction, directions, callback }
-    );
-  }
+  _useDirectionalInputsHelper({ portal, input: 'DPAD_UP', direction: 'U', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'DPAD_DOWN', direction: 'D', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'DPAD_LEFT', direction: 'L', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'DPAD_RIGHT', direction: 'R', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_UP', direction: 'U', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_DOWN', direction: 'D', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_LEFT', direction: 'L', directions, callback });
+  _useDirectionalInputsHelper({ portal, input: 'LEFT_STICK_RIGHT', direction: 'R', directions, callback });
 };
 
 // What are input portals?
