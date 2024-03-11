@@ -132,7 +132,6 @@ export const ShopList = ({
       ref={focusContainerRef}
       className={css`
         display: flex;
-        /* gap: 1.389vh; */
         gap: 0.926vh;
         height: 69.444vh;
         margin-top: 5.093vh;
@@ -142,10 +141,8 @@ export const ShopList = ({
         @media (orientation: portrait) {
           display: flex;
           flex-direction: column;
-
-          li {
-            margin: inherit;
-          }
+          gap: 3vh;
+          width: 100%;
         }
       `}
       variants={LIST_VARIANTS}
@@ -167,9 +164,7 @@ export const ShopList = ({
             padding={itemPadding}
             portraitHeight={itemPortraitHeight}
             motionVariants={ITEM_VARIANTS}
-            className={css`
-              width: 38.889vh;
-            `}
+            className={css` width: 100%; `}
           />
         );
       })}
