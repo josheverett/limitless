@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { PortalGrid } from '@/layouts/portal-grid';
+import { ShopList } from '@/components/multiplayer/shop/shop-list';
 
 // TODO: These are the carousel images, just placeholders here.
 const FILE_SHARE_ITEMS = [
@@ -30,13 +30,13 @@ const FILE_SHARE_ITEMS = [
 export default function ShopTab() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <PortalGrid
+      <ShopList
         portal="ShopTabGrid"
         portalTargets={[
           { target: 'MultiplayerAppTabs', direction: 'U' },
         ]}
         items={FILE_SHARE_ITEMS}
-        itemHeight={24.537}
+        itemHeight={69.444}
         itemPadding={2.778}
         itemTextHeight={5.556}
         itemPortraitHeight={10}

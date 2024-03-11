@@ -117,7 +117,6 @@ export const ListBox = ({
 
       let indexToFocus = focusedIndex;
 
-      // TODO: This would be cleaner without the switch. U/D can be combined.
       switch (direction) {
         // For any listbox, left and right can ONLY teleport (when available).
         case 'L':

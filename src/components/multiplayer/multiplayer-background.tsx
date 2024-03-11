@@ -18,8 +18,11 @@ const BGS: BG[] = [
   },
   {
     pathname: '/multiplayer/community',
-    // TODO: Needs own bg image!
-    src: '/multiplayer/play/play-bg.jpg',
+    src: '/multiplayer/community/community-bg.webp',
+  },
+  {
+    pathname: '/multiplayer/shop',
+    src: '/multiplayer/shop/shop-bg.webp',
   },
 ];
 
