@@ -9,22 +9,22 @@ import { NotchedHeading } from '@/components/notched-heading';
 
 const LIST_ITEMS = [
   {
-    href: '/multiplayer/lol404/community/browser',
+    href: '/multiplayer/community/browser',
     text: 'Customs Browser',
     description: 'Find and join custom games hosted by other players.',
   },
   {
-    href: '/multiplayer/lol404/community/theater',
+    href: '/multiplayer/community/theater',
     text: 'Theater',
     description: 'View films and post-game results of multiplayer matches.',
   },
   {
-    href: '/multiplayer/lol404/community/bookmarks',
+    href: '/multiplayer/community/bookmarks',
     text: 'My Bookmarks',
     description: 'View your bookmarked files.',
   },
   {
-    href: '/multiplayer/lol404/community/files',
+    href: '/multiplayer/community/files',
     text: 'My Files',
     description: 'View your files.',
   },
@@ -34,22 +34,22 @@ const LIST_ITEMS = [
 const FILE_SHARE_ITEMS = [
   {
     src: '/multiplayer/play/january-update.jpg',
-    href: '/multiplayer/lol404/community/recommended',
+    href: '/multiplayer/community/recommended',
     text: 'Recommended',
   },
   {
     src: '/multiplayer/play/illusion.jpg',
-    href: '/multiplayer/lol404/community/maps',
+    href: '/multiplayer/community/maps',
     text: 'Popular Maps',
   },
   {
     src: '/multiplayer/play/spirit-of-fire.jpg',
-    href: '/multiplayer/lol404/community/modes',
+    href: '/multiplayer/community/modes',
     text: 'Popular Modes',
   },
   {
     src: '/multiplayer/play/lone-wolves.jpg',
-    href: '/multiplayer/lol404/community/prefabs',
+    href: '/multiplayer/community/prefabs',
     text: 'Popular Prefabs',
   },
 ];

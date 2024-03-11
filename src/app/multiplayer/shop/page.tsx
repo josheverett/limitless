@@ -7,23 +7,23 @@ import { ShopList } from '@/components/multiplayer/shop/shop-list';
 const FILE_SHARE_ITEMS = [
   {
     src: '/multiplayer/play/january-update.jpg',
-    href: '/multiplayer/community/recommended',
-    text: 'Recommended',
+    href: '/multiplayer/lol404/community/recommended',
+    text: 'Shop Item 1',
   },
   {
     src: '/multiplayer/play/illusion.jpg',
-    href: '/multiplayer/community/maps',
-    text: 'Popular Maps',
+    href: '/multiplayer/lol404/community/maps',
+    text: 'Shop Item 2',
   },
   {
     src: '/multiplayer/play/spirit-of-fire.jpg',
-    href: '/multiplayer/community/modes',
-    text: 'Popular Modes',
+    href: '/multiplayer/lol404/community/modes',
+    text: 'Shop Item 3',
   },
   {
     src: '/multiplayer/play/lone-wolves.jpg',
-    href: '/multiplayer/community/prefabs',
-    text: 'Popular Prefabs',
+    href: '/multiplayer/lol404/community/prefabs',
+    text: 'Shop Item 4',
   },
 ];
 

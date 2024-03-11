@@ -9,22 +9,22 @@ import { BrightBoxListItem } from '@/components/list-box/bright-box-list-item';
 const CAROUSEL_ITEMS = [
   {
     src: '/multiplayer/play/january-update.jpg',
-    href: '/multiplayer/shop1',
+    href: '/multiplayer/play/news/lol-404/1',
     text: 'January Update',
   },
   {
     src: '/multiplayer/play/illusion.jpg',
-    href: '/multiplayer/shop2',
+    href: '/multiplayer/play/news/lol-404/2',
     text: 'New Map - Illusion',
   },
   {
     src: '/multiplayer/play/spirit-of-fire.jpg',
-    href: '/multiplayer/shop3',
+    href: '/multiplayer/play/news/lol-404/3',
     text: 'Operation: Spirit of Fire',
   },
   {
     src: '/multiplayer/play/lone-wolves.jpg',
-    href: '/multiplayer/shop4',
+    href: '/multiplayer/play/news/lol-404/4',
     text: 'Hell yeah brother, cheers from Iraq!',
   },
 ];
